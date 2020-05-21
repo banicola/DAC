@@ -6,3 +6,9 @@ debug:
   updateFile: "a été mit à jour !"
   reloadConfig: "Les fichiers ont bien été rechargés !"
   noPermission: "Vous n'avez pas la permission nécessaire pour celà !"
+  playerOnly: "&4Seul les joueurs peuvent utiliser cette commande !"
+menu:
+  title: "&bMenu Dé à Coudre"
+  join: "&b/dac join <arena> &7- &fRejoindre une arène"
+  leave: "&b/dac leave &7- &fQuitte votre partie actuelle"
+  list: "&b/dac list &7- &fDonne toutes les arènes disponibles"

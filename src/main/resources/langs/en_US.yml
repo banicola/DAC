@@ -6,3 +6,9 @@ debug:
   updateFile: "has been updated !"
   reloadConfig: "&aPlugin files have been reloaded !"
   noPermission: "&4You don't have permission to do this !"
+  playerOnly: "&4Only players can use this command !"
+menu:
+  title: "&bDé à Coudre Menu"
+  join: "&b/dac join <arena> &7- &fJoin a specific arena"
+  leave: "&b/dac leave &7- &fLeave your match"
+  list: "&b/dac list &7- &fGet all the available arenas"
