@@ -17,7 +17,7 @@ public class Config {
     public static void init() {
         if(!new File(Main.getPlugin().getDataFolder(), "config.yml").exists()){
             Main.getPlugin().saveResource("config.yml", false);
-            System.out.println("[DAC] Config file created");
+            Main.getPlugin().getLogger().info("Config file created");
         }
         Version current_file = new Version(config.getString("version"));
         Version new_version = new Version(desc.getVersion());

@@ -1,5 +1,6 @@
 package sr.dac.main;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -40,7 +41,7 @@ public class Lang {
                 if(!Main.f.contains("debug.createFile")){
                     Main.getPlugin().getLogger().info(file.getName()+" has been created");
                 } else {
-                    Main.getPlugin().getLogger().info(file.getName()+" "+Main.f.getString("debug.createFile"));
+                    Main.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&',Main.f.getString("debug.createFile").replace("%file%", file.getName())));
                 }
             }
         }
@@ -60,7 +61,7 @@ public class Lang {
             if(!Main.f.contains("debug.updateFile")){
                 Main.getPlugin().getLogger().info(file.getName()+" has been updated");
             } else {
-                Main.getPlugin().getLogger().info(file.getName()+" "+Main.f.getString("debug.updateFile"));
+                Main.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&',Main.f.getString("debug.updateFile").replace("%file%", file.getName())));
             }
         }
         f.save(file);
@@ -94,7 +95,6 @@ public class Lang {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
         return ressourceFile;

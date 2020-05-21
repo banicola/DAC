@@ -10,6 +10,24 @@ commands:
     description: main plugin command
     usage: /dac
 permissions:
-  dac.reload:
-    description: Reload dac plugin
+  dac.*:
+    description: Give all permissions for the plugin
     default: op
+    children:
+      dac.basics: true
+      dac.admin: true
+  dac.basics:
+    description: All the permissions for your player
+    default: true
+    children:
+      dac.join: true
+      dac.leave: true
+      dac.list: true
+  dac.admin:
+    description: All the admin permissions
+    default: op
+    children:
+      dac.create: true
+      dac.remove: true
+      dac.reload: true
+      dac.version: true
