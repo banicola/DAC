@@ -15,6 +15,10 @@ public class Config {
     }
 
     public static void init() {
+        if(!new File(Main.getPlugin().getDataFolder(), "arenas.yml").exists()){
+            Main.getPlugin().saveResource("arenas.yml", false);
+            Main.getPlugin().getLogger().info("Arenas file created");
+        }
         if(!new File(Main.getPlugin().getDataFolder(), "config.yml").exists()){
             Main.getPlugin().saveResource("config.yml", false);
             Main.getPlugin().getLogger().info("Config file created");

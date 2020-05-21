@@ -9,6 +9,8 @@ debug:
   playerOnly: "&4Only players can use this command !"
   unknownCommand: "&4Unknown command. Please use &6/dac &4for more help."
   version: "Current version: &a%version%"
+  patchnote: "&e(See patchnote)"
+  devLock: "&4Currently unavailable."
 menu:
   title: "&bDé à Coudre Menu"
   join: "&b/dac join <arena> &7- &fJoin a specific arena"

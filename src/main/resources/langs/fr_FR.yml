@@ -9,6 +9,8 @@ debug:
   playerOnly: "&4Seul les joueurs peuvent utiliser cette commande !"
   unknownCommand: "&4Commande inconnue. Merci d'utiliser &6/dac &4pour l'aide."
   version: "Version actuelle: &a%version%"
+  patchnote: "&e(Voir patchnote)"
+  devLock: "&4Actuellement indisponible."
 menu:
   title: "&bMenu Dé à Coudre"
   join: "&b/dac join <arena> &7- &fRejoindre une arène"

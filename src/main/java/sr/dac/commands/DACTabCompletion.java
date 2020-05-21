@@ -13,6 +13,7 @@ public class DACTabCompletion implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args){
         if(args.length == 1){
             List<String> cmds = new ArrayList<>(Arrays.asList("join","leave","list"));
+            if(sender.hasPermission("event")) cmds.add("event");
             if(sender.hasPermission("create")) cmds.add("create");
             if(sender.hasPermission("delete")) cmds.add("delete");
             if(sender.hasPermission("version")) cmds.add("version");

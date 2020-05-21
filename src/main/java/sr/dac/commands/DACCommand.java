@@ -1,6 +1,8 @@
 package sr.dac.commands;
 
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -19,33 +21,39 @@ public class DACCommand implements CommandExecutor {
         if (args.length > 0 && args[0].equalsIgnoreCase("join")){
             if(sender.hasPermission("dac.join")){
                 if(args.length<2)sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("wrongCommands.wrongJoinCmd")));
-                else sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" Join"));
+                else sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.devLock")));
             }else{
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("leave")){
             if(sender.hasPermission("dac.leave")){
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" Leave"));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.devLock")));
             }else{
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("list")){
             if(sender.hasPermission("dac.list")){
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" List"));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.devLock")));
+            }else{
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.noPermission")));
+            }
+        } else if (args.length > 0 && args[0].equalsIgnoreCase("event")){
+            if(sender.hasPermission("dac.event")){
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.devLock")));
             }else{
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("create")){
             if(sender.hasPermission("dac.create")){
                 if(args.length<2)sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("wrongCommands.wrongCreateCmd")));
-                else sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" Create"));
+                else sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.devLock")));
             }else{
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("delete")){
             if(sender.hasPermission("dac.delete")){
                 if(args.length<2)sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("wrongCommands.wrongDeleteCmd")));
-                else sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" Delete"));
+                else sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.devLock")));
             }else{
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.noPermission")));
             }
@@ -63,6 +71,10 @@ public class DACCommand implements CommandExecutor {
         } else if (args.length > 0 && args[0].equalsIgnoreCase("version")){
             if(sender.hasPermission("dac.version")){
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.version").replace("%version%", Main.getPlugin().getDescription().getVersion())));
+                BaseComponent[] patchNote = {new TextComponent("Patchnote")};
+                TextComponent version = new TextComponent(ChatColor.translateAlternateColorCodes('&',Main.f.getString("debug.patchnote")));
+                version.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, patchNote));
+                sender.spigot().sendMessage(version);
             }else{
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Main.f.getString("name")+" "+Main.f.getString("debug.noPermission")));
             }
