@@ -1,0 +1,4 @@
+debug:
+  onEnable: "Le plugin a bien été chargé"
+  onDisable: "Le plugin a bien été éteint"
+  createFile: "a été créé !"

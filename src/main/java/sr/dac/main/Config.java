@@ -15,20 +15,18 @@ public class Config {
     }
 
     public static void init() {
-        try{
-            Version current_file = new Version(config.getString("version"));
-            Version new_version = new Version(desc.getVersion());
-            if(new_version.compareTo(current_file)>0){
-                System.out.println("[DAC] A new update is available");
-                config.set("version", desc.getVersion());
-                save();
-            }
-            Lang.checkLang();
-        } catch (Exception e) {
+        if(!new File(Main.getPlugin().getDataFolder(), "config.yml").exists()){
             Main.getPlugin().saveDefaultConfig();
             System.out.println("[DAC] Config file created");
         }
-
+        Version current_file = new Version(config.getString("version"));
+        Version new_version = new Version(desc.getVersion());
+        if(new_version.compareTo(current_file)>0){
+            System.out.println("[DAC] A new update is available");
+            config.set("version", desc.getVersion());
+            save();
+        }
+        Lang.checkLang();
     }
 
     public static void reloadConfig() {

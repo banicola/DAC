@@ -1,0 +1,4 @@
+debug:
+  onEnable: "Plugin enabled"
+  onDisable: "Plugin disabled"
+  createFile: "has been created !"

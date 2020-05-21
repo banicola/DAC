@@ -1,2 +1,4 @@
+#DO NOT CHANGE THIS
 version: ${project.version}
+
 lang: en_US
