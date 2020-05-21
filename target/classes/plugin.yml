@@ -1,7 +1,0 @@
-name: DAC
-version: 1.0.2
-main: sr.dac.main.Main
-api-version: 1.13
-authors: [clipsy1]
-description: The true Dé à Coudre plugin ! Lets have fun !
-website: skyrepublic.fr
