@@ -11,18 +11,18 @@ public class Config {
     public static PluginDescriptionFile desc = Main.getPlugin().getDescription();
 
     public static void save() {
-        Main.getPlugin().saveConfig();
+        Main.getPlugin().saveResource("config.yml", true);
     }
 
     public static void init() {
         if(!new File(Main.getPlugin().getDataFolder(), "config.yml").exists()){
-            Main.getPlugin().saveDefaultConfig();
+            Main.getPlugin().saveResource("config.yml", false);
             System.out.println("[DAC] Config file created");
         }
         Version current_file = new Version(config.getString("version"));
         Version new_version = new Version(desc.getVersion());
         if(new_version.compareTo(current_file)>0){
-            System.out.println("[DAC] A new update is available");
+            Main.getPlugin().getLogger().info("Plugin updated to "+desc.getVersion());
             config.set("version", desc.getVersion());
             save();
         }

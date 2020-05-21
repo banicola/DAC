@@ -1,4 +1,8 @@
+name: "[&bDAC&r]"
 debug:
   onEnable: "Le plugin a bien été chargé"
   onDisable: "Le plugin a bien été éteint"
   createFile: "a été créé !"
+  updateFile: "a été mit à jour !"
+  reloadConfig: "Les fichiers ont bien été rechargés !"
+  noPermission: "Vous n'avez pas la permission nécessaire pour celà !"

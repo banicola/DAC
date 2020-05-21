@@ -2,14 +2,25 @@ package sr.dac.main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Lang {
+    private static String[] langsAvailable = {"en_US", "fr_FR"};
     private static File en_US = new File(Main.getPlugin().getDataFolder(),"/langs/en_US.yml");
     private static File fr_FR = new File(Main.getPlugin().getDataFolder(),"/langs/fr_FR.yml");
     public static void checkLang(){
+        if(Config.selectedLang().exists()){
+            Main.lang = Config.selectedLang();
+        } else{
+            Main.lang = en_US;
+            Main.getPlugin().getLogger().info("Lang file doesn't exists, en_US selected by default.");
+        }
+        Main.f = YamlConfiguration.loadConfiguration(Main.lang);
         createLangFiles();
         for(File f : new File(Main.getPlugin().getDataFolder(),"/langs").listFiles()){
             try {
@@ -18,28 +29,29 @@ public class Lang {
                 e.printStackTrace();
             }
         }
-        if(Config.selectedLang().exists()){
-            Main.lang = Config.selectedLang();
-        } else{
-            Main.lang = en_US;
-            System.out.println("[DAC] Lang file doesn't exists, en_US selected by default.");
-        }
+        Main.lang = Config.selectedLang();
     }
 
     private static void createLangFiles(){
-        if(!en_US.exists()){
-            Main.getPlugin().saveResource("langs/en_US.yml", false);
-            Bukkit.getLogger().info(en_US.getName()+" "+Main.f.getString("debug.createFile"));
+        List<File> allLang = new ArrayList<File>();
+        for(String l : langsAvailable){
+            allLang.add(getRessourceFile(l+".yml"));
         }
-        if(!fr_FR.exists()){
-            Main.getPlugin().saveResource( "langs/fr_FR.yml", false);
-            System.out.println(fr_FR.getName()+" "+Main.f.getString("debug.createFile"));
+        for(File file : allLang){
+            if(!new File(Main.getPlugin().getDataFolder(), "langs/"+file.getName()).exists()){
+                Main.getPlugin().saveResource("langs/"+file.getName(), false);
+                if(!Main.f.contains("debug.createFile")){
+                    Main.getPlugin().getLogger().info(file.getName()+" has been created");
+                } else {
+                    Main.getPlugin().getLogger().info(file.getName()+" "+Main.f.getString("debug.createFile"));
+                }
+            }
         }
     }
 
     private static void updateLangFiles(File file) throws IOException {
         YamlConfiguration f = YamlConfiguration.loadConfiguration(file);
-        YamlConfiguration ressource = YamlConfiguration.loadConfiguration(getRessourceFile(file));
+        YamlConfiguration ressource = YamlConfiguration.loadConfiguration(getRessourceFile(file.getName()));
         boolean changeMade = false;
         for(String m : ressource.getKeys(true)){
             if(!f.contains(m)){
@@ -48,24 +60,27 @@ public class Lang {
             }
         }
         if(changeMade){
-            System.out.println("[DAC] "+file.getName()+" updated");
+            if(!Main.f.contains("debug.updateFile")){
+                Main.getPlugin().getLogger().info(file.getName()+" has been updated");
+            } else {
+                Main.getPlugin().getLogger().info(file.getName()+" "+Main.f.getString("debug.updateFile"));
+            }
         }
         f.save(file);
     }
 
-    private static File getRessourceFile(File file){
-        File ressourceFile = new File(file.getName());
+    private static File getRessourceFile(String file){
+        File ressourceFile = new File(file);
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            inputStream = Main.getPlugin().getResource("langs/"+file.getName());
+            inputStream = Main.getPlugin().getResource("langs/"+file);
             outputStream = new FileOutputStream(ressourceFile);
             int read = 0;
             byte[]bytes = new byte[1024];
             while ((read = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, read);
             }
-
         } catch (IOException|NullPointerException e) {
             e.printStackTrace();
         } finally {
@@ -86,5 +101,9 @@ public class Lang {
             }
         }
         return ressourceFile;
+    }
+
+    public static void reloadConfig() {
+        checkLang();
     }
 }
