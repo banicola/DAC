@@ -1,0 +1,2 @@
+version: ${project.version}
+lang: en_US
