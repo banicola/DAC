@@ -1,18 +1,15 @@
 package sr.dac.main;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Lang {
-    private static String[] langsAvailable = {"en_US", "fr_FR"};
-    private static File en_US = new File(Main.getPlugin().getDataFolder(),"/langs/en_US.yml");
-    private static File fr_FR = new File(Main.getPlugin().getDataFolder(),"/langs/fr_FR.yml");
+    private static final String[] langsAvailable = {"en_US", "fr_FR"};
+    private static final File en_US = new File(Main.getPlugin().getDataFolder(),"/langs/en_US.yml");
+    private static final File fr_FR = new File(Main.getPlugin().getDataFolder(),"/langs/fr_FR.yml");
     public static void checkLang(){
         if(Config.selectedLang().exists()){
             Main.lang = Config.selectedLang();
@@ -33,7 +30,7 @@ public class Lang {
     }
 
     private static void createLangFiles(){
-        List<File> allLang = new ArrayList<File>();
+        List<File> allLang = new ArrayList<>();
         for(String l : langsAvailable){
             allLang.add(getRessourceFile(l+".yml"));
         }

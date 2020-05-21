@@ -8,7 +8,7 @@ import java.io.File;
 
 public class Config {
     public static FileConfiguration config = Main.getPlugin().getConfig();
-    public static PluginDescriptionFile desc = Main.getPlugin().getDescription();
+    public static final PluginDescriptionFile desc = Main.getPlugin().getDescription();
 
     public static void save() {
         Main.getPlugin().saveResource("config.yml", true);
