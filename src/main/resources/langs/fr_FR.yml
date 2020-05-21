@@ -18,3 +18,7 @@ menu:
   delete: "&c/dac delete <arena> &7- &fSupprimer une arène"
   version: "&c/dac version &7- &fDonne la version du plugin"
   reload: "&c/dac reload &7- &fRecharge le plugin"
+wrongCommands:
+  wrongJoinCmd: "&cUtilisation: /dac join <arena>"
+  wrongCreateCmd: "&cUtilisation: /dac create <arena>"
+  wrongDeleteCmd: "&cUtilisation: /dac delete <arena>"
