@@ -1,4 +1,4 @@
 package sr.dac.configs;
 
-public class DeleteArena {
+public class RemoveArena {
 }

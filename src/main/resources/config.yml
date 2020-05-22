@@ -1,4 +1,16 @@
-#DO NOT CHANGE THIS
+# DO NOT CHANGE THIS
 version: ${project.version}
-
+# Available languages: en_US, fr_FR
 lang: en_US
+# That's where the statistics of the users will be saved
+# Compatible with: SQLITE (default) and MYSQL
+database:
+  type: SQLite
+  host: localhost
+  # Port 3306 is MySQL's default.
+  port: 3306
+  user: ''
+  password: ''
+  database: ''
+  prefix: dac_
+  use_SSL: true
