@@ -2,9 +2,8 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&aSetup config file for database connection",
-            "&aNew changelog method",
-            "&eSmall fixes"
+            "&eSmall fixes",
+            "&eAdd unsupported lang log"
     };
 
     public static String[] changeLog(){

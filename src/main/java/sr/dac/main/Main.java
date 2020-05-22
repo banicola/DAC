@@ -4,6 +4,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -12,11 +13,17 @@ import sr.dac.commands.DACCommand;
 import sr.dac.commands.DACTabCompletion;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public final class Main extends JavaPlugin {
 
     private static Plugin plugin;
     private static Economy econ = null;
+    private Connection connection;
 
     public static File lang;
     public static YamlConfiguration f;
@@ -27,7 +34,17 @@ public final class Main extends JavaPlugin {
         plugin = this;
         Config.init();
         f = YamlConfiguration.loadConfiguration(lang);
-
+        try {
+            if(!Main.getPlugin().getConfig().getString("database.type").equalsIgnoreCase("SQLITE")){
+                openConnection(Main.getPlugin().getConfig().getString("database.type"));
+                //Statement statement = connection.createStatement();
+                getLogger().info(ChatColor.translateAlternateColorCodes('&',f.getString("debug.dbConnectionSuccess")));
+            }
+        } catch (SQLException|ClassNotFoundException|NullPointerException e) {
+            e.printStackTrace();
+            Bukkit.getPluginManager().disablePlugin(plugin);
+            return;
+        }
         we = setupWorldEdit();
         econ = setupEconomy();
         try{
@@ -45,11 +62,32 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        try {
+            connection.close();
+        } catch (NullPointerException|SQLException e) {}
         getLogger().info(ChatColor.translateAlternateColorCodes('&',f.getString("debug.onDisable")));
     }
 
     public static Plugin getPlugin() {
         return plugin;
+    }
+
+    private void openConnection(String type) throws SQLException, ClassNotFoundException{
+        if (connection != null && !connection.isClosed()) {
+            return;
+        }
+        if (type.equalsIgnoreCase("mysql")){
+            synchronized (this) {
+                if (connection != null && !connection.isClosed()) {
+                    return;
+                }
+                Class.forName("com.mysql.jdbc.Driver");
+                connection = DriverManager.getConnection("jdbc:mysql://" + Main.getPlugin().getConfig().getString("database.host")+ ":" + Main.getPlugin().getConfig().getString("database.port")
+                        + "/" + Main.getPlugin().getConfig().getString("database.database"), Main.getPlugin().getConfig().getString("database.user"), Main.getPlugin().getConfig().getString("database.password"));
+            }
+        } else {
+            return;
+        }
     }
 
     private Economy setupEconomy() {

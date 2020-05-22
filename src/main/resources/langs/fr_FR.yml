@@ -15,6 +15,7 @@ debug:
   devLock: "&4Actuellement indisponible."
   worldeditEnable: "&aWorldedit détecté, vous pouvez l'utiliser pour créer des arènes."
   vaultEnable: "&aVault détecté, vous pouvez l'utiliser pour créer des récompenses."
+  dbConnectionSuccess: "&aConnexion base de donnée établie."
 menu:
   title: "&bMenu Dé à Coudre"
   join: "&b/dac join <arena> &7- &fRejoindre une arène"
