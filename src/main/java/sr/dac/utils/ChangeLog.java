@@ -2,8 +2,7 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&aAdd edition menu (empty)",
-            "&eFix a crash with the reload command"
+            "&aEdition menu almost finish"
     };
 
     public static String[] changeLog(){

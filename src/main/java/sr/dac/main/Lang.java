@@ -45,10 +45,14 @@ public class Lang {
         for (File file : allLang) {
             if (!new File(Main.getPlugin().getDataFolder(), "langs/" + file.getName()).exists()) {
                 Main.getPlugin().saveResource("langs/" + file.getName(), false);
-                if (!Main.f.contains("debug.createFile")) {
+                try{
+                    if (!Main.f.contains("debug.createFile")) {
+                        Main.getPlugin().getLogger().info(file.getName() + " has been created");
+                    } else {
+                        Main.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&', Main.f.getString("debug.createFile").replace("%file%", file.getName())));
+                    }
+                } catch (NullPointerException e){
                     Main.getPlugin().getLogger().info(file.getName() + " has been created");
-                } else {
-                    Main.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&', Main.f.getString("debug.createFile").replace("%file%", file.getName())));
                 }
             }
         }

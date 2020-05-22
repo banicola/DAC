@@ -32,6 +32,9 @@ wrongCommands:
   wrongCreateArenaName: "&cArena's name need to be in a single word. You can change it later to multiple words."
   wrongRemoveCmd: "&cUsage: /dac remove <arena>"
   wrongEditCmd: "&cUsage: /dac edit <arena>"
+  wrongEditSetName: "&cUsage: /dac edit <arena> setname <name>"
+  wrongEditSetMin: "&cUsage: /dac edit <arena> setmin <min>"
+  wrongEditSetMax : "&cUsage: /dac edit <arena> setmax <max>"
 createArena:
   arenaAlreadyExists: "&cThis arena already exists. You can edit it with &6/dac edit %arena%"
   success: "&aYour arena %arena% has been created ! You can now edit it with &6/dac edit %arena%"
@@ -40,7 +43,43 @@ removeArena:
   success: "&aThe arena %arena% has been removed."
 editArena:
   arenaUnknown: "&cThis arena doesn't exist."
-  guiTitle: "&3Editing panel"
+  guiTitle: "&3Arena editor"
+  guiNameEdit: "&bRename arena"
+  guiNameEditLore:
+    - "Modify the name which"
+    - "is displayed on the scoreboard"
+  guiNameEditActual: "&eCurrent: &f%arena%"
+  guiDivingSelectionTitle: "&bDiving position"
+  guiDivingLore:
+    - "Select the position where"
+    - "players will dive from."
+  guiLobbySelectionTitle: "&bLobby position"
+  guiLobbyLore:
+    - "Select the position where players"
+    - "will be teleport when they"
+    - "join the arena."
+  guiPoolSelectionTitle: "&bPool limits"
+  guiPoolSelectionLore:
+    - "Select the limits of"
+    - "the arena's pool."
+    - "&c! 2 positions needed !"
+  guiMinPlayerTitle: "&bMinimum players"
+  guiMinPlayerLore:
+    - "Select the minimum number"
+    - "of player needed"
+    - "to start a game."
+  guiMaxPlayerTitle: "&bMaximum players"
+  guiMaxPlayerLore:
+    - "Select the maximum number"
+    - "of player allowed to"
+    - "start a game."
+  guiPlayerCount: "&a%number% players"
+  guiStatusTitle: "&eStatus"
+  guiNoSetup: "&cNo setup yet"
+  guiSelectionPos: "&aX: &f%x% | &aY: &f%y%"
+  successSetDiving: "&aThe diving spot has been set."
+  successSetLobby: "&aThe lobby has been set."
+  guiOpenArenaTitle: "&aOpen/Close the arena"
 listArenas:
   title: "&bArenas available:"
   empty: "&cNo arena available !"

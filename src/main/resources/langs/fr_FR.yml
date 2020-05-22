@@ -32,15 +32,54 @@ wrongCommands:
   wrongCreateArenaName: "&cLe nom de l'arène ne peut pas contenir plusieurs mots. Vous pourrez mettre un nom composé plus tard."
   wrongRemoveCmd: "&cUtilisation: /dac remove <arena>"
   wrongEditCmd: "&cUtilisation: /dac edit <arena>"
+  wrongEditSetName: "&cUtilisation: /dac edit <arena> setname <name>"
+  wrongEditSetMin: "&cUtilisation: /dac edit <arena> setmin <min>"
+  wrongEditSetMax: "&cUtilisation: /dac edit <arena> setmax <max>"
 createArena:
   arenaAlreadyExists: "&cCette arène existe déjà. Vous pouvez l'éditer avec &6/dac edit %arena%"
-  success: "&aVotre arène %arena% a bien été créee ! Vous pouvez maintenant l'éditer avec &6/dac edit %arena%"
+  success: "&aVotre arène %arena% a bien été créée ! Vous pouvez maintenant l'éditer avec &6/dac edit %arena%"
 removeArena:
   arenaUnknown: "&cCette arène n'existe pas."
   success: "&aL'arène %arena% a été supprimée."
 editArena:
   arenaUnknown: "&cCette arène n'existe pas."
-  guiTitle: "&3Panneau d'édition"
+  guiTitle: "&3Editeur d'arène"
+  guiNameEdit: "&bRenommer l'arène"
+  guiNameEditLore:
+    - "Modifier le nom qui est"
+    - "affiché sur le scoreboard."
+  guiNameEditActual: "&eActuel: &f%arena%"
+  guiDivingSelectionTitle: "&bZone de plongeon"
+  guiDivingLore:
+    - "Définir l'endroit d'où"
+    - "sauterons les joueurs."
+  guiLobbySelectionTitle: "&bZone d'accueil"
+  guiLobbyLore:
+    - "Définir l'endroit où les"
+    - "joueurs rejoignant l'arène"
+    - "seront téléportés."
+  guiPoolSelectionTitle: "&bLimites du bassin"
+  guiPoolSelectionLore:
+    - "Définir les dimensions"
+    - "du bassin."
+    - "&c! 2 positions nécessaires !"
+  guiMinPlayerTitle: "&bMinimum de joueurs"
+  guiMinPlayerLore:
+    - "Définir le nombre minimal"
+    - "de joueurs requis pour"
+    - "lancer la partie."
+  guiMaxPlayerTitle: "&bMaximum de joueurs"
+  guiMaxPlayerLore:
+    - "Définir le nombre maximal"
+    - "de joueurs autorisés pour"
+    - "lancer la partie."
+  guiPlayerCount: "&a%number% joueurs"
+  guiStatusTitle: "&eStatus"
+  guiNoSetup: "&cNon configuré"
+  guiSelectionPos: "&aX: &f%x% | &aY: &f%y%"
+  successSetDiving: "&aLa zone de saut est enregistrée."
+  successSetLobby: "&aL'accueil est enregistré."
+  guiOpenArenaTitle: "&aOuvrir/Fermer l'arène"
 listArenas:
   title: "&bArènes disponibles:"
   empty: "&cAucune arène disponible !"

@@ -30,7 +30,9 @@ public class Arena {
         this.max_player = max_player;
     }
 
-    public String getName(){return name;}
+    public String getName() {
+        return name;
+    }
 
     public void join(Player p) {
         players.add(p.getUniqueId());
@@ -51,13 +53,18 @@ public class Arena {
     public Location getLobbyLocation() {
         return lobbyLocation;
     }
-    public Pair<Location, Location> getPoolLocation() {return poolLocation;}
+
+    public Pair<Location, Location> getPoolLocation() {
+        return poolLocation;
+    }
 
     public int getMin_player() {
         return min_player;
     }
 
-    public int getMax_player() { return max_player; }
+    public int getMax_player() {
+        return max_player;
+    }
 
     public void setDivingLocation(Location divingLocation) {
         this.divingLocation = divingLocation;
@@ -65,6 +72,14 @@ public class Arena {
 
     public void setLobbyLocation(Location lobbyLocation) {
         this.lobbyLocation = lobbyLocation;
+    }
+
+    public void setMin_player(int min_player){
+        this.min_player = min_player;
+    }
+
+    public void setMax_player(int max_player){
+        this.max_player = max_player;
     }
 
 }

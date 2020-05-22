@@ -11,12 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import sr.dac.configs.ArenaManager;
 import sr.dac.configs.EditArena;
+import sr.dac.main.Arena;
 import sr.dac.main.Config;
 import sr.dac.main.Lang;
 import sr.dac.main.Main;
 import sr.dac.utils.ChangeLog;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -68,6 +70,7 @@ public class DACCommand implements CommandExecutor {
                     try{
                         if(ArenaManager.createArena(args[1])){
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("createArena.success").replace("%arena%", args[1])));
+                            EditArena.openEditionGUI((Player) sender, args[1]);
                         }
                     } catch (KeyAlreadyExistsException e){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("createArena.arenaAlreadyExists").replace("%arena%", args[1])));
@@ -100,8 +103,42 @@ public class DACCommand implements CommandExecutor {
                 else if (args.length==2){
                     if(sender instanceof Player) EditArena.openEditionGUI((Player) sender, args[1]);
                     else sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.playerOnly")));
-                }
-                else{
+                } else if(args.length==3){
+                    Arena arena = ArenaManager.getArena(args[1]);
+                    if(args[2].equalsIgnoreCase("setlobby")){
+                        if(arena==null){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.arenaUnknown")));
+                        } else {
+                            Player p = (Player) sender;
+                            arena.setLobbyLocation(p.getLocation());
+                            try {
+                                ArenaManager.save(args[1], arena);
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.successSetLobby")));
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+                    } else if(args[2].equalsIgnoreCase("setdiving")){
+                        if(arena==null){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.arenaUnknown")));
+                        } else {
+                            Player p = (Player) sender;
+                            arena.setDivingLocation(p.getLocation());
+                            try {
+                                ArenaManager.save(args[1], arena);
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.successSetDiving")));
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+                    } else if(args[2].equalsIgnoreCase("setname")){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditSetName")));
+                    } else if(args[2].equalsIgnoreCase("setmin")){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditSetMin")));
+                    } else if(args[2].equalsIgnoreCase("setmax")){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditSetMax")));
+                    }
+                } else {
                 }
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
