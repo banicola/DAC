@@ -6,7 +6,7 @@
 
     <groupId>sr.dac</groupId>
     <artifactId>DAC</artifactId>
-    <version>0.1.9</version>
+    <version>0.2.0</version>
     <packaging>jar</packaging>
 
     <name>DAC</name>
@@ -92,6 +92,12 @@
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.31.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

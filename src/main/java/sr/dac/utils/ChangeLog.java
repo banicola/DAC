@@ -2,8 +2,7 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&eSmall fixes",
-            "&eAdd unsupported lang log"
+            "&aAdd SQLite support"
     };
 
     public static String[] changeLog(){

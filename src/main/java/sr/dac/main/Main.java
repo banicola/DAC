@@ -35,11 +35,8 @@ public final class Main extends JavaPlugin {
         Config.init();
         f = YamlConfiguration.loadConfiguration(lang);
         try {
-            if(!Main.getPlugin().getConfig().getString("database.type").equalsIgnoreCase("SQLITE")){
-                openConnection(Main.getPlugin().getConfig().getString("database.type"));
-                //Statement statement = connection.createStatement();
-                getLogger().info(ChatColor.translateAlternateColorCodes('&',f.getString("debug.dbConnectionSuccess")));
-            }
+            openConnection(Main.getPlugin().getConfig().getString("database.type"));
+            if(connection!=null && !Main.getPlugin().getConfig().getString("database.type").equalsIgnoreCase("SQLITE")) getLogger().info(ChatColor.translateAlternateColorCodes('&',f.getString("debug.dbConnectionSuccess")));
         } catch (SQLException|ClassNotFoundException|NullPointerException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(plugin);
@@ -85,8 +82,12 @@ public final class Main extends JavaPlugin {
                 connection = DriverManager.getConnection("jdbc:mysql://" + Main.getPlugin().getConfig().getString("database.host")+ ":" + Main.getPlugin().getConfig().getString("database.port")
                         + "/" + Main.getPlugin().getConfig().getString("database.database"), Main.getPlugin().getConfig().getString("database.user"), Main.getPlugin().getConfig().getString("database.password"));
             }
-        } else {
-            return;
+        } else if (type.equalsIgnoreCase("sqlite")) {
+            File file = new File(Main.getPlugin().getDataFolder(), "database.db");
+
+            String URL = "jdbc:sqlite:"+file;
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(URL);
         }
     }
 
