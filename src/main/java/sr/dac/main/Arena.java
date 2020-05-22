@@ -30,6 +30,8 @@ public class Arena {
         this.max_player = max_player;
     }
 
+    public String getName(){return name;}
+
     public void join(Player p) {
         players.add(p.getUniqueId());
     }
@@ -49,6 +51,7 @@ public class Arena {
     public Location getLobbyLocation() {
         return lobbyLocation;
     }
+    public Pair<Location, Location> getPoolLocation() {return poolLocation;}
 
     public int getMin_player() {
         return min_player;

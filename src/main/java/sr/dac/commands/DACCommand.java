@@ -9,14 +9,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import sr.dac.configs.ArenaManager;
 import sr.dac.main.Config;
 import sr.dac.main.Lang;
 import sr.dac.main.Main;
 import sr.dac.utils.ChangeLog;
 
-import javax.xml.soap.Text;
-import java.util.ArrayList;
+import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.Collections;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class DACCommand implements CommandExecutor {
     @Override
@@ -38,7 +40,14 @@ public class DACCommand implements CommandExecutor {
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("list")) {
             if (sender.hasPermission("dac.list")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.devLock")));
+                Set<String> arenas = ArenaManager.getArenas();
+                if(arenas.size()==0) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("listArenas.empty")));
+                else {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("listArenas.title")));
+                    for(String s : arenas){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f- &a"+s));
+                    }
+                }
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
             }
@@ -52,8 +61,17 @@ public class DACCommand implements CommandExecutor {
             if (sender.hasPermission("dac.create")) {
                 if (args.length < 2)
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongCreateCmd")));
-                else
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.devLock")));
+                else if (args.length>2)
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongCreateArenaName")));
+                else{
+                    try{
+                        if(ArenaManager.createArena(args[1])){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("createArena.success").replace("%arena%", args[1])));
+                        }
+                    } catch (KeyAlreadyExistsException e){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("createArena.arenaAlreadyExists").replace("%arena%", args[1])));
+                    }
+                }
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
             }
@@ -61,6 +79,22 @@ public class DACCommand implements CommandExecutor {
             if (sender.hasPermission("dac.remove")) {
                 if (args.length < 2)
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongRemoveCmd")));
+                else
+                    try{
+                        if(ArenaManager.removeArena(args[1])){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("removeArena.success").replace("%arena%", args[1])));
+                        }
+                    } catch (NoSuchElementException e){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("removeArena.arenaUnknown").replace("%arena%", args[1])));
+                    }
+
+            } else {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+            }
+        } else if (args.length > 0 && args[0].equalsIgnoreCase("edit")) {
+            if (sender.hasPermission("dac.edit")) {
+                if (args.length < 2)
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditCmd")));
                 else
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.devLock")));
             } else {
@@ -126,6 +160,11 @@ public class DACCommand implements CommandExecutor {
                     TextComponent remove = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("menu.remove")));
                     remove.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dac remove"));
                     sender.spigot().sendMessage(remove);
+                }
+                if (sender.hasPermission("dac.edit")) {
+                    TextComponent edit = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("menu.edit")));
+                    edit.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dac edit"));
+                    sender.spigot().sendMessage(edit);
                 }
                 if (sender.hasPermission("dac.version")) {
                     TextComponent version = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("menu.version")));

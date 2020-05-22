@@ -16,6 +16,7 @@ public class DACTabCompletion implements TabCompleter {
             if (sender.hasPermission("event")) cmds.add("event");
             if (sender.hasPermission("create")) cmds.add("create");
             if (sender.hasPermission("remove")) cmds.add("remove");
+            if (sender.hasPermission("edit")) cmds.add("edit");
             if (sender.hasPermission("version")) cmds.add("version");
             if (sender.hasPermission("reload")) cmds.add("reload");
             List<String> cmdsFiltred = new ArrayList<>();

@@ -1,20 +1,17 @@
 package sr.dac.main;
 
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import sr.dac.utils.UpdateFiles;
 import sr.dac.utils.Version;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Config {
-    public static File configF = new File(Main.getPlugin().getDataFolder(),"config.yml");
+    public static File configF = new File(Main.getPlugin().getDataFolder(), "config.yml");
     public static final PluginDescriptionFile desc = Main.getPlugin().getDescription();
 
-    public static void init(){
+    public static void init() {
         if (!new File(Main.getPlugin().getDataFolder(), "arenas.yml").exists()) {
             Main.getPlugin().saveResource("arenas.yml", false);
             Main.getPlugin().getLogger().info("Arenas file created");
@@ -35,7 +32,7 @@ public class Config {
 
     public static void reloadConfig() {
         Main.getPlugin().reloadConfig();
-        configF = new File(Main.getPlugin().getDataFolder(),"config.yml");
+        configF = new File(Main.getPlugin().getDataFolder(), "config.yml");
     }
 
     public static File selectedLang() {

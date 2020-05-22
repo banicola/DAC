@@ -23,9 +23,21 @@ menu:
   list: "&b/dac list &7- &fDonne toutes les arènes disponibles"
   create: "&c/dac create <arena> &7- &fCréer une nouvelle arène"
   remove: "&c/dac remove <arena> &7- &fSupprimer une arène"
+  edit: "&c/dac edit <arena> &7- &fEditer une arène"
   version: "&c/dac version &7- &fDonne la version du plugin"
   reload: "&c/dac reload &7- &fRecharge le plugin"
 wrongCommands:
   wrongJoinCmd: "&cUtilisation: /dac join <arena>"
   wrongCreateCmd: "&cUtilisation: /dac create <arena>"
+  wrongCreateArenaName: "&cLe nom de l'arène doit être composé d'un seul mot. Vous pourrez mettre un nom composé plus tard."
   wrongRemoveCmd: "&cUtilisation: /dac remove <arena>"
+  wrongEditCmd: "&cUtilisation: /dac edit <arena>"
+createArena:
+  arenaAlreadyExists: "&cCette arène existe déjà. Vous pouvez l'éditer avec &6/dac edit %arena%"
+  success: "&aVotre arène %arena% a bien été créee ! Vous pouvez maintenant l'éditer avec &6/dac edit %arena%"
+removeArena:
+  arenaUnknown: "&cCette arène n'existe pas."
+  success: "&aL'arène %arena% a été supprimée."
+listArenas:
+  title: "&bArènes disponibles:"
+  empty: "&cAucune arène disponible !"

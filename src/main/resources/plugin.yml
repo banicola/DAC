@@ -32,6 +32,7 @@ permissions:
     children:
       dac.create: true
       dac.remove: true
+      dac.edit: true
       dac.event: true
       dac.reload: true
       dac.version: true
