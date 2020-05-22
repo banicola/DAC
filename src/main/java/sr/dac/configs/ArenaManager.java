@@ -57,6 +57,7 @@ public class ArenaManager {
     }
 
     public static void load() {
+        arenas.clear();
         YamlConfiguration arenasConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(),"arenas.yml"));
         for(String arena : arenasConfig.getConfigurationSection("arenas").getKeys(false)){
             arenas.put(arena, new Arena(arenasConfig.getString("arenas."+arena+"name"), arenasConfig.getLocation("arenas."+arena+"divingLocation"), arenasConfig.getLocation("arenas."+arena+"divingLocation"),

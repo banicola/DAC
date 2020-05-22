@@ -38,6 +38,9 @@ createArena:
 removeArena:
   arenaUnknown: "&cThis arena doesn't exist."
   success: "&aThe arena %arena% has been removed."
+editArena:
+  arenaUnknown: "&cThis arena doesn't exist."
+  guiTitle: "&3Editing panel"
 listArenas:
   title: "&bArenas available:"
   empty: "&cNo arena available !"

@@ -29,7 +29,7 @@ menu:
 wrongCommands:
   wrongJoinCmd: "&cUtilisation: /dac join <arena>"
   wrongCreateCmd: "&cUtilisation: /dac create <arena>"
-  wrongCreateArenaName: "&cLe nom de l'arène doit être composé d'un seul mot. Vous pourrez mettre un nom composé plus tard."
+  wrongCreateArenaName: "&cLe nom de l'arène ne peut pas contenir plusieurs mots. Vous pourrez mettre un nom composé plus tard."
   wrongRemoveCmd: "&cUtilisation: /dac remove <arena>"
   wrongEditCmd: "&cUtilisation: /dac edit <arena>"
 createArena:
@@ -38,6 +38,9 @@ createArena:
 removeArena:
   arenaUnknown: "&cCette arène n'existe pas."
   success: "&aL'arène %arena% a été supprimée."
+editArena:
+  arenaUnknown: "&cCette arène n'existe pas."
+  guiTitle: "&3Panneau d'édition"
 listArenas:
   title: "&bArènes disponibles:"
   empty: "&cAucune arène disponible !"

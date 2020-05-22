@@ -14,17 +14,19 @@ public class Lang {
     private static final File en_US = new File(Main.getPlugin().getDataFolder(), "/langs/en_US.yml");
 
     public static void checkLang() {
+        createLangFiles();
         if (Config.selectedLang().exists()) {
             Main.lang = Config.selectedLang();
             if(!langsAvailable.contains(Config.selectedLang().getName())){
                 Main.getPlugin().getLogger().warning(ChatColor.translateAlternateColorCodes('&',"&4The language you selected isn't officially supported. Unknown or missing sentences can create null elements."));
             }
         } else {
-            Main.lang = en_US;
-            Main.getPlugin().getLogger().info("Lang file doesn't exists, en_US selected by default.");
+            if(en_US.exists()){
+                Main.lang = en_US;
+                Main.getPlugin().getLogger().info("Lang file doesn't exists, en_US selected by default.");
+            }
         }
         Main.f = YamlConfiguration.loadConfiguration(Main.lang);
-        createLangFiles();
         for (File f : new File(Main.getPlugin().getDataFolder(), "/langs").listFiles()) {
             try {
                 UpdateFiles.updateFile(f);

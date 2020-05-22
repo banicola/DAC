@@ -2,9 +2,8 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&aAdd create arena",
-            "&aAdd remove arena",
-            "&aAdd list all arenas"
+            "&aAdd edition menu (empty)",
+            "&eFix a crash with the reload command"
     };
 
     public static String[] changeLog(){

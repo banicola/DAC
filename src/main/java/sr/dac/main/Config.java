@@ -2,6 +2,7 @@ package sr.dac.main;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
+import sr.dac.configs.ArenaManager;
 import sr.dac.utils.UpdateFiles;
 import sr.dac.utils.Version;
 
@@ -32,6 +33,8 @@ public class Config {
 
     public static void reloadConfig() {
         Main.getPlugin().reloadConfig();
+        ArenaManager.load();
+        Lang.reloadConfig();
         configF = new File(Main.getPlugin().getDataFolder(), "config.yml");
     }
 

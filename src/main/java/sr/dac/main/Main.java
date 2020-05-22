@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import sr.dac.commands.DACCommand;
 import sr.dac.commands.DACTabCompletion;
 import sr.dac.configs.ArenaManager;
+import sr.dac.listeners.ClickInventory;
 
 import java.io.File;
 import java.sql.Connection;
@@ -57,6 +58,8 @@ public final class Main extends JavaPlugin {
 
         getCommand("dac").setExecutor(new DACCommand());
         getCommand("dac").setTabCompleter(new DACTabCompletion());
+
+        getServer().getPluginManager().registerEvents(new ClickInventory(), this);
 
         getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("debug.onEnable")));
     }

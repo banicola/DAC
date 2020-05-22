@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import sr.dac.configs.ArenaManager;
+import sr.dac.configs.EditArena;
 import sr.dac.main.Config;
 import sr.dac.main.Lang;
 import sr.dac.main.Main;
@@ -93,17 +94,21 @@ public class DACCommand implements CommandExecutor {
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("edit")) {
             if (sender.hasPermission("dac.edit")) {
-                if (args.length < 2)
+                if (args.length < 2){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditCmd")));
-                else
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.devLock")));
+                }
+                else if (args.length==2){
+                    if(sender instanceof Player) EditArena.openEditionGUI((Player) sender, args[1]);
+                    else sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.playerOnly")));
+                }
+                else{
+                }
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("dac.reload")) {
                 Config.reloadConfig();
-                Lang.reloadConfig();
                 Main.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&', Main.f.getString("debug.reloadConfig")));
                 if (sender instanceof Player) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.reloadConfig")));
