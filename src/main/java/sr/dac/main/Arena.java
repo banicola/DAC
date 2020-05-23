@@ -14,6 +14,8 @@ public class Arena {
 
     private String name;
 
+    private String status;
+
     private boolean open;
 
     private Location divingLocation;
@@ -25,7 +27,7 @@ public class Arena {
 
     private List<UUID> players = new ArrayList<UUID>();
 
-    public Arena(String n, Location divingLocation, Location lobbyLocation, Pair<Location, Location> poolLocation, int min_player, int max_player, boolean open) {
+    public Arena(String n, Location divingLocation, Location lobbyLocation, Pair<Location, Location> poolLocation, int min_player, int max_player, boolean open, String status) {
         this.name = n;
         this.divingLocation = divingLocation;
         this.lobbyLocation = lobbyLocation;
@@ -33,17 +35,47 @@ public class Arena {
         this.min_player = min_player;
         this.max_player = max_player;
         this.open = open;
+        this.status = status;
     }
 
     public String getName() {
         return name;
     }
 
-    public void changeStatus(){
+    public void setName(String name){
+        String oldName = this.name;
+        this.name = name;
+        try {
+            ArenaManager.save(name, this);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    public void setStatus(String s){
+        this.status = s;
+        try {
+            ArenaManager.save(name, this);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
+    public void setOpen(){
         if(open){
-            open = false;
+            this.open = false;
         } else {
-            open = true;
+            this.open = true;
+        }
+        if(status==null) this.status = "waiting";
+        try {
+            ArenaManager.save(name, this);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
     }
 
@@ -59,7 +91,7 @@ public class Arena {
         return players;
     }
 
-    public boolean getStatus(){
+    public boolean isOpen(){
         return open;
     }
 

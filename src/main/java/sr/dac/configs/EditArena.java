@@ -22,7 +22,7 @@ public class EditArena {
         }
         if(arena==null){
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.arenaUnknown")));
-        } else{
+        } else {
             Inventory editGui = Bukkit.createInventory(p, 18, ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiTitle")+" "+a));
             ItemStack nameSelection = new ItemStack(Material.NAME_TAG);
             ItemMeta nameSelection_meta = nameSelection.getItemMeta();
@@ -57,7 +57,7 @@ public class EditArena {
                 divingSelectionStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 diving_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiNoSetup")));
             } else {
-                divingSelectionStatus = new ItemStack(Material.GREEN_CONCRETE);
+                divingSelectionStatus = new ItemStack(Material.LIME_CONCRETE);
                 divingSelectionStatus_meta = divingSelectionStatus.getItemMeta();
                 divingSelectionStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 diving_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos")).replace("%x%",""+arena.getDivingLocation().getBlockX()).replace("%z%",""+arena.getDivingLocation().getBlockZ()));
@@ -87,7 +87,7 @@ public class EditArena {
                 lobbySelectionStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 lobby_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiNoSetup")));
             } else {
-                lobbySelectionStatus = new ItemStack(Material.GREEN_CONCRETE);
+                lobbySelectionStatus = new ItemStack(Material.LIME_CONCRETE);
                 lobbySelectionStatus_meta = lobbySelectionStatus.getItemMeta();
                 lobbySelectionStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 lobby_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos")).replace("%x%",""+arena.getLobbyLocation().getBlockX()).replace("%z%",""+arena.getLobbyLocation().getBlockZ()));
@@ -119,7 +119,7 @@ public class EditArena {
                 else if(arena.getPoolLocation().getKey()==null) psm_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos").replace("%x%",""+arena.getPoolLocation().getValue().getBlockX()).replace("%z%",""+arena.getPoolLocation().getValue().getBlockZ())));
                 else if(arena.getPoolLocation().getValue()==null) psm_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos").replace("%x%",""+arena.getPoolLocation().getKey().getBlockX()).replace("%z%",""+arena.getPoolLocation().getKey().getBlockZ())));
             } else {
-                poolSelectionStatus = new ItemStack(Material.GREEN_CONCRETE);
+                poolSelectionStatus = new ItemStack(Material.LIME_CONCRETE);
                 poolSelectionStatus_meta = poolSelectionStatus.getItemMeta();
                 poolSelectionStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 psm_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos")).replace("%x%",""+arena.getPoolLocation().getKey().getBlockX()).replace("%z%",""+arena.getPoolLocation().getKey().getBlockZ()));
@@ -132,7 +132,7 @@ public class EditArena {
              * minPlayerSelection
              */
             ItemStack minPlayerSelection = new ItemStack(Material.SNOWBALL);
-            ItemMeta minPlayerSelection_meta = divingSelection.getItemMeta();
+            ItemMeta minPlayerSelection_meta = minPlayerSelection.getItemMeta();
             minPlayerSelection_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMinPlayerTitle")));
             ArrayList<String> minPlayer_lore = new ArrayList<>();
             for(String s : Main.f.getStringList("editArena.guiMinPlayerLore")){
@@ -150,7 +150,7 @@ public class EditArena {
                 minPlayerStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiNoSetup")));
             } else {
-                minPlayerStatus = new ItemStack(Material.GREEN_CONCRETE);
+                minPlayerStatus = new ItemStack(Material.LIME_CONCRETE);
                 minPlayerStatus_meta = minPlayerStatus.getItemMeta();
                 minPlayerStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiPlayerCount")).replace("%number%",""+arena.getMin_player()));
@@ -162,7 +162,7 @@ public class EditArena {
              * maxPlayerSelection
              */
             ItemStack maxPlayerSelection = new ItemStack(Material.SLIME_BALL);
-            ItemMeta maxPlayerSelection_meta = divingSelection.getItemMeta();
+            ItemMeta maxPlayerSelection_meta = maxPlayerSelection.getItemMeta();
             maxPlayerSelection_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMaxPlayerTitle")));
             ArrayList<String> maxPlayer_lore = new ArrayList<>();
             for(String s : Main.f.getStringList("editArena.guiMaxPlayerLore")){
@@ -180,7 +180,7 @@ public class EditArena {
                 maxPlayerStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 maxPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiNoSetup")));
             } else {
-                maxPlayerStatus = new ItemStack(Material.GREEN_CONCRETE);
+                maxPlayerStatus = new ItemStack(Material.LIME_CONCRETE);
                 maxPlayerStatus_meta = maxPlayerStatus.getItemMeta();
                 maxPlayerStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 maxPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiPlayerCount")).replace("%number%",""+arena.getMax_player()));
@@ -198,8 +198,8 @@ public class EditArena {
             }
             ItemMeta openArenaSelection_meta;
             ItemStack openArenaSelection;
-            if(isReady){
-                openArenaSelection = new ItemStack(Material.GREEN_CONCRETE);
+            if(arena.isOpen()){
+                openArenaSelection = new ItemStack(Material.LIME_CONCRETE);
                 openArenaSelection_meta = openArenaSelection.getItemMeta();
                 openArenaSelection_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiOpenArenaTitle")));
             }else{
@@ -228,5 +228,53 @@ public class EditArena {
 
             p.openInventory(editGui);
         }
+    }
+    public static void openPlayerLimitGUI(Player p, Arena a, String type){
+        String title = "";
+        if(type=="min") title = Main.f.getString("editArena.guiMinPlayerTitle");
+        else title = Main.f.getString("editArena.guiMaxPlayerTitle");
+        Inventory playerLimitGui = Bukkit.createInventory(p, 27, ChatColor.translateAlternateColorCodes('&', title+" "+a.getName()));
+
+        if(type=="min"){
+            ItemStack minPlayerSelection = new ItemStack(Material.SNOWBALL);
+            ItemMeta minPlayerSelection_meta = minPlayerSelection.getItemMeta();
+            minPlayerSelection_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMinPlayerTitle")));
+            ArrayList<String> minPlayer_lore = new ArrayList<>();
+            minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+a.getMin_player()));
+            minPlayerSelection_meta.setLore(minPlayer_lore);
+            minPlayerSelection.setItemMeta(minPlayerSelection_meta);
+
+            playerLimitGui.setItem(4, minPlayerSelection);
+        } else {
+            ItemStack maxPlayerSelection = new ItemStack(Material.SLIME_BALL);
+            ItemMeta maxPlayerSelection_meta = maxPlayerSelection.getItemMeta();
+            maxPlayerSelection_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMaxPlayerTitle")));
+            ArrayList<String> maxPlayer_lore = new ArrayList<>();
+            maxPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+a.getMax_player()));
+            maxPlayerSelection_meta.setLore(maxPlayer_lore);
+            maxPlayerSelection.setItemMeta(maxPlayerSelection_meta);
+
+            playerLimitGui.setItem(4, maxPlayerSelection);
+        }
+
+        ItemStack sub = new ItemStack(Material.RED_CONCRETE);
+        ItemMeta sub_meta = sub.getItemMeta();
+        sub_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiSub")));
+        sub.setItemMeta(sub_meta);
+        playerLimitGui.setItem(12, sub);
+
+        ItemStack add = new ItemStack(Material.LIME_CONCRETE);
+        ItemMeta add_meta = add.getItemMeta();
+        add_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiAdd")));
+        add.setItemMeta(add_meta);
+        playerLimitGui.setItem(14, add);
+
+        ItemStack validation = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
+        ItemMeta validation_meta = validation.getItemMeta();
+        validation_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiValidation")));
+        validation.setItemMeta(validation_meta);
+        playerLimitGui.setItem(22, validation);
+
+        p.openInventory(playerLimitGui);
     }
 }
