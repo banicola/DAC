@@ -76,10 +76,12 @@ editArena:
   guiPlayerCount: "&a%number% joueurs"
   guiStatusTitle: "&eStatus"
   guiNoSetup: "&cNon configuré"
-  guiSelectionPos: "&aX: &f%x% | &aY: &f%y%"
+  guiSelectionPos: "&aX: &f%x% | &aZ: &f%z%"
   successSetDiving: "&aLa zone de saut est enregistrée."
   successSetLobby: "&aL'accueil est enregistré."
   guiOpenArenaTitle: "&aOuvrir/Fermer l'arène"
+  selectionTool: "&cOutil de sélection"
+  setClickPos: "&e[Cliquez ici dès que vous êtes sur la position]"
 listArenas:
   title: "&bArènes disponibles:"
   empty: "&cAucune arène disponible !"

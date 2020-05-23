@@ -17,11 +17,13 @@ import java.util.List;
 public class EditArena {
     public static void openEditionGUI(Player p, String a){
         Arena arena = ArenaManager.getArena(a);
+        if(p.getInventory().getItem(0)!=null && p.getInventory().getItem(0).getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.selectionTool")))){
+            p.getInventory().setItem(0, new ItemStack(Material.AIR));
+        }
         if(arena==null){
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.arenaUnknown")));
         } else{
-            Inventory editGui = Bukkit.createInventory(p, 18, ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiTitle")));
-
+            Inventory editGui = Bukkit.createInventory(p, 18, ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiTitle")+" "+a));
             ItemStack nameSelection = new ItemStack(Material.NAME_TAG);
             ItemMeta nameSelection_meta = nameSelection.getItemMeta();
             nameSelection_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiNameEdit")));
@@ -114,8 +116,8 @@ public class EditArena {
                 poolSelectionStatus_meta = poolSelectionStatus.getItemMeta();
                 poolSelectionStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
                 if(arena.getPoolLocation().getKey()==null && arena.getPoolLocation().getValue()==null) psm_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiNoSetup")));
-                else if(arena.getPoolLocation().getKey()==null) psm_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos").replace("%x%",""+arena.getPoolLocation().getKey().getBlockX()).replace("%z%",""+arena.getPoolLocation().getKey().getBlockZ())));
-                else if(arena.getPoolLocation().getValue()==null) psm_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos").replace("%x%",""+arena.getPoolLocation().getValue().getBlockX()).replace("%z%",""+arena.getPoolLocation().getValue().getBlockZ())));
+                else if(arena.getPoolLocation().getKey()==null) psm_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos").replace("%x%",""+arena.getPoolLocation().getValue().getBlockX()).replace("%z%",""+arena.getPoolLocation().getValue().getBlockZ())));
+                else if(arena.getPoolLocation().getValue()==null) psm_lore.add(ChatColor.translateAlternateColorCodes('&',Main.f.getString("editArena.guiSelectionPos").replace("%x%",""+arena.getPoolLocation().getKey().getBlockX()).replace("%z%",""+arena.getPoolLocation().getKey().getBlockZ())));
             } else {
                 poolSelectionStatus = new ItemStack(Material.GREEN_CONCRETE);
                 poolSelectionStatus_meta = poolSelectionStatus.getItemMeta();
@@ -142,7 +144,7 @@ public class EditArena {
             minPlayer_lore = new ArrayList<>();
             ItemMeta minPlayerStatus_meta;
             ItemStack minPlayerStatus;
-            if(arena.getLobbyLocation()==null){
+            if(arena.getMin_player()<=0){
                 minPlayerStatus = new ItemStack(Material.RED_CONCRETE);
                 minPlayerStatus_meta = minPlayerStatus.getItemMeta();
                 minPlayerStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));
@@ -172,7 +174,7 @@ public class EditArena {
             maxPlayer_lore = new ArrayList<>();
             ItemMeta maxPlayerStatus_meta;
             ItemStack maxPlayerStatus;
-            if(arena.getLobbyLocation()==null){
+            if(arena.getMax_player()<=0 || arena.getMax_player()<arena.getMin_player()){
                 maxPlayerStatus = new ItemStack(Material.RED_CONCRETE);
                 maxPlayerStatus_meta = maxPlayerStatus.getItemMeta();
                 maxPlayerStatus_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiStatusTitle")));

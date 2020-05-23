@@ -19,7 +19,7 @@ public class ArenaManager {
 
     public static boolean createArena(String name) {
         if(arenas.containsKey(name)) throw new KeyAlreadyExistsException();
-        arenas.put(name, new Arena(name, null, null, new Pair<>(null, null), -1, -1));
+        arenas.put(name, new Arena(name, null, null, new Pair<>(null, null), -1, -1, false));
         try {
             save(name, arenas.get(name));
         } catch (IOException ioException) {
@@ -60,9 +60,9 @@ public class ArenaManager {
         arenas.clear();
         YamlConfiguration arenasConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(),"arenas.yml"));
         for(String arena : arenasConfig.getConfigurationSection("arenas").getKeys(false)){
-            arenas.put(arena, new Arena(arenasConfig.getString("arenas."+arena+".name"), arenasConfig.getLocation("arenas."+arena+".divingLocation"), arenasConfig.getLocation("arenas."+arena+".divingLocation"),
-                    new Pair<Location, Location>(arenasConfig.getLocation("arenas."+arena+".poolLocationA"), arenasConfig.getLocation("arenas."+arena+".poolLocationA")),
-                    arenasConfig.getInt("arenas."+arena+".min_player"),arenasConfig.getInt("arenas."+arena+".max_player")));
+            arenas.put(arena, new Arena(arenasConfig.getString("arenas."+arena+".name"), arenasConfig.getLocation("arenas."+arena+".divingLocation"), arenasConfig.getLocation("arenas."+arena+".lobbyLocation"),
+                    new Pair<Location, Location>(arenasConfig.getLocation("arenas."+arena+".poolLocationA"), arenasConfig.getLocation("arenas."+arena+".poolLocationB")),
+                    arenasConfig.getInt("arenas."+arena+".min_player"),arenasConfig.getInt("arenas."+arena+".max_player"),arenasConfig.getBoolean("arenas."+arena+".open")));
         }
     }
 
@@ -76,6 +76,7 @@ public class ArenaManager {
         arenasConfig.set("arenas."+name+".poolLocationB",a.getPoolLocation().getValue());
         arenasConfig.set("arenas."+name+".min_player",a.getMin_player());
         arenasConfig.set("arenas."+name+".max_player",a.getMax_player());
+        arenasConfig.set("arenas."+name+".open",a.getStatus());
         arenasConfig.save(arenas);
     }
 }

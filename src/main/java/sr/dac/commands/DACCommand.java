@@ -48,7 +48,7 @@ public class DACCommand implements CommandExecutor {
                 else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("listArenas.title")));
                     for(String s : arenas){
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f- &a"+s));
+                        if(ArenaManager.getArena(s).getStatus()) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f- &a"+s));
                     }
                 }
             } else {

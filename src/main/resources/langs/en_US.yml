@@ -76,10 +76,12 @@ editArena:
   guiPlayerCount: "&a%number% players"
   guiStatusTitle: "&eStatus"
   guiNoSetup: "&cNo setup yet"
-  guiSelectionPos: "&aX: &f%x% | &aY: &f%y%"
+  guiSelectionPos: "&aX: &f%x% | &aZ: &f%z%"
   successSetDiving: "&aThe diving spot has been set."
   successSetLobby: "&aThe lobby has been set."
   guiOpenArenaTitle: "&aOpen/Close the arena"
+  selectionTool: "&cSelection tool"
+  setClickPos: "&e[Click here when you are at the right place]"
 listArenas:
   title: "&bArenas available:"
   empty: "&cNo arena available !"
