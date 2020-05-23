@@ -13,7 +13,6 @@ import sr.dac.configs.ArenaManager;
 import sr.dac.configs.EditArena;
 import sr.dac.main.Arena;
 import sr.dac.main.Config;
-import sr.dac.main.Lang;
 import sr.dac.main.Main;
 import sr.dac.utils.ChangeLog;
 
@@ -28,174 +27,197 @@ public class DACCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0 && args[0].equalsIgnoreCase("join")) {
             if (sender.hasPermission("dac.join")) {
-                if (args.length < 2)
+                if (args.length < 2) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongJoinCmd")));
-                else
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.devLock")));
+                } else {
+                    Arena a = ArenaManager.getArena(args[1]);
+                    if (a == null){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
+                    } else{
+                        try{
+                            ArenaManager.playerJoinArena((Player) sender, args[1]);
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.joinArena").replace("%arena%", args[1])));
+                        } catch (NoSuchElementException e){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
+                        } catch (KeyAlreadyExistsException e){
+                            if(e.getMessage().equalsIgnoreCase("same")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadyJoin")));;
+                            if(e.getMessage().equalsIgnoreCase("other")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadyInOtherArena")));;
+                        }
+                    }
+                }
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("leave")) {
             if (sender.hasPermission("dac.leave")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.devLock")));
+                try{
+                    ArenaManager.playerLeaveArena((Player) sender);
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.leaveArena")));
+                } catch (NoSuchElementException e){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.notInArena")));
+                }
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("list")) {
             if (sender.hasPermission("dac.list")) {
                 Set<String> arenas = ArenaManager.getArenas();
-                if(arenas.size()==0) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("listArenas.empty")));
+                if (arenas.size() == 0)
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("listArenas.empty")));
                 else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("listArenas.title")));
-                    for(String s : arenas){
-                        if(ArenaManager.getArena(s).isOpen()) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f- &a"+s));
+                    for (String s : arenas) {
+                        if (ArenaManager.getArena(s).isOpen())
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f- &a" + s));
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("event")) {
             if (sender.hasPermission("dac.event")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.devLock")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.devLock")));
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("create")) {
             if (sender.hasPermission("dac.create")) {
                 if (args.length < 2)
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongCreateCmd")));
-                else if (args.length>2)
+                else if (args.length > 2)
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongCreateArenaName")));
-                else{
-                    try{
-                        if(ArenaManager.createArena(args[1])){
+                else {
+                    try {
+                        if (ArenaManager.createArena(args[1])) {
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("createArena.success").replace("%arena%", args[1])));
                             EditArena.openEditionGUI((Player) sender, args[1]);
                         }
-                    } catch (KeyAlreadyExistsException e){
+                    } catch (KeyAlreadyExistsException e) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("createArena.arenaAlreadyExists").replace("%arena%", args[1])));
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("remove")) {
             if (sender.hasPermission("dac.remove")) {
                 if (args.length < 2)
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongRemoveCmd")));
                 else
-                    try{
-                        if(ArenaManager.removeArena(args[1])){
+                    try {
+                        if (ArenaManager.removeArena(args[1])) {
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("removeArena.success").replace("%arena%", args[1])));
                         }
-                    } catch (NoSuchElementException e){
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("removeArena.arenaUnknown").replace("%arena%", args[1])));
+                    } catch (NoSuchElementException e) {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
                     }
 
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("edit")) {
             if (sender.hasPermission("dac.edit")) {
-                if (args.length < 2){
+                if (args.length < 2) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditCmd")));
-                }
-                else if (args.length==2){
-                    if(sender instanceof Player) EditArena.openEditionGUI((Player) sender, args[1]);
-                    else sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.playerOnly")));
-                } else if(args.length==3){
+                } else if (args.length == 2) {
+                    if (sender instanceof Player) EditArena.openEditionGUI((Player) sender, args[1]);
+                    else
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.playerOnly")));
+                } else if (args.length == 3) {
                     Arena arena = ArenaManager.getArena(args[1]);
-                    if(args[2].equalsIgnoreCase("setlobby")){
-                        if(arena==null){
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.arenaUnknown")));
+                    if (args[2].equalsIgnoreCase("setlobby")) {
+                        if (arena == null) {
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
                         } else {
                             Player p = (Player) sender;
                             arena.setLobbyLocation(p.getLocation());
                             try {
                                 ArenaManager.save(args[1], arena);
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.successSetLobby")));
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.successSetLobby")));
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }
                         }
-                    } else if(args[2].equalsIgnoreCase("setdiving")){
-                        if(arena==null){
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.arenaUnknown")));
+                    } else if (args[2].equalsIgnoreCase("setdiving")) {
+                        if (arena == null) {
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
                         } else {
                             Player p = (Player) sender;
                             arena.setDivingLocation(p.getLocation());
                             try {
                                 ArenaManager.save(args[1], arena);
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.successSetDiving")));
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.successSetDiving")));
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }
                         }
-                    } else if(args[2].equalsIgnoreCase("setname")){
+                    } else if (args[2].equalsIgnoreCase("setname")) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditSetName")));
-                    } else if(args[2].equalsIgnoreCase("setmin")){
+                    } else if (args[2].equalsIgnoreCase("setmin")) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditSetMin")));
-                    } else if(args[2].equalsIgnoreCase("setmax")){
+                    } else if (args[2].equalsIgnoreCase("setmax")) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditSetMax")));
                     }
-                } else if (args.length==4){
+                } else if (args.length == 4) {
                     Arena arena = ArenaManager.getArena(args[1]);
-                    if(args[2].equalsIgnoreCase("setname")){
-                        if(arena==null){
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.arenaUnknown")));
+                    if (args[2].equalsIgnoreCase("setname")) {
+                        if (arena == null) {
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
                         } else {
                             Player p = (Player) sender;
-                            if(args[3].equalsIgnoreCase(args[1])){
+                            if (args[3].equalsIgnoreCase(args[1])) {
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.sameName")));
                                 return true;
                             }
-                            if(ArenaManager.getArena(args[3])!=null){
+                            if (ArenaManager.getArena(args[3]) != null) {
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.arenaAlreadyExists")));
                                 return true;
                             }
                             arena.setName(args[3]);
                             ArenaManager.renameArena(args[1], arena);
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.newNameSet").replace("%name%", args[3])));
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.newNameSet").replace("%name%", args[3])));
                         }
                     }
                 } else {
 
                 }
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("dac.reload")) {
                 Config.reloadConfig();
-                Main.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&', Main.f.getString("debug.reloadConfig")));
+                Main.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&', Main.f.getString("global.reloadConfig")));
                 if (sender instanceof Player) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.reloadConfig")));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.reloadConfig")));
                 }
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("version")) {
             if (sender.hasPermission("dac.version")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.version").replace("%version%", Main.getPlugin().getDescription().getVersion())));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.version").replace("%version%", Main.getPlugin().getDescription().getVersion())));
                 BaseComponent changeLogs = null;
-                for(String note : ChangeLog.changeLog()){
-                    if(changeLogs == null) changeLogs = new TextComponent(ChatColor.translateAlternateColorCodes('&',Main.f.getString("debug.changeLogHeader").replace("%version%", Main.getPlugin().getDescription().getVersion())+"\n"+note+"\n"));
-                    else changeLogs.addExtra(new TextComponent(ChatColor.translateAlternateColorCodes('&',note+"\n")));
+                for (String note : ChangeLog.changeLog()) {
+                    if (changeLogs == null)
+                        changeLogs = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("global.changeLogHeader").replace("%version%", Main.getPlugin().getDescription().getVersion()) + "\n" + note + "\n"));
+                    else
+                        changeLogs.addExtra(new TextComponent(ChatColor.translateAlternateColorCodes('&', note + "\n")));
                 }
                 BaseComponent[] changeLog;
-                TextComponent footer = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("debug.changeLogFooter")));
-                if(changeLogs != null){
+                TextComponent footer = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("global.changeLogFooter")));
+                if (changeLogs != null) {
                     changeLog = new BaseComponent[]{changeLogs, footer};
                 } else {
-                    changeLog = new BaseComponent[]{new TextComponent("No changelog found"),footer};
+                    changeLog = new BaseComponent[]{new TextComponent("No changelog found"), footer};
                 }
-                TextComponent version = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("debug.changelog")));
+                TextComponent version = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("global.changelog")));
                 version.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, changeLog));
                 version.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/"));
 
                 sender.spigot().sendMessage(version);
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.noPermission")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
             }
         } else if (args.length == 0 || (args.length == 1 && (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")))) {
             if (sender instanceof Player) {
@@ -241,10 +263,10 @@ public class DACCommand implements CommandExecutor {
                 }
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&8&l" + String.join("", Collections.nCopies(45, "-"))));
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.playerOnly")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.playerOnly")));
             }
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("debug.unknownCommand")));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.unknownCommand")));
         }
         return true;
     }

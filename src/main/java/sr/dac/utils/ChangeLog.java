@@ -2,7 +2,7 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&aFully operational edit menu"
+            "&aJoin and leave arena"
     };
 
     public static String[] changeLog(){

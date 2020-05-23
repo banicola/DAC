@@ -1,5 +1,5 @@
 name: "[&bDAC&r]"
-debug:
+global:
   onEnable: "Le plugin a bien été chargé"
   onDisable: "Le plugin a bien été éteint"
   createFile: "%file% a été créé !"
@@ -16,6 +16,13 @@ debug:
   worldeditEnable: "&aWorldedit détecté, vous pouvez l'utiliser pour créer des arènes."
   vaultEnable: "&aVault détecté, vous pouvez l'utiliser pour créer des récompenses."
   dbConnectionSuccess: "&aConnexion base de donnée établie."
+arena:
+  arenaUnknown: "&cCette arène n'existe pas."
+  joinArena: "&aVous avez rejoins l'arène %arena% !"
+  leaveArena: "&cVous avez quitté l'arène !"
+  alreadyJoin: "&cVous êtes déjà dans cette arène !"
+  alreadyInOtherArena: "&cVous êtes déjà dans une arène !"
+  notInArena: "&cVous n'êtes pas dans une arène !"
 menu:
   title: "&bMenu Dé à Coudre"
   join: "&b/dac join <arena> &7- &fRejoindre une arène"

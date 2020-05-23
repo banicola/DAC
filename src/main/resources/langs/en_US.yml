@@ -1,5 +1,5 @@
 name: "[&bDAC&r]"
-debug:
+global:
   onEnable: "Plugin enabled"
   onDisable: "Plugin disabled"
   createFile: "%file% has been created !"
@@ -16,6 +16,13 @@ debug:
   worldeditEnable: "&aWorldedit detected, you can use it to setup arenas."
   vaultEnable: "&aVault detected, you can use it to create rewards."
   dbConnectionSuccess: "&aDatabase connection successful."
+arena:
+  arenaUnknown: "&cThis arena doesn't exists !"
+  joinArena: "&aYou joined the arena %arena% !"
+  leaveArena: "&cYou left the arena !"
+  alreadyJoin: "&cYou are already in this arena !"
+  alreadyInOtherArena: "&cYou are already in an arena !"
+  notInArena: "&cYou are not in an arena !"
 menu:
   title: "&bDé à Coudre Menu"
   join: "&b/dac join <arena> &7- &fJoin a specific arena"
@@ -39,10 +46,8 @@ createArena:
   arenaAlreadyExists: "&cThis arena already exists. You can edit it with &6/dac edit %arena%"
   success: "&aYour arena %arena% has been created ! You can now edit it with &6/dac edit %arena%"
 removeArena:
-  arenaUnknown: "&cThis arena doesn't exist."
   success: "&aThe arena %arena% has been removed."
 editArena:
-  arenaUnknown: "&cThis arena doesn't exist."
   guiTitle: "&3Arena editor"
   guiNameEdit: "&bRename arena"
   guiNameEditLore:

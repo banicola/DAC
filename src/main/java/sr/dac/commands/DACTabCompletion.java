@@ -42,6 +42,19 @@ public class DACTabCompletion implements TabCompleter {
                 return cmdsFiltred;
             }
         }
+        if(args.length == 3){
+            if((args[0].equalsIgnoreCase("edit") && sender.hasPermission("dac.edit"))){
+                List<String> cmds = new ArrayList<>(Arrays.asList("setname", "setdiving", "setlobby", "setmin", "setmax"));
+                List<String> cmdsFiltred = new ArrayList<>();
+                if (args[2].equalsIgnoreCase("")) cmdsFiltred = cmds;
+                else {
+                    for (String s : cmds) {
+                        if (s.startsWith(args[2], 0)) cmdsFiltred.add(s);
+                    }
+                }
+                return cmdsFiltred;
+            }
+        }
         return new ArrayList<>();
     }
 }

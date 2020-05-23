@@ -3,12 +3,14 @@ package sr.dac.configs;
 import javafx.util.Pair;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -16,6 +18,7 @@ import java.util.Set;
 
 public class ArenaManager {
     private static Map<String, Arena> arenas = new HashMap<String, Arena>();
+    private static Map<Player, String> playerInArena = new HashMap<Player, String>();
 
     public static boolean createArena(String name) {
         if(arenas.containsKey(name)) throw new KeyAlreadyExistsException();
@@ -47,6 +50,27 @@ public class ArenaManager {
     public static void renameArena(String name, Arena a){
         arenas.put(a.getName(), a);
         removeArena(name);
+    }
+
+    public static void playerJoinArena(Player player, String arena){
+        if(!arenas.containsKey(arena)) throw new NoSuchElementException();
+        if(playerInArena.containsKey(player)){
+            if(playerInArena.get(player).equalsIgnoreCase(arena)) throw new KeyAlreadyExistsException("same");
+            else throw new KeyAlreadyExistsException("other");
+        }
+        playerInArena.put(player, arena);
+        Arena a = getArena(arena);
+        a.join(player);
+    }
+
+    public static void playerLeaveArena(Player player){
+        if(playerInArena.containsKey(player)){
+            Arena a = getArena(playerInArena.get(player));
+            playerInArena.remove(player);
+            a.leave(player);
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     public static Arena getArena(String name) {

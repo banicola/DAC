@@ -32,7 +32,7 @@ public class ClickInventory implements Listener {
             if (inventoryName.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiTitle")))) {
                 Arena a = ArenaManager.getArena(e.getView().getTitle().substring(e.getView().getTitle().lastIndexOf(" ") + 1));
                 if (a == null) {
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.arenaUnknown")));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
                 } else {
                     if (e.getCurrentItem() != null) {
                         if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiPoolSelectionTitle")))) {

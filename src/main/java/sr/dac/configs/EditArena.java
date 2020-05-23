@@ -21,7 +21,7 @@ public class EditArena {
             p.getInventory().setItem(0, new ItemStack(Material.AIR));
         }
         if(arena==null){
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.arenaUnknown")));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("arena.arenaUnknown")));
         } else {
             Inventory editGui = Bukkit.createInventory(p, 18, ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiTitle")+" "+a));
             ItemStack nameSelection = new ItemStack(Material.NAME_TAG);

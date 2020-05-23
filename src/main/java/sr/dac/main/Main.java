@@ -38,7 +38,7 @@ public final class Main extends JavaPlugin {
         try {
             openConnection(Main.getPlugin().getConfig().getString("database.type"));
             if (connection != null && !Main.getPlugin().getConfig().getString("database.type").equalsIgnoreCase("SQLITE"))
-                getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("debug.dbConnectionSuccess")));
+                getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.dbConnectionSuccess")));
         } catch (SQLException | ClassNotFoundException | NullPointerException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(plugin);
@@ -49,12 +49,12 @@ public final class Main extends JavaPlugin {
         econ = setupEconomy();
         try {
             if (we.isEnabled())
-                getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("debug.worldeditEnable")));
+                getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.worldeditEnable")));
         } catch (NoClassDefFoundError e) {
         }
         try {
             if (econ != null)
-                getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("debug.vaultEnable")));
+                getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.vaultEnable")));
         } catch (NoClassDefFoundError e) {
         }
 
@@ -65,7 +65,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DropItem(), this);
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);
 
-        getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("debug.onEnable")));
+        getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.onEnable")));
     }
 
     @Override
@@ -74,7 +74,7 @@ public final class Main extends JavaPlugin {
             connection.close();
         } catch (NullPointerException | SQLException e) {
         }
-        getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("debug.onDisable")));
+        getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.onDisable")));
     }
 
     public static Plugin getPlugin() {
