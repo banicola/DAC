@@ -16,13 +16,6 @@ global:
   worldeditEnable: "&aWorldedit detected, you can use it to setup arenas."
   vaultEnable: "&aVault detected, you can use it to create rewards."
   dbConnectionSuccess: "&aDatabase connection successful."
-arena:
-  arenaUnknown: "&cThis arena doesn't exists !"
-  joinArena: "&aYou joined the arena %arena% !"
-  leaveArena: "&cYou left the arena !"
-  alreadyJoin: "&cYou are already in this arena !"
-  alreadyInOtherArena: "&cYou are already in an arena !"
-  notInArena: "&cYou are not in an arena !"
 menu:
   title: "&bDé à Coudre Menu"
   join: "&b/dac join <arena> &7- &fJoin a specific arena"
@@ -33,6 +26,18 @@ menu:
   edit: "&c/dac edit <arena> &7- &fEdit an arena"
   version: "&c/dac version &7- &fGet the plugin version"
   reload: "&c/dac reload &7- &fReload the plugin"
+arena:
+  arenaUnknown: "&cThis arena doesn't exists !"
+  joinArena: "&aYou joined the arena %arena% !"
+  leaveArena: "&cYou left the arena !"
+  alreadyJoin: "&cYou are already in this arena !"
+  alreadyInOtherArena: "&cYou are already in an arena !"
+  notInArena: "&cYou are not in an arena !"
+  arenaAlreadyPlaying: "&cSorry, this game has already started."
+  arenaFull: "&cSorry, this game is full."
+game:
+  countdown: "&aThe game start in %time%"
+  hasStarted: "&aThe game start ! Good Luck !"
 wrongCommands:
   wrongJoinCmd: "&cUsage: /dac join <arena>"
   wrongCreateCmd: "&cUsage: /dac create <arena>"

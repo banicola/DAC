@@ -40,8 +40,15 @@ public class DACCommand implements CommandExecutor {
                         } catch (NoSuchElementException e){
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
                         } catch (KeyAlreadyExistsException e){
-                            if(e.getMessage().equalsIgnoreCase("same")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadyJoin")));;
-                            if(e.getMessage().equalsIgnoreCase("other")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadyInOtherArena")));;
+                            if(e.getMessage().equalsIgnoreCase("same")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadyJoin")));
+                            if(e.getMessage().equalsIgnoreCase("other")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadyInOtherArena")));
+                        } catch (Exception e){
+                            if(e.getMessage()!=null){
+                                if(e.getMessage().equalsIgnoreCase("playing")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaAlreadyPlaying")));
+                                if(e.getMessage().equalsIgnoreCase("full")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaFull")));
+                            } else {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

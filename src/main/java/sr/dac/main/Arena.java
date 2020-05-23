@@ -8,7 +8,6 @@ import sr.dac.configs.ArenaManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Arena {
 
@@ -25,7 +24,9 @@ public class Arena {
     private int min_player;
     private int max_player;
 
-    private List<UUID> players = new ArrayList<UUID>();
+    private List<Player> players = new ArrayList<Player>();
+
+    private int countdown = 0;
 
     public Arena(String n, Location divingLocation, Location lobbyLocation, Pair<Location, Location> poolLocation, int min_player, int max_player, boolean open, String status) {
         this.name = n;
@@ -65,6 +66,10 @@ public class Arena {
         return status;
     }
 
+    public void setCountdown(int c){this.countdown=c;}
+
+    public int getCountdown(){return countdown;}
+
     public void setOpen(){
         if(open){
             this.open = false;
@@ -80,14 +85,14 @@ public class Arena {
     }
 
     public void join(Player p) {
-        players.add(p.getUniqueId());
+        players.add(p);
     }
 
     public void leave(Player p) {
-        players.remove(p.getUniqueId());
+        players.remove(p);
     }
 
-    public List<UUID> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 

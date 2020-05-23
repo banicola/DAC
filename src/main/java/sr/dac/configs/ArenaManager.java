@@ -1,16 +1,17 @@
 package sr.dac.configs;
 
 import javafx.util.Pair;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.io.File;
 import java.io.IOException;
-import java.security.KeyException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -52,15 +53,22 @@ public class ArenaManager {
         removeArena(name);
     }
 
-    public static void playerJoinArena(Player player, String arena){
+    public static String getPlayerArena(Player player){
+        return playerInArena.get(player);
+    }
+
+    public static void playerJoinArena(Player player, String arena) throws Exception {
         if(!arenas.containsKey(arena)) throw new NoSuchElementException();
         if(playerInArena.containsKey(player)){
             if(playerInArena.get(player).equalsIgnoreCase(arena)) throw new KeyAlreadyExistsException("same");
             else throw new KeyAlreadyExistsException("other");
         }
+        if(arenas.get(arena).getStatus()=="playing") throw new Exception("playing");
+        if(arenas.get(arena).getPlayers().size()==arenas.get(arena).getMax_player()) throw new Exception("full");
         playerInArena.put(player, arena);
         Arena a = getArena(arena);
         a.join(player);
+        if(a.getPlayers().size()>=a.getMin_player())StartGame.startGame(a);
     }
 
     public static void playerLeaveArena(Player player){
@@ -68,6 +76,9 @@ public class ArenaManager {
             Arena a = getArena(playerInArena.get(player));
             playerInArena.remove(player);
             a.leave(player);
+            if(a.getPlayers().size()<a.getMin_player()&& a.getCountdown()!=0){
+                Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
+            }
         } else {
             throw new NoSuchElementException();
         }

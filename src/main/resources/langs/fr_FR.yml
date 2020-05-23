@@ -16,13 +16,6 @@ global:
   worldeditEnable: "&aWorldedit détecté, vous pouvez l'utiliser pour créer des arènes."
   vaultEnable: "&aVault détecté, vous pouvez l'utiliser pour créer des récompenses."
   dbConnectionSuccess: "&aConnexion base de donnée établie."
-arena:
-  arenaUnknown: "&cCette arène n'existe pas."
-  joinArena: "&aVous avez rejoins l'arène %arena% !"
-  leaveArena: "&cVous avez quitté l'arène !"
-  alreadyJoin: "&cVous êtes déjà dans cette arène !"
-  alreadyInOtherArena: "&cVous êtes déjà dans une arène !"
-  notInArena: "&cVous n'êtes pas dans une arène !"
 menu:
   title: "&bMenu Dé à Coudre"
   join: "&b/dac join <arena> &7- &fRejoindre une arène"
@@ -33,6 +26,18 @@ menu:
   edit: "&c/dac edit <arena> &7- &fEditer une arène"
   version: "&c/dac version &7- &fDonne la version du plugin"
   reload: "&c/dac reload &7- &fRecharge le plugin"
+arena:
+  arenaUnknown: "&cCette arène n'existe pas."
+  joinArena: "&aVous avez rejoins l'arène %arena% !"
+  leaveArena: "&cVous avez quitté l'arène !"
+  alreadyJoin: "&cVous êtes déjà dans cette arène !"
+  alreadyInOtherArena: "&cVous êtes déjà dans une arène !"
+  notInArena: "&cVous n'êtes pas dans une arène !"
+  arenaAlreadyPlaying: "&cDésolé, la partie a déjà commencé."
+  arenaFull: "&cDésolé, cette arène est complète."
+game:
+  countdown: "&aLa partie commence dans %time%"
+  hasStarted: "&aLa partie commence ! Bonne chance !"
 wrongCommands:
   wrongJoinCmd: "&cUtilisation: /dac join <arena>"
   wrongCreateCmd: "&cUtilisation: /dac create <arena>"

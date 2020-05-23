@@ -2,7 +2,7 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&aJoin and leave arena"
+            "&aAdd countdown before the start"
     };
 
     public static String[] changeLog(){

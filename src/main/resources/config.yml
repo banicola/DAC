@@ -13,3 +13,5 @@ database:
   database: ''
   prefix: dac_
   use_SSL: false
+countdownBeforeStart: 30
+timeForJump: 20
