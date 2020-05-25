@@ -6,7 +6,7 @@
 
     <groupId>sr.dac</groupId>
     <artifactId>DAC</artifactId>
-    <version>0.2.9</version>
+    <version>0.3.0</version>
     <packaging>jar</packaging>
 
     <name>DAC</name>

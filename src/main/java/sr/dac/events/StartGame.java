@@ -22,12 +22,17 @@ public class StartGame {
     }
 
     private static void letsJump(Arena a, int diverNum){
-        Player diver = a.getPlayers().get(diverNum);
-        a.setCountdown(Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new CountdownDive(diver, a), 0L, 20L));
-        diver.teleport(a.getDivingLocation());
+        try{
+            Player diver = a.getPlayers().get(diverNum);
+            a.setCountdown(Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new CountdownDive(diver, a), 0L, 20L));
+            diver.teleport(a.getDivingLocation());
+        } catch(IndexOutOfBoundsException e){
+            EndGame.gameIsDone(a);
+        }
     }
 
     public static void nextDiver(Arena a){
+        Bukkit.getScheduler().cancelTask(a.getCountdown());
         if(a.getPlayers().size()==1){
             EndGame.gameIsDone(a);
         } else {

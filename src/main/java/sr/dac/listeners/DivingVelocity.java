@@ -30,13 +30,16 @@ public class DivingVelocity implements Listener {
             }
             if(arena.getStatus()=="playing" && arena.getPlayers().get(arena.getDiver())==p){
                 if(p.getLocation().getBlockY()<=arena.getPoolLocation().getKey().getBlockY()){
+                    System.out.println("In Y");
                     Location lowerLocation;
 
-                    lowerLocation = p.getLocation();
+                    if(p.getLocation().getBlockY()==arena.getPoolLocation().getKey().getBlockY()) lowerLocation = p.getLocation().add(0,-1,0);
+                    else lowerLocation = p.getLocation();
                     Block blockUnder = Bukkit.getServer().getWorld(p.getWorld().getName()).getBlockAt(lowerLocation);
                     boolean isWater = blockUnder.getType().equals(Material.WATER);
                     Material playerBlock = Material.WHITE_WOOL;
                     if(isWater&&Math.abs(p.getVelocity().getY())>0.1){
+                        System.out.println(p.getName());
                         Block north = blockUnder.getRelative(BlockFace.NORTH);
                         Block east = blockUnder.getRelative(BlockFace.EAST);
                         Block south = blockUnder.getRelative(BlockFace.SOUTH);
@@ -46,8 +49,10 @@ public class DivingVelocity implements Listener {
                             playerBlock = Material.EMERALD_BLOCK;
                             Firework fw = (Firework) blockUnder.getWorld().spawnEntity(blockUnder.getLocation().add(0,1,0), EntityType.FIREWORK);
                         }
-                        while(blockUnder.getType().equals(Material.WATER)){
-                            blockUnder.setType(playerBlock);
+                        lowerLocation.add(0,1,0);
+                        blockUnder = Bukkit.getServer().getWorld(p.getWorld().getName()).getBlockAt(lowerLocation);
+                        while(blockUnder.getLocation().getBlockY()>arena.getPoolBottom()){
+                            if(blockUnder.getType().equals(Material.WATER)) blockUnder.setType(playerBlock);
                             lowerLocation.add(0,-1,0);
                             blockUnder = Bukkit.getServer().getWorld(p.getWorld().getName()).getBlockAt(lowerLocation);
                         }

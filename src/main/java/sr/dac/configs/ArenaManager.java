@@ -97,7 +97,11 @@ public class ArenaManager {
         if(playerInArena.containsKey(player)){
             Arena a = getArena(playerInArena.get(player));
             playerInArena.remove(player);
+            boolean isDiver = a.getDiver()==a.getPlayers().indexOf(player);
             a.leave(player);
+            if(isDiver){
+                StartGame.nextDiver(a);
+            }
             if(player.isOp()) player.setGameMode(GameMode.CREATIVE);
             else player.setGameMode(GameMode.SURVIVAL);
             if(a.getPlayers().size()<a.getMin_player()&& (a.getCountdown()!=0 || a.getStatus()!="playing")){
@@ -108,6 +112,9 @@ public class ArenaManager {
                     Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
                 }
                 a.resetArena();
+            }
+            if(isDiver){
+                StartGame.nextDiver(a);
             }
         } else if(playerSpectator.containsKey(player)) {
             Arena a = getArena(playerSpectator.get(player));

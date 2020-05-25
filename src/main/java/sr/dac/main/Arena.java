@@ -64,15 +64,15 @@ public class Arena {
     }
 
     public void resetArena(){
-        int topBlockX = (getPoolLocation().getKey().getBlockX() < getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX()-1 : getPoolLocation().getKey().getBlockX()+1);
-        int bottomBlockX = (getPoolLocation().getKey().getBlockX() > getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX()-1 : getPoolLocation().getKey().getBlockX()+1);
+        int topBlockX = (getPoolLocation().getKey().getBlockX() < getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX() : getPoolLocation().getKey().getBlockX());
+        int bottomBlockX = (getPoolLocation().getKey().getBlockX() > getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX() : getPoolLocation().getKey().getBlockX());
 
-        int topBlockZ = (getPoolLocation().getKey().getBlockZ() < getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ()+1 : getPoolLocation().getKey().getBlockZ()-1);
-        int bottomBlockZ = (getPoolLocation().getKey().getBlockZ() > getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ()+1 : getPoolLocation().getKey().getBlockZ()-1);
+        int topBlockZ = (getPoolLocation().getKey().getBlockZ() < getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ() : getPoolLocation().getKey().getBlockZ());
+        int bottomBlockZ = (getPoolLocation().getKey().getBlockZ() > getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ() : getPoolLocation().getKey().getBlockZ());
 
-        for(int x = bottomBlockX; x <= topBlockX; x++)
+        for(int x = bottomBlockX+1; x <= topBlockX-1; x++)
         {
-            for(int z = bottomBlockZ; z <= topBlockZ; z++)
+            for(int z = bottomBlockZ+1; z <= topBlockZ-1; z++)
             {
                 int y=getPoolLocation().getKey().getBlockY()-1;
                 Block block = getPoolLocation().getKey().getWorld().getBlockAt(x, y, z);
@@ -95,7 +95,7 @@ public class Arena {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerDied")));
             } else {
                 if(change<0) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerLoseLife").replace("%lives%", ""+getPlayerLives(p))));
-                else p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWinLife").replace("%lives%", ""+getPlayerLives(p))));
+                else if(change>0) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWinLife").replace("%lives%", ""+getPlayerLives(p))));
             }
         } else {
             playerLives.put(p.getUniqueId(), 0);
@@ -217,8 +217,8 @@ public class Arena {
     public void setPoolLocation(AbstractMap.SimpleEntry<Location,Location> poolLocation) {
         this.poolLocation = poolLocation;
         if(poolLocation.getKey()!=null&&poolLocation.getValue()!=null){
-            int bottomBlockX = (getPoolLocation().getKey().getBlockX() > getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX()-1 : getPoolLocation().getKey().getBlockX()+1);
-            int bottomBlockZ = (getPoolLocation().getKey().getBlockZ() > getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ()+1 : getPoolLocation().getKey().getBlockZ()-1);
+            int bottomBlockX = (Math.abs(getPoolLocation().getKey().getBlockX()) > Math.abs(getPoolLocation().getValue().getBlockX()) ? getPoolLocation().getValue().getBlockX()-1 : getPoolLocation().getKey().getBlockX()+1);
+            int bottomBlockZ = (Math.abs(getPoolLocation().getKey().getBlockZ()) > Math.abs(getPoolLocation().getValue().getBlockZ()) ? getPoolLocation().getValue().getBlockZ()+1 : getPoolLocation().getKey().getBlockZ()-1);
             int y=getPoolLocation().getKey().getBlockY()-1;
             Block block = getPoolLocation().getKey().getWorld().getBlockAt(bottomBlockX, y, bottomBlockZ);
             while(block.equals(Material.WATER)){

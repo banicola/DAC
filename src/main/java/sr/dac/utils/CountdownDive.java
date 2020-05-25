@@ -29,7 +29,7 @@ public class CountdownDive implements Runnable {
                 a.setPlayerLives(diver, -1);
                 diver.teleport(a.getLobbyLocation());
             } catch (NullPointerException e){}
-            Bukkit.getScheduler().cancelTask(a.getCountdown());
+            StartGame.nextDiver(a);
         }
         timeToJump--;
     }
