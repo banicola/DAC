@@ -1,6 +1,5 @@
 package sr.dac.configs;
 
-import javafx.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -13,10 +12,7 @@ import sr.dac.main.Main;
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 public class ArenaManager {
     private static Map<String, Arena> arenas = new HashMap<String, Arena>();
@@ -25,7 +21,7 @@ public class ArenaManager {
 
     public static boolean createArena(String name) {
         if(arenas.containsKey(name)) throw new KeyAlreadyExistsException();
-        arenas.put(name, new Arena(name, null, null, new Pair<>(null, null), -1, 0, 0, false, null));
+        arenas.put(name, new Arena(name, null, null, new AbstractMap.SimpleEntry<>(null, null), -1, 0, 0, false, null));
         try {
             save(name, arenas.get(name));
         } catch (IOException ioException) {
@@ -137,7 +133,7 @@ public class ArenaManager {
         YamlConfiguration arenasConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(),"arenas.yml"));
         for(String arena : arenasConfig.getConfigurationSection("arenas").getKeys(false)){
             arenas.put(arena, new Arena(arena, arenasConfig.getLocation("arenas."+arena+".divingLocation"), arenasConfig.getLocation("arenas."+arena+".lobbyLocation"),
-                    new Pair<Location, Location>(arenasConfig.getLocation("arenas."+arena+".poolLocationA"), arenasConfig.getLocation("arenas."+arena+".poolLocationB")),
+                    new AbstractMap.SimpleEntry<Location, Location>(arenasConfig.getLocation("arenas."+arena+".poolLocationA"), arenasConfig.getLocation("arenas."+arena+".poolLocationB")),
                     arenasConfig.getInt("arenas."+arena+".poolBottom"), arenasConfig.getInt("arenas."+arena+".min_player"),arenasConfig.getInt("arenas."+arena+".max_player"),
                     arenasConfig.getBoolean("arenas."+arena+".open"),arenasConfig.getString("arenas."+arena+".status")));
         }

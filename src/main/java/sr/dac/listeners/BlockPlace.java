@@ -1,6 +1,5 @@
 package sr.dac.listeners;
 
-import javafx.util.Pair;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,6 +12,8 @@ import sr.dac.configs.EditArena;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
+import java.util.AbstractMap;
+
 public class BlockPlace implements Listener {
     @EventHandler
     public static void getBlockPlaceEvent(BlockPlaceEvent e) {
@@ -21,12 +22,12 @@ public class BlockPlace implements Listener {
             if (a != null) {
                 ItemStack i = e.getItemInHand();
                 if (i.getAmount()==1) {
-                    Pair<Location, Location> poolLocation = new Pair(e.getBlockPlaced().getLocation(), a.getPoolLocation().getValue());
+                    AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(e.getBlockPlaced().getLocation(), a.getPoolLocation().getValue());
                     a.setPoolLocation(poolLocation);
                     i.setAmount(2);
                     e.getPlayer().getInventory().setItem(0,i);
                 } else {
-                    Pair<Location, Location> poolLocation = new Pair(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
+                    AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
                     a.setPoolLocation(poolLocation);
                     EditArena.openEditionGUI((Player) e.getPlayer(), a.getName());
                 }

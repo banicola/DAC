@@ -1,6 +1,5 @@
 package sr.dac.main;
 
-import javafx.util.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,10 +8,7 @@ import org.bukkit.entity.Player;
 import sr.dac.configs.ArenaManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Arena {
 
@@ -24,7 +20,7 @@ public class Arena {
 
     private Location divingLocation;
     private Location lobbyLocation;
-    private Pair<Location, Location> poolLocation;
+    private AbstractMap.SimpleEntry<Location, Location> poolLocation;
     private int poolBottom=-1;
 
     private int min_player;
@@ -39,7 +35,7 @@ public class Arena {
 
     private HashMap<UUID, Integer> playerLives = new HashMap<>();
 
-    public Arena(String n, Location divingLocation, Location lobbyLocation, Pair<Location, Location> poolLocation, int poolBottom, int min_player, int max_player, boolean open, String status) {
+    public Arena(String n, Location divingLocation, Location lobbyLocation, AbstractMap.SimpleEntry<Location, Location> poolLocation, int poolBottom, int min_player, int max_player, boolean open, String status) {
         this.name = n;
         this.divingLocation = divingLocation;
         this.lobbyLocation = lobbyLocation;
@@ -188,7 +184,7 @@ public class Arena {
         return lobbyLocation;
     }
 
-    public Pair<Location, Location> getPoolLocation() {
+    public AbstractMap.SimpleEntry<Location, Location> getPoolLocation() {
         return poolLocation;
     }
 
@@ -218,7 +214,7 @@ public class Arena {
         }
     }
 
-    public void setPoolLocation(Pair<Location,Location> poolLocation) {
+    public void setPoolLocation(AbstractMap.SimpleEntry<Location,Location> poolLocation) {
         this.poolLocation = poolLocation;
         if(poolLocation.getKey()!=null&&poolLocation.getValue()!=null){
             int bottomBlockX = (getPoolLocation().getKey().getBlockX() > getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX()-1 : getPoolLocation().getKey().getBlockX()+1);
