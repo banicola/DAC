@@ -17,6 +17,7 @@ public class EndGame {
             s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
         }
         ArenaManager.playerLeaveArena(winner);
+        a.resetArena();
         a.setStatus("waiting");
     }
 }

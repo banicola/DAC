@@ -32,8 +32,7 @@ public class DivingVelocity implements Listener {
                 if(p.getLocation().getBlockY()<=arena.getPoolLocation().getKey().getBlockY()){
                     Location lowerLocation;
 
-                    if(p.getLocation().getBlockY()==arena.getPoolLocation().getKey().getBlockY()) lowerLocation = p.getLocation().add(0,-1,0);
-                    else lowerLocation = p.getLocation();
+                    lowerLocation = p.getLocation();
                     Block blockUnder = Bukkit.getServer().getWorld(p.getWorld().getName()).getBlockAt(lowerLocation);
                     boolean isWater = blockUnder.getType().equals(Material.WATER);
                     Material playerBlock = Material.WHITE_WOOL;
@@ -43,7 +42,6 @@ public class DivingVelocity implements Listener {
                         Block south = blockUnder.getRelative(BlockFace.SOUTH);
                         Block west = blockUnder.getRelative(BlockFace.WEST);
                         if(!north.getType().equals(Material.WATER)&&!east.getType().equals(Material.WATER)&&!south.getType().equals(Material.WATER)&&!west.getType().equals(Material.WATER)){
-                            System.out.println("dac !!!!");
                             arena.setPlayerLives(p, 1);
                             playerBlock = Material.EMERALD_BLOCK;
                             Firework fw = (Firework) blockUnder.getWorld().spawnEntity(blockUnder.getLocation().add(0,1,0), EntityType.FIREWORK);

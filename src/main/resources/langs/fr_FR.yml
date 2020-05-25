@@ -40,7 +40,7 @@ arena:
   alreadySpectator: "&cVous regardez déjà la partie."
   alreadySpectatorOtherArena: "&cVous regardez déjà une autre partie."
 game:
-  countdown: "&aLa partie commence dans %time%"
+  countdown: "&aLa partie commence dans %time% secondes"
   hasStarted: "&aLa partie commence ! Bonne chance !"
   jumpCountdownStart: "&aC'est votre tour ! Vous avez %time% secondes pour sauter !"
   jumpCountdown: "&cIl reste %time% secondes pour sauter !"
