@@ -1,7 +1,6 @@
 package sr.dac.main;
 
 import javafx.util.Pair;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -56,6 +55,18 @@ public class Arena {
         return playerLives.get(p.getUniqueId());
     }
 
+    public List<Player> getSpectators(){
+        return spectators;
+    }
+
+    public void setSpectators(Player player){
+        spectators.add(player);
+    }
+
+    public void leaveSpectator(Player player){
+        spectators.remove(player);
+    }
+
     public void resetArena(){
         int topBlockX = (getPoolLocation().getKey().getBlockX() < getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX()-1 : getPoolLocation().getKey().getBlockX()+1);
         int bottomBlockX = (getPoolLocation().getKey().getBlockX() > getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX()-1 : getPoolLocation().getKey().getBlockX()+1);
@@ -78,16 +89,17 @@ public class Arena {
         }
     }
 
-    public void setPlayerLives(Player p, int lives){
+    public void setPlayerLives(Player p, int change){
         if(playerLives.containsKey(p.getUniqueId())){
-            playerLives.put(p.getUniqueId(),lives);
-            if(lives<0){
+            playerLives.put(p.getUniqueId(),getPlayerLives(p)+change);
+            if(getPlayerLives(p)<0){
                 playerLives.remove(p.getUniqueId());
-                players.subList(0,players.size()-1);
+                players.remove(players.indexOf(p));
                 spectators.add(p);
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerDied")));
             } else {
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerLoseLife").replace("%lives%", ""+lives)));
+                if(change<0) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerLoseLife").replace("%lives%", ""+getPlayerLives(p))));
+                else p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWinLife").replace("%lives%", ""+getPlayerLives(p))));
             }
         } else {
             playerLives.put(p.getUniqueId(), 0);

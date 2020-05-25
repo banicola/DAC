@@ -26,6 +26,7 @@ permissions:
       dac.join: true
       dac.leave: true
       dac.list: true
+      dac.spectate: true
   dac.admin:
     description: All the admin permissions
     default: op

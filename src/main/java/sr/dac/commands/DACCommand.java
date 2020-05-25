@@ -33,7 +33,7 @@ public class DACCommand implements CommandExecutor {
                     Arena a = ArenaManager.getArena(args[1]);
                     if (a == null){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
-                    } else{
+                    } else {
                         try{
                             ArenaManager.playerJoinArena((Player) sender, args[1]);
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.joinArena").replace("%arena%", args[1])));
@@ -76,6 +76,30 @@ public class DACCommand implements CommandExecutor {
                     for (String s : arenas) {
                         if (ArenaManager.getArena(s).isOpen())
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f- &a" + s));
+                    }
+                }
+            } else {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
+            }
+        } else if (args.length > 0 && args[0].equalsIgnoreCase("spectate")) {
+            if (sender.hasPermission("dac.spectate")) {
+                if (args.length < 2) {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongSpectateCmd")));
+                } else {
+                    Arena a = ArenaManager.getArena(args[1]);
+                    if (a == null){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
+                    } else{
+                        try{
+                            ArenaManager.playerSpectateArena((Player) sender, args[1]);
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.spectateArena").replace("%arena%", args[1])));
+                        } catch (NoSuchElementException e){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaUnknown")));
+                        } catch (KeyAlreadyExistsException e){
+                            if(e.getMessage().equalsIgnoreCase("spectator")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadySpectatorOtherArena")));
+                            if(e.getMessage().equalsIgnoreCase("inGame")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadyInOtherArena")));
+                            if(e.getMessage().equalsIgnoreCase("spectate")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadySpectator")));
+                        }
                     }
                 }
             } else {
@@ -240,9 +264,12 @@ public class DACCommand implements CommandExecutor {
                 leave.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dac leave"));
                 TextComponent list = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("menu.list")));
                 list.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dac list"));
+                TextComponent spectate = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("menu.spectate")));
+                spectate.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dac spectate"));
                 sender.spigot().sendMessage(join);
                 sender.spigot().sendMessage(leave);
                 sender.spigot().sendMessage(list);
+                sender.spigot().sendMessage(spectate);
                 if (sender.hasPermission("dac.create")) {
                     TextComponent create = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("menu.create")));
                     create.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dac create"));

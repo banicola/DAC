@@ -28,10 +28,11 @@ public class StartGame {
     }
 
     public static void nextDiver(Arena a){
-        /**if(a.getPlayers().size()==1){
+        if(a.getPlayers().size()==1){
             EndGame.gameIsDone(a);
-        }**/
-        a.nextDiver();
-        letsJump(a, a.getDiver());
+        } else {
+            a.nextDiver();
+            letsJump(a, a.getDiver());
+        }
     }
 }

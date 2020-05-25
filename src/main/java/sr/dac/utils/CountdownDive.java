@@ -25,8 +25,10 @@ public class CountdownDive implements Runnable {
             diver.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.jumpCountdown").replace("%time%", ""+timeToJump)));
         } else if(timeToJump==0){
             diver.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.jumpCountdownEnd")));
-            a.setPlayerLives(diver, a.getPlayerLives(diver)-1);
-            diver.teleport(a.getLobbyLocation());
+            try {
+                a.setPlayerLives(diver, -1);
+                diver.teleport(a.getLobbyLocation());
+            } catch (NullPointerException e){}
             Bukkit.getScheduler().cancelTask(a.getCountdown());
         }
         timeToJump--;

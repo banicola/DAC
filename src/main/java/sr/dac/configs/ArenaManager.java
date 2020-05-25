@@ -21,6 +21,7 @@ import java.util.Set;
 public class ArenaManager {
     private static Map<String, Arena> arenas = new HashMap<String, Arena>();
     private static Map<Player, String> playerInArena = new HashMap<Player, String>();
+    private static Map<Player, String> playerSpectator = new HashMap<Player, String>();
 
     public static boolean createArena(String name) {
         if(arenas.containsKey(name)) throw new KeyAlreadyExistsException();
@@ -58,6 +59,28 @@ public class ArenaManager {
         return playerInArena.get(player);
     }
 
+    public static String getPlayerSpectateArena(Player player){
+        return playerSpectator.get(player);
+    }
+
+    public static void playerSpectateArena(Player player, String arena){
+        if(!arenas.containsKey(arena)) throw new NoSuchElementException();
+        if(playerInArena.containsKey(player)){
+            throw new KeyAlreadyExistsException("inGame");
+        }
+        Arena a = getArena(arena);
+        if(a.getSpectators().contains(player)){
+            throw new KeyAlreadyExistsException("spectate");
+        } else {
+            if(playerSpectator.containsKey(player)){
+                throw new KeyAlreadyExistsException("spectator");
+            }
+            a.setSpectators(player);
+            playerSpectator.put(player,arena);
+            player.teleport(a.getLobbyLocation());
+        }
+    }
+
     public static void playerJoinArena(Player player, String arena) throws Exception {
         if(!arenas.containsKey(arena)) throw new NoSuchElementException();
         if(playerInArena.containsKey(player)){
@@ -90,8 +113,10 @@ public class ArenaManager {
                 }
                 a.resetArena();
             }
-        } else {
-            throw new NoSuchElementException();
+        } else if(playerSpectator.containsKey(player)) {
+            Arena a = getArena(playerSpectator.get(player));
+            playerSpectator.remove(player);
+            a.leaveSpectator(player);
         }
     }
 
