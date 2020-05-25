@@ -3,20 +3,19 @@ package sr.dac.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
 import java.util.List;
 
-public class Countdown implements Runnable {
+public class CountdownStart implements Runnable {
 
     int i;
     Arena a;
     List<Player> players;
 
-    public Countdown(int start, Arena a){
+    public CountdownStart(int start, Arena a){
         this.i=start;
         this.a=a;
         this.players= a.getPlayers();
@@ -47,9 +46,9 @@ public class Countdown implements Runnable {
         } else if(i==0){
             players.forEach(player -> {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.hasStarted")));
+                a.setPlayerLives(player, 0);
             });
             StartGame.inGame(a);
-            Bukkit.getScheduler().cancelTask(a.getCountdown());
         }
         i--;
     }

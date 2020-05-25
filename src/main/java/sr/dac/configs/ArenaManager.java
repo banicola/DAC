@@ -2,6 +2,7 @@ package sr.dac.configs;
 
 import javafx.util.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -23,7 +24,7 @@ public class ArenaManager {
 
     public static boolean createArena(String name) {
         if(arenas.containsKey(name)) throw new KeyAlreadyExistsException();
-        arenas.put(name, new Arena(name, null, null, new Pair<>(null, null), 0, 0, false, null));
+        arenas.put(name, new Arena(name, null, null, new Pair<>(null, null), -1, 0, 0, false, null));
         try {
             save(name, arenas.get(name));
         } catch (IOException ioException) {
@@ -68,6 +69,8 @@ public class ArenaManager {
         playerInArena.put(player, arena);
         Arena a = getArena(arena);
         a.join(player);
+        player.teleport(a.getLobbyLocation());
+        player.setGameMode(GameMode.ADVENTURE);
         if(a.getPlayers().size()>=a.getMin_player())StartGame.startGame(a);
     }
 
@@ -76,8 +79,16 @@ public class ArenaManager {
             Arena a = getArena(playerInArena.get(player));
             playerInArena.remove(player);
             a.leave(player);
-            if(a.getPlayers().size()<a.getMin_player()&& a.getCountdown()!=0){
+            if(player.isOp()) player.setGameMode(GameMode.CREATIVE);
+            else player.setGameMode(GameMode.SURVIVAL);
+            if(a.getPlayers().size()<a.getMin_player()&& (a.getCountdown()!=0 || a.getStatus()!="playing")){
                 Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
+            }
+            if(a.getStatus()=="playing" && a.getPlayers().size()==0){
+                if(a.getCountdown()!=0){
+                    Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
+                }
+                a.resetArena();
             }
         } else {
             throw new NoSuchElementException();
@@ -102,7 +113,8 @@ public class ArenaManager {
         for(String arena : arenasConfig.getConfigurationSection("arenas").getKeys(false)){
             arenas.put(arena, new Arena(arena, arenasConfig.getLocation("arenas."+arena+".divingLocation"), arenasConfig.getLocation("arenas."+arena+".lobbyLocation"),
                     new Pair<Location, Location>(arenasConfig.getLocation("arenas."+arena+".poolLocationA"), arenasConfig.getLocation("arenas."+arena+".poolLocationB")),
-                    arenasConfig.getInt("arenas."+arena+".min_player"),arenasConfig.getInt("arenas."+arena+".max_player"),arenasConfig.getBoolean("arenas."+arena+".open"),arenasConfig.getString("arenas."+arena+".status")));
+                    arenasConfig.getInt("arenas."+arena+".poolBottom"), arenasConfig.getInt("arenas."+arena+".min_player"),arenasConfig.getInt("arenas."+arena+".max_player"),
+                    arenasConfig.getBoolean("arenas."+arena+".open"),arenasConfig.getString("arenas."+arena+".status")));
         }
     }
 
@@ -113,6 +125,7 @@ public class ArenaManager {
         arenasConfig.set("arenas."+name+".lobbyLocation",a.getLobbyLocation());
         arenasConfig.set("arenas."+name+".poolLocationA",a.getPoolLocation().getKey());
         arenasConfig.set("arenas."+name+".poolLocationB",a.getPoolLocation().getValue());
+        arenasConfig.set("arenas."+name+".poolBottom", a.getPoolBottom());
         arenasConfig.set("arenas."+name+".min_player",a.getMin_player());
         arenasConfig.set("arenas."+name+".max_player",a.getMax_player());
         arenasConfig.set("arenas."+name+".open",a.isOpen());

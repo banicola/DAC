@@ -13,6 +13,7 @@ import sr.dac.commands.DACTabCompletion;
 import sr.dac.configs.ArenaManager;
 import sr.dac.listeners.BlockPlace;
 import sr.dac.listeners.ClickInventory;
+import sr.dac.listeners.DivingVelocity;
 import sr.dac.listeners.DropItem;
 
 import java.io.File;
@@ -64,6 +65,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ClickInventory(), this);
         getServer().getPluginManager().registerEvents(new DropItem(), this);
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);
+        getServer().getPluginManager().registerEvents(new DivingVelocity(), this);
 
         getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.onEnable")));
     }

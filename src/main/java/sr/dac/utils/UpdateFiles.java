@@ -73,8 +73,8 @@ public class UpdateFiles {
 
     public static void updateConfig(){
         Configuration defaults = Main.getPlugin().getConfig().getDefaults();
-        for (String defaultKey : defaults.getKeys(true)) {
-            if (!Main.getPlugin().getConfig().contains(defaultKey)) {
+        for (String defaultKey : defaults.getKeys(false)) {
+            if (!Main.getPlugin().getConfig().getKeys(false).contains(defaultKey)) {
                 Main.getPlugin().getConfig().set(defaultKey, defaults.get(defaultKey));
             } else if (defaultKey.equalsIgnoreCase("version")){
                 Main.getPlugin().getConfig().set(defaultKey, defaults.get(defaultKey));

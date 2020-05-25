@@ -38,6 +38,11 @@ arena:
 game:
   countdown: "&aThe game start in %time%"
   hasStarted: "&aThe game start ! Good Luck !"
+  jumpCountdownStart: "&aIt's your turn ! You have %time% seconds to jump !"
+  jumpCountdown: "&c%time% seconds left to jump !"
+  jumpCountdownEnd: "&cToo late, you didn't jump fast enough."
+  playerLoseLife: "&cYou just lost a life. Lives left: %lives%"
+  playerDied: "&cYou died because you had no lives left."
 wrongCommands:
   wrongJoinCmd: "&cUsage: /dac join <arena>"
   wrongCreateCmd: "&cUsage: /dac create <arena>"
