@@ -2,9 +2,9 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&aAdd endgame",
-            "&aAdd Dé à coudre",
-            "&aAdd spectate mod"
+            "&aAdd block selection",
+            "&eFix various bugs",
+            "&aLargely refine the Menu system (in dev)"
     };
 
     public static String[] changeLog(){

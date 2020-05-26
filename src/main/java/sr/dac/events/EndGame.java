@@ -12,17 +12,21 @@ public class EndGame {
         try{
             Player winner = a.getPlayers().get(0);
             winner.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
-            ArenaManager.playerLeaveArena(winner);
             for(Player s : a.getSpectators()){
-                ArenaManager.playerLeaveArena(s);
-                s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
+                if(s!=winner){
+                    s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
+                    ArenaManager.playerLeaveArena(s);
+                }
             }
+            ArenaManager.playerLeaveArena(winner);
         } catch (IndexOutOfBoundsException e){
             for(Player s : a.getSpectators()){
                 ArenaManager.playerLeaveArena(s);
             }
         }
         a.resetArena();
+        a.resetLives();
+        a.resetPlayersBlocks();
         a.setStatus("waiting");
     }
 }

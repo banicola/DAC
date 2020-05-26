@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
+import sr.dac.menus.SelectBlockMenu;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.io.File;
@@ -50,6 +51,10 @@ public class ArenaManager {
         arenas.put(a.getName(), a);
         removeArena(name);
     }
+    public static void resetPlayers(){
+        playerInArena = new HashMap<>();
+        playerSpectator = new HashMap<>();
+    }
 
     public static String getPlayerArena(Player player){
         return playerInArena.get(player);
@@ -90,36 +95,40 @@ public class ArenaManager {
         a.join(player);
         player.teleport(a.getLobbyLocation());
         player.setGameMode(GameMode.ADVENTURE);
+        new SelectBlockMenu(Main.getPlayerMenuUtil(player)).open();
         if(a.getPlayers().size()>=a.getMin_player())StartGame.startGame(a);
     }
 
     public static void playerLeaveArena(Player player){
         if(playerInArena.containsKey(player)){
-            Arena a = getArena(playerInArena.get(player));
-            playerInArena.remove(player);
-            boolean isDiver = a.getDiver()==a.getPlayers().indexOf(player);
-            a.leave(player);
-            if(isDiver){
-                StartGame.nextDiver(a);
-            }
             if(player.isOp()) player.setGameMode(GameMode.CREATIVE);
             else player.setGameMode(GameMode.SURVIVAL);
-            if(a.getPlayers().size()<a.getMin_player()&& (a.getCountdown()!=0 || a.getStatus()!="playing")){
+            Arena a = getArena(playerInArena.get(player));
+            playerInArena.remove(player);
+            a.leave(player);
+            if(a.getPlayers().size()<a.getMin_player() && a.getCountdown()!=0 && a.getStatus()!="playing"){
                 Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
             }
-            if(a.getStatus()=="playing" && a.getPlayers().size()==0){
-                if(a.getCountdown()!=0){
-                    Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
+            if(a.getStatus()=="playing"){
+                if(a.getPlayers().size()==0){
+                    if(a.getCountdown()!=0){
+                        Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
+                    }
+                    a.resetArena();
+                    return;
                 }
-                a.resetArena();
+                boolean isDiver = a.getDiver()==a.getPlayers().indexOf(player);
+                if(isDiver){
+                    StartGame.nextDiver(a);
+                }
             }
-            if(isDiver){
-                StartGame.nextDiver(a);
-            }
+
         } else if(playerSpectator.containsKey(player)) {
             Arena a = getArena(playerSpectator.get(player));
             playerSpectator.remove(player);
             a.leaveSpectator(player);
+        } else {
+            throw new NoSuchElementException();
         }
     }
 

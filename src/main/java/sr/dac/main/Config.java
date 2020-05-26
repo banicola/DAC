@@ -10,12 +10,17 @@ import java.io.File;
 
 public class Config {
     public static File configF = new File(Main.getPlugin().getDataFolder(), "config.yml");
+    public static YamlConfiguration blocksConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(), "blocks.yml"));
     public static final PluginDescriptionFile desc = Main.getPlugin().getDescription();
 
     public static void init() {
         if (!new File(Main.getPlugin().getDataFolder(), "arenas.yml").exists()) {
             Main.getPlugin().saveResource("arenas.yml", false);
             Main.getPlugin().getLogger().info("Arenas file created");
+        }
+        if (!new File(Main.getPlugin().getDataFolder(), "blocks.yml").exists()) {
+            Main.getPlugin().saveResource("blocks.yml", false);
+            Main.getPlugin().getLogger().info("Blocks file created");
         }
         if (!new File(Main.getPlugin().getDataFolder(), "config.yml").exists()) {
             Main.getPlugin().saveResource("config.yml", false);

@@ -1,4 +1,5 @@
 # Available languages: en_US, fr_FR
+# perBlockPermission allows you to disallow some blocks to some users with dac.block.<block> false
 # The database section is where the statistics of the users will be saved
 # Compatible with: SQLITE (default) and MYSQL
 # Port 3306 is MySQL's default.
@@ -15,3 +16,4 @@ database:
   use_SSL: false
 countdownBeforeStart: 30
 timeForJump: 20
+perBlockPermission: false

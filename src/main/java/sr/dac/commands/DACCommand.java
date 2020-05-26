@@ -14,6 +14,7 @@ import sr.dac.configs.EditArena;
 import sr.dac.main.Arena;
 import sr.dac.main.Config;
 import sr.dac.main.Main;
+import sr.dac.menus.SelectBlockMenu;
 import sr.dac.utils.ChangeLog;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
@@ -80,6 +81,14 @@ public class DACCommand implements CommandExecutor {
                 }
             } else {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
+            }
+        } else if (args.length > 0 && args[0].equalsIgnoreCase("block")) {
+            if(ArenaManager.getPlayerArena((Player) sender)!=null){
+                if (sender.hasPermission("dac.block")) {
+                    new SelectBlockMenu(Main.getPlayerMenuUtil((Player) sender)).open();
+                } else {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
+                }
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("spectate")) {
             if (sender.hasPermission("dac.spectate")) {

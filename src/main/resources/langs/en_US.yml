@@ -40,6 +40,7 @@ arena:
   alreadySpectator: "&cYou are already spectating the game."
   alreadySpectatorOtherArena: "&cYou are already spectating an arena."
 game:
+  blockSelected: "&aYou took the block: %block%"
   countdown: "&aThe game start in %time% seconds"
   hasStarted: "&aThe game start ! Good Luck !"
   jumpCountdownStart: "&aIt's your turn ! You have %time% seconds to jump !"
@@ -49,6 +50,12 @@ game:
   playerLoseLife: "&cYou just lost a life. Lives left: %lives%"
   playerDied: "&cYou died because you had no lives left."
   playerWon: "&d%player% won the game ! He had &f%lives% &dlives left !"
+  nextPlayerAlert: "&bYou are the next player to dive."
+blockSelection:
+  title: "&bChoose you block !"
+  exit: "&4Exit"
+  previous: "&1Previous"
+  next : "&2Next"
 wrongCommands:
   wrongJoinCmd: "&cUsage: /dac join <arena>"
   wrongSpectateCmd: "&cUsage: /dac spectate <arena>"

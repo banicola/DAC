@@ -1,6 +1,7 @@
 package sr.dac.events;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
@@ -17,18 +18,13 @@ public class StartGame {
         Bukkit.getScheduler().cancelTask(a.getCountdown());
         a.resetArena();
         a.setStatus("playing");
-        a.nextDiver();
-        letsJump(a, a.getDiver());
+        nextDiver(a);
     }
 
     private static void letsJump(Arena a, int diverNum){
-        try{
-            Player diver = a.getPlayers().get(diverNum);
-            a.setCountdown(Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new CountdownDive(diver, a), 0L, 20L));
-            diver.teleport(a.getDivingLocation());
-        } catch(IndexOutOfBoundsException e){
-            EndGame.gameIsDone(a);
-        }
+        Player diver = a.getPlayers().get(diverNum);
+        a.setCountdown(Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new CountdownDive(diver, a), 0L, 20L));
+        diver.teleport(a.getDivingLocation());
     }
 
     public static void nextDiver(Arena a){
@@ -37,6 +33,13 @@ public class StartGame {
             EndGame.gameIsDone(a);
         } else {
             a.nextDiver();
+            Player nextDiverAlert;
+            try{
+                nextDiverAlert = a.getPlayers().get(a.getDiver()+1);
+            } catch (IndexOutOfBoundsException exception){
+                nextDiverAlert = a.getPlayers().get(0);
+            }
+            nextDiverAlert.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.nextPlayerAlert")));
             letsJump(a, a.getDiver());
         }
     }

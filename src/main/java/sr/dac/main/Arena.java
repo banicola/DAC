@@ -34,6 +34,7 @@ public class Arena {
     private int countdown = 0;
 
     private HashMap<UUID, Integer> playerLives = new HashMap<>();
+    private HashMap<UUID, Material> playerMaterial = new HashMap<>();
 
     public Arena(String n, Location divingLocation, Location lobbyLocation, AbstractMap.SimpleEntry<Location, Location> poolLocation, int poolBottom, int min_player, int max_player, boolean open, String status) {
         this.name = n;
@@ -49,6 +50,38 @@ public class Arena {
 
     public Integer getPlayerLives(Player p){
         return playerLives.get(p.getUniqueId());
+    }
+
+    public void resetLives(){
+        playerLives.clear();
+    }
+    public void resetPlayersBlocks(){
+        playerMaterial.clear();
+    }
+
+    public void setPlayerLives(Player p, int change){
+        if(playerLives.containsKey(p.getUniqueId())){
+            playerLives.put(p.getUniqueId(),getPlayerLives(p)+change);
+            if(getPlayerLives(p)<0){
+                playerLives.remove(p.getUniqueId());
+                spectators.add(p);
+                players.remove(players.indexOf(p));
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerDied")));
+            } else {
+                if(change<0) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerLoseLife").replace("%lives%", ""+getPlayerLives(p))));
+                else if(change>0) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWinLife").replace("%lives%", ""+getPlayerLives(p))));
+            }
+        } else {
+            playerLives.put(p.getUniqueId(), 0);
+        }
+    }
+
+    public void setPlayerMaterial(Player p, Material m){
+        playerMaterial.put(p.getUniqueId(), m);
+    }
+
+    public Material getPlayerMaterial(Player p){
+        return playerMaterial.get(p.getUniqueId());
     }
 
     public List<Player> getSpectators(){
@@ -82,23 +115,6 @@ public class Arena {
                 }
 
             }
-        }
-    }
-
-    public void setPlayerLives(Player p, int change){
-        if(playerLives.containsKey(p.getUniqueId())){
-            playerLives.put(p.getUniqueId(),getPlayerLives(p)+change);
-            if(getPlayerLives(p)<0){
-                playerLives.remove(p.getUniqueId());
-                players.remove(players.indexOf(p));
-                spectators.add(p);
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerDied")));
-            } else {
-                if(change<0) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerLoseLife").replace("%lives%", ""+getPlayerLives(p))));
-                else if(change>0) p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWinLife").replace("%lives%", ""+getPlayerLives(p))));
-            }
-        } else {
-            playerLives.put(p.getUniqueId(), 0);
         }
     }
 
@@ -165,6 +181,7 @@ public class Arena {
     }
 
     public void leave(Player p) {
+        playerMaterial.remove(p.getUniqueId());
         players.remove(p);
     }
 

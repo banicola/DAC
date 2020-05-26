@@ -2,6 +2,7 @@ package sr.dac.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
@@ -35,16 +36,15 @@ public class CountdownStart implements Runnable {
             players.forEach(player -> {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.countdown").replace("%time%", ""+i)));
             });
-        } else if(i==5){
+        } else if(i<=5&&i>0){
             players.forEach(player -> {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.countdown").replace("%time%", ""+i)));
-            });
-        } else if(i<=3&&i>0){
-            players.forEach(player -> {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 10, 1);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.countdown").replace("%time%", ""+i)));
             });
         } else if(i==0){
+            a.resetLives();
             players.forEach(player -> {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 10, 1);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.hasStarted")));
                 a.setPlayerLives(player, 0);
             });

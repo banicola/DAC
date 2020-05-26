@@ -1,25 +1,25 @@
 package sr.dac.main;
 
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+//import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import sr.dac.commands.DACCommand;
 import sr.dac.commands.DACTabCompletion;
 import sr.dac.configs.ArenaManager;
-import sr.dac.listeners.BlockPlace;
-import sr.dac.listeners.ClickInventory;
-import sr.dac.listeners.DivingVelocity;
-import sr.dac.listeners.DropItem;
+import sr.dac.listeners.*;
+import sr.dac.utils.PlayerMenuUtil;
 
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public final class Main extends JavaPlugin {
 
@@ -29,7 +29,9 @@ public final class Main extends JavaPlugin {
 
     public static File lang;
     public static YamlConfiguration f;
-    private static WorldEditPlugin we;
+    //private static WorldEditPlugin we;
+
+    private static final HashMap<Player, PlayerMenuUtil> playerMenuUtilMap = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -46,13 +48,14 @@ public final class Main extends JavaPlugin {
             return;
         }
         ArenaManager.load();
-        we = setupWorldEdit();
+        //we = setupWorldEdit();
         econ = setupEconomy();
+        /**
         try {
             if (we.isEnabled())
                 getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.worldeditEnable")));
         } catch (NoClassDefFoundError e) {
-        }
+        }**/
         try {
             if (econ != null)
                 getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.vaultEnable")));
@@ -66,6 +69,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DropItem(), this);
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);
         getServer().getPluginManager().registerEvents(new DivingVelocity(), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
 
         getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.onEnable")));
     }
@@ -76,6 +80,7 @@ public final class Main extends JavaPlugin {
             connection.close();
         } catch (NullPointerException | SQLException e) {
         }
+        ArenaManager.resetPlayers();
         getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.onDisable")));
     }
 
@@ -110,15 +115,29 @@ public final class Main extends JavaPlugin {
         return rsp.getProvider();
     }
 
-    private static WorldEditPlugin setupWorldEdit() {
-        return (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
-    }
-
     public static Economy getEconomy() {
         return econ;
     }
 
+    /**
+    private static WorldEditPlugin setupWorldEdit() {
+        return (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
+    }**/
+
+    /**
     public static WorldEditPlugin getWorldEdit() {
         return we;
+    }**/
+
+    public static PlayerMenuUtil getPlayerMenuUtil(Player p){
+        PlayerMenuUtil playerMenuUtil;
+
+        if(playerMenuUtilMap.containsKey(p)){
+            return playerMenuUtilMap.get(p);
+        } else {
+            playerMenuUtil = new PlayerMenuUtil(p);
+            playerMenuUtilMap.put(p, playerMenuUtil);
+            return playerMenuUtil;
+        }
     }
 }
