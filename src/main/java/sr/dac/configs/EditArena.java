@@ -243,6 +243,8 @@ public class EditArena {
             minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+a.getMin_player()));
             minPlayerSelection_meta.setLore(minPlayer_lore);
             minPlayerSelection.setItemMeta(minPlayerSelection_meta);
+            if(a.getMin_player()==0) minPlayerSelection.setAmount(1);
+            else minPlayerSelection.setAmount(a.getMin_player());
 
             playerLimitGui.setItem(4, minPlayerSelection);
         } else {
@@ -253,6 +255,8 @@ public class EditArena {
             maxPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+a.getMax_player()));
             maxPlayerSelection_meta.setLore(maxPlayer_lore);
             maxPlayerSelection.setItemMeta(maxPlayerSelection_meta);
+            if(a.getMax_player()==0) maxPlayerSelection.setAmount(1);
+            else maxPlayerSelection.setAmount(a.getMax_player());
 
             playerLimitGui.setItem(4, maxPlayerSelection);
         }

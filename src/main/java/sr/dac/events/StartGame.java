@@ -36,19 +36,21 @@ public class StartGame {
     }
 
     public static void nextDiver(Arena a){
-        Bukkit.getScheduler().cancelTask(a.getCountdown());
-        if(a.getPlayers().size()==1){
+        int playersLeft = 0;
+        for(Player p:a.getPlayers()){
+            if(a.getPlayerLives(p)>=0){
+                playersLeft++;
+            }
+        }
+        if(playersLeft==1){
             EndGame.gameIsDone(a);
         } else {
-            a.nextDiver();
+            int diver = a.nextDiver(a.getDiver()+1);
+            a.setDiver(diver);
             Player nextDiverAlert;
-            try{
-                nextDiverAlert = a.getPlayers().get(a.getDiver()+1);
-            } catch (IndexOutOfBoundsException exception){
-                nextDiverAlert = a.getPlayers().get(0);
-            }
+            nextDiverAlert = a.getPlayers().get(a.nextDiver(a.getDiver()+1));
             nextDiverAlert.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.nextPlayerAlert")));
-            letsJump(a, a.getDiver());
+            letsJump(a, diver);
         }
     }
 

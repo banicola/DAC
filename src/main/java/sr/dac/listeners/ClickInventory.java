@@ -105,12 +105,15 @@ public class ClickInventory implements Listener {
                         minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+(playerCount-1)));
                         playerCountItem_meta.setLore(minPlayer_lore);
                         playerCountItem.setItemMeta(playerCountItem_meta);
+                        if(playerCount-1<=0) playerCountItem.setAmount(1);
+                        else playerCountItem.setAmount(playerCount-1);
                         e.getInventory().setItem(4, playerCountItem);
                     } else if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiAdd")))) {
                         ArrayList<String> minPlayer_lore = new ArrayList<>();
                         minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+(playerCount+1)));
                         playerCountItem_meta.setLore(minPlayer_lore);
                         playerCountItem.setItemMeta(playerCountItem_meta);
+                        playerCountItem.setAmount(playerCount+1);
                         e.getInventory().setItem(4, playerCountItem);
                     } else if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiValidation")))) {
                         if(inventoryName.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMinPlayerTitle")))){

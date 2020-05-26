@@ -10,22 +10,33 @@ public class EndGame {
 
     public static void gameIsDone(Arena a){
         try{
-            Player winner = a.getPlayers().get(0);
-            winner.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
-            for(Player s : a.getSpectators()){
-                if(s!=winner){
+            Player winner = null;
+            for(Player player : a.getPlayers()){
+                if(a.getPlayerLives(player)>=0){
+                    winner=player;
+                    break;
+                }
+            }
+            if(winner!=null){
+                winner.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
+                for(Player s : a.getSpectators()){
                     s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
                     ArenaManager.playerLeaveArena(s);
                 }
+                for(Player p : a.getPlayers()){
+                    if(p!=winner){
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
+                        ArenaManager.playerLeaveArena(p);
+                    }
+                }
+                ArenaManager.playerLeaveArena(winner);
             }
-            ArenaManager.playerLeaveArena(winner);
         } catch (IndexOutOfBoundsException e){
             for(Player s : a.getSpectators()){
                 ArenaManager.playerLeaveArena(s);
             }
         }
         a.resetArena();
-        a.resetLives();
         a.resetPlayersBlocks();
         a.setStatus("waiting");
     }
