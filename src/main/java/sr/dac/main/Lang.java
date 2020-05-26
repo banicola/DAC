@@ -57,8 +57,4 @@ public class Lang {
             }
         }
     }
-
-    public static void reloadConfig() {
-        checkLang();
-    }
 }

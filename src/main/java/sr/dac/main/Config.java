@@ -29,6 +29,7 @@ public class Config {
             Main.getPlugin().getLogger().info("Config file created");
         }
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configF);
+        blocksConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(), "blocks.yml"));
         Version current_file = new Version(config.getString("version"));
         Version new_version = new Version(desc.getVersion());
         if (new_version.compareTo(current_file) > 0) {
@@ -40,6 +41,9 @@ public class Config {
 
     public static void reloadConfig() {
         Main.getPlugin().reloadConfig();
+        configF = new File(Main.getPlugin().getDataFolder(), "config.yml");
+        init();
+        blocksConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(), "blocks.yml"));
         for(String a : ArenaManager.getArenas()){
             Arena arena = ArenaManager.getArena(a);
             for(Player p: arena.getPlayers()){
@@ -50,9 +54,6 @@ public class Config {
             }
         }
         ArenaManager.load();
-        Lang.reloadConfig();
-        configF = new File(Main.getPlugin().getDataFolder(), "config.yml");
-        blocksConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(), "blocks.yml"));
     }
 
     public static File selectedLang() {
