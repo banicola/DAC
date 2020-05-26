@@ -41,7 +41,6 @@ arena:
   alreadySpectator: "&cVous regardez déjà la partie."
   alreadySpectatorOtherArena: "&cVous regardez déjà une autre partie."
 game:
-  blockSelected: "&aVous avez choisi le bloc: %block%"
   countdown: "&aLa partie commence dans %time% secondes"
   hasStarted: "&aLa partie commence ! Bonne chance !"
   jumpCountdownStart: "&aC'est votre tour ! Vous avez %time% secondes pour sauter !"
@@ -52,11 +51,14 @@ game:
   playerDied: "&cVous êtes morts car vous n'aviez plus de vie."
   playerWon: "&d%player% a gagné la partie ! Il lui restait &f%lives% &dvies !"
   nextPlayerAlert: "&bVous êtes le prochain joueur à sauter."
+  blockSelected: "&aVous avez choisi le bloc: %block%"
+  randomBlockSelected: "&aUn bloc aléatoire a été choisi: %block%"
 blockSelection:
   title: "&eChoisissez votre bloc !"
   exit: "&4Quitter"
   previous: "&1Précédent"
-  next : "&2Suivant"
+  next: "&2Suivant"
+  random: "&dAléatoire"
 wrongCommands:
   wrongJoinCmd: "&cUtilisation: /dac join <arena>"
   wrongSpectateCmd: "&cUtilisation: /dac spectate <arena>"

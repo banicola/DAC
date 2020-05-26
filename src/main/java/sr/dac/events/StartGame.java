@@ -2,11 +2,19 @@ package sr.dac.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import sr.dac.configs.ArenaManager;
 import sr.dac.main.Arena;
+import sr.dac.main.Config;
 import sr.dac.main.Main;
 import sr.dac.utils.CountdownDive;
 import sr.dac.utils.CountdownStart;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class StartGame {
 
@@ -42,5 +50,20 @@ public class StartGame {
             nextDiverAlert.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.nextPlayerAlert")));
             letsJump(a, a.getDiver());
         }
+    }
+
+    public static void selectRandomBlock(Player p, Arena a){
+        List<ItemStack> availableBlocks = new ArrayList<>();
+        for(String m : Config.blocksConfig.getKeys(false)){
+            if(Material.getMaterial(m.toUpperCase())!=null){
+                if(Config.blocksConfig.getBoolean(m)){
+                    availableBlocks.add(new ItemStack(Material.getMaterial(m.toUpperCase())));
+                }
+            }
+        }
+        Random rand = new Random();
+        ItemStack block = availableBlocks.get(rand.nextInt(availableBlocks.size()));
+        a.setPlayerMaterial(p, block.getType());
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.randomBlockSelected").replace("%block%",block.getType().name())));
     }
 }

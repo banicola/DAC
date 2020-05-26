@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import sr.dac.configs.ArenaManager;
+import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
 import sr.dac.main.Config;
 import sr.dac.main.Main;
@@ -53,7 +54,10 @@ public class SelectBlockMenu extends Menu {
             start+=21;
             end +=21;
             setMenuItems();
-        } else {
+        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.random")))){
+            StartGame.selectRandomBlock((Player) e.getWhoClicked(),ArenaManager.getArena(ArenaManager.getPlayerArena((Player) e.getWhoClicked())));
+            e.getWhoClicked().closeInventory();
+        }else {
             Arena arena = ArenaManager.getArena(ArenaManager.getPlayerArena((Player) e.getWhoClicked()));
             arena.setPlayerMaterial((Player) e.getWhoClicked(), e.getCurrentItem().getType());
             e.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.blockSelected").replace("%block%", e.getCurrentItem().getType().name())));
@@ -82,7 +86,7 @@ public class SelectBlockMenu extends Menu {
         ItemMeta emptyCase_meta = emptyCase.getItemMeta();
         emptyCase_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&'," "));
         emptyCase.setItemMeta(emptyCase_meta);
-        int[] emptyPositions = {1,2,3,4,5,6,7,8,9,17,18,26,27,35,37,38,39,40,41,42,43};
+        int[] emptyPositions = {1,2,3,4,5,6,7,8,9,17,18,26,27,35,37,38,39,41,42,43};
         for(int i : emptyPositions){
             inventory.setItem(i,emptyCase);
         }
@@ -102,6 +106,12 @@ public class SelectBlockMenu extends Menu {
         } else{
             inventory.setItem(36,emptyCase);
         }
+
+        ItemStack randomSelect = new ItemStack(Material.ENDER_PEARL);
+        ItemMeta randomSelect_meta = randomSelect.getItemMeta();
+        randomSelect_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.random")));
+        randomSelect.setItemMeta(randomSelect_meta);
+        inventory.setItem(40, randomSelect);
 
         ItemStack nextButton = new ItemStack(Material.GREEN_CONCRETE, 1);
         ItemMeta nextButton_meta = nextButton.getItemMeta();

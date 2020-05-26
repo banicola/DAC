@@ -40,7 +40,7 @@ public class DivingVelocity implements Listener {
                     if((lowerLocation.getBlockX()>bottomBlockX && lowerLocation.getBlockX()<topBlockX)&&(lowerLocation.getBlockZ()>bottomBlockZ && lowerLocation.getBlockZ()<topBlockZ)){
                         Block blockUnder = Bukkit.getServer().getWorld(p.getWorld().getName()).getBlockAt(lowerLocation);
                         boolean isWater = blockUnder.getType().equals(Material.WATER);
-                        Material playerBlock = Material.WHITE_WOOL;
+                        Material playerBlock = arena.getPlayerMaterial(p);
                         if(isWater&&Math.abs(p.getVelocity().getY())>0.1){
                             Block north = blockUnder.getRelative(BlockFace.NORTH);
                             Block east = blockUnder.getRelative(BlockFace.EAST);

@@ -52,11 +52,13 @@ game:
   playerDied: "&cYou died because you had no lives left."
   playerWon: "&d%player% won the game ! He had &f%lives% &dlives left !"
   nextPlayerAlert: "&bYou are the next player to dive."
+  randomBlockSelected: "&aA random block has been selected: %block%"
 blockSelection:
   title: "&eChoose you block !"
   exit: "&4Exit"
   previous: "&1Previous"
   next : "&2Next"
+  random: "&dRandom"
 wrongCommands:
   wrongJoinCmd: "&cUsage: /dac join <arena>"
   wrongSpectateCmd: "&cUsage: /dac spectate <arena>"

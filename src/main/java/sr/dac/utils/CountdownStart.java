@@ -45,8 +45,9 @@ public class CountdownStart implements Runnable {
             a.resetLives();
             players.forEach(player -> {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 10, 1);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.hasStarted")));
+                if(a.getPlayerMaterial(player)==null) StartGame.selectRandomBlock(player, a);
                 a.setPlayerLives(player, 0);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.hasStarted")));
             });
             StartGame.inGame(a);
         }
