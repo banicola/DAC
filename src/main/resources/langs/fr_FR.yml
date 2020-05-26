@@ -16,6 +16,7 @@ global:
   worldeditEnable: "&aWorldedit détecté, vous pouvez l'utiliser pour créer des arènes."
   vaultEnable: "&aVault détecté, vous pouvez l'utiliser pour créer des récompenses."
   dbConnectionSuccess: "&aConnexion base de donnée établie."
+  kickPlayer: "&cVous avez été kick de cette arène\n(Raison: &f%reason%&c)"
 menu:
   title: "&bMenu Dé à Coudre"
   join: "&b/dac join <arena> &7- &fRejoindre une arène"
@@ -52,7 +53,7 @@ game:
   playerWon: "&d%player% a gagné la partie ! Il lui restait &f%lives% &dvies !"
   nextPlayerAlert: "&bVous êtes le prochain joueur à sauter."
 blockSelection:
-  title: "&bChoisissez votre bloc !"
+  title: "&eChoisissez votre bloc !"
   exit: "&4Quitter"
   previous: "&1Précédent"
   next : "&2Suivant"

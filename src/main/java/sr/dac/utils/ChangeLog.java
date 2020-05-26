@@ -2,9 +2,7 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&aAdd block selection",
-            "&eFix various bugs",
-            "&aLargely refine the Menu system (in dev)"
+            "&aBlock selection finished"
     };
 
     public static String[] changeLog(){

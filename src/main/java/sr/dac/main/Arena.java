@@ -48,6 +48,15 @@ public class Arena {
         this.status = status;
     }
 
+    public void join(Player p) {
+        players.add(p);
+    }
+
+    public void leave(Player p) {
+        playerMaterial.remove(p.getUniqueId());
+        players.remove(p);
+    }
+
     public Integer getPlayerLives(Player p){
         return playerLives.get(p.getUniqueId());
     }
@@ -174,15 +183,6 @@ public class Arena {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-    }
-
-    public void join(Player p) {
-        players.add(p);
-    }
-
-    public void leave(Player p) {
-        playerMaterial.remove(p.getUniqueId());
-        players.remove(p);
     }
 
     public List<Player> getPlayers() {

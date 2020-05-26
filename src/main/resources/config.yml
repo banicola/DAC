@@ -17,3 +17,4 @@ database:
 countdownBeforeStart: 30
 timeForJump: 20
 perBlockPermission: false
+emptySlotsMenu: 'BLACK_STAINED_GLASS_PANE'

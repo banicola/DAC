@@ -146,6 +146,8 @@ public class ArenaManager {
 
     public static void load() {
         arenas.clear();
+        playerInArena.clear();
+        playerSpectator.clear();
         YamlConfiguration arenasConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(),"arenas.yml"));
         for(String arena : arenasConfig.getConfigurationSection("arenas").getKeys(false)){
             arenas.put(arena, new Arena(arena, arenasConfig.getLocation("arenas."+arena+".divingLocation"), arenasConfig.getLocation("arenas."+arena+".lobbyLocation"),

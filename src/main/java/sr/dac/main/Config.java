@@ -1,6 +1,8 @@
 package sr.dac.main;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import sr.dac.configs.ArenaManager;
 import sr.dac.utils.UpdateFiles;
@@ -38,9 +40,19 @@ public class Config {
 
     public static void reloadConfig() {
         Main.getPlugin().reloadConfig();
+        for(String a : ArenaManager.getArenas()){
+            Arena arena = ArenaManager.getArena(a);
+            for(Player p: arena.getPlayers()){
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
+            }
+            for(Player spect : arena.getSpectators()){
+                spect.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
+            }
+        }
         ArenaManager.load();
         Lang.reloadConfig();
         configF = new File(Main.getPlugin().getDataFolder(), "config.yml");
+        blocksConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(), "blocks.yml"));
     }
 
     public static File selectedLang() {

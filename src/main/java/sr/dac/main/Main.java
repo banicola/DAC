@@ -70,6 +70,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);
         getServer().getPluginManager().registerEvents(new DivingVelocity(), this);
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveServer(), this);
 
         getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.onEnable")));
     }

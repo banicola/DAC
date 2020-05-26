@@ -24,9 +24,14 @@ public class SelectBlockMenu extends Menu {
         super(playerMenuUtil);
     }
 
+    private int start = 0;
+    private int end = 21;
+
+    private int blocksListSize = 0;
+
     @Override
     public String getMenuName() {
-        return "Select your block !";
+        return ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.title"));
     }
 
     @Override
@@ -36,10 +41,18 @@ public class SelectBlockMenu extends Menu {
 
     @Override
     public void interactMenu(InventoryClickEvent e) {
-        if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',"&4Fermer"))){
+        if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.exit")))){
             e.getWhoClicked().closeInventory();
-        } else if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',"&3Précédent"))){
-        } else if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',"&2Suivant"))){
+        } else if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.previous")))){
+            if(start>0){
+                start-=21;
+                end-=21;
+                setMenuItems();
+            }
+        } else if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.next")))){
+            start+=21;
+            end +=21;
+            setMenuItems();
         } else {
             Arena arena = ArenaManager.getArena(ArenaManager.getPlayerArena((Player) e.getWhoClicked()));
             arena.setPlayerMaterial((Player) e.getWhoClicked(), e.getCurrentItem().getType());
@@ -65,7 +78,7 @@ public class SelectBlockMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        ItemStack emptyCase = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
+        ItemStack emptyCase = new ItemStack(Material.getMaterial(Main.getPlugin().getConfig().getString("emptySlotsMenu").toUpperCase()), 1);
         ItemMeta emptyCase_meta = emptyCase.getItemMeta();
         emptyCase_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&'," "));
         emptyCase.setItemMeta(emptyCase_meta);
@@ -74,24 +87,45 @@ public class SelectBlockMenu extends Menu {
             inventory.setItem(i,emptyCase);
         }
 
-        ItemStack returnButton = new ItemStack(Material.RED_CONCRETE, 1);
-        ItemMeta returnButton_meta = returnButton.getItemMeta();
-        returnButton_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',"&4Fermer"));
-        returnButton.setItemMeta(returnButton_meta);
-        inventory.setItem(0,returnButton);
+        ItemStack exitButton = new ItemStack(Material.RED_CONCRETE, 1);
+        ItemMeta exitButton_meta = exitButton.getItemMeta();
+        exitButton_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.exit")));
+        exitButton.setItemMeta(exitButton_meta);
+        inventory.setItem(0,exitButton);
 
         ItemStack previousButton = new ItemStack(Material.BLUE_CONCRETE, 1);
         ItemMeta previousButton_meta = previousButton.getItemMeta();
-        previousButton_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',"&3Précédent"));
+        previousButton_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.previous")));
         previousButton.setItemMeta(previousButton_meta);
-        inventory.setItem(36,previousButton);
+        if(start>0){
+            inventory.setItem(36,previousButton);
+        } else{
+            inventory.setItem(36,emptyCase);
+        }
 
         ItemStack nextButton = new ItemStack(Material.GREEN_CONCRETE, 1);
         ItemMeta nextButton_meta = nextButton.getItemMeta();
-        nextButton_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',"&2Suivant"));
+        nextButton_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',Main.f.getString("blockSelection.next")));
         nextButton.setItemMeta(nextButton_meta);
-        inventory.setItem(44,nextButton);
 
+        List<ItemStack> blocks2Display = blocksToDisplay(start,end);
+
+        if(blocks2Display.size()==21 && blocksListSize>end+1) inventory.setItem(44,nextButton);
+        else inventory.setItem(44,emptyCase);
+
+        int position = 10;
+        for(ItemStack i : blocks2Display){
+            if(position==17||position==26){
+                position+=2;
+            } else if (position==35){
+                break;
+            }
+            inventory.setItem(position,i);
+            position++;
+        }
+    }
+
+    private List<ItemStack> blocksToDisplay(int start, int end){
         List<ItemStack> availableBlocks = new ArrayList<>();
         for(String m : Config.blocksConfig.getKeys(false)){
             if(Material.getMaterial(m.toUpperCase())!=null){
@@ -100,16 +134,19 @@ public class SelectBlockMenu extends Menu {
                 }
             }
         }
-        int position = 10;
-        for(ItemStack i : availableBlocks){
-            if(position==17||position==26){
-                position+=2;
-            } else if (position==35){
-                break;
-            } else {
-                inventory.setItem(position,i);
-                position++;
+        blocksListSize = availableBlocks.size();
+        if(availableBlocks.size()>21){
+            try{
+                return availableBlocks.subList(start, end);
+            } catch (IndexOutOfBoundsException exception) {
+                availableBlocks = availableBlocks.subList(start, availableBlocks.size());
+                while(availableBlocks.size()<21){
+                    availableBlocks.add(new ItemStack(Material.AIR));
+                }
+                return availableBlocks;
             }
+        } else {
+            return availableBlocks;
         }
     }
 }
