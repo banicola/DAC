@@ -6,6 +6,9 @@ import sr.dac.configs.ArenaManager;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class EndGame {
 
     public static void gameIsDone(Arena a){
@@ -23,7 +26,8 @@ public class EndGame {
                     s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
                     ArenaManager.playerLeaveArena(s);
                 }
-                for(Player p : a.getPlayers()){
+                for(Iterator<Player> it = a.getPlayers().iterator(); it.hasNext();){
+                    Player p = it.next();
                     if(p!=winner){
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
                         ArenaManager.playerLeaveArena(p);
@@ -39,5 +43,6 @@ public class EndGame {
         a.resetArena();
         a.resetPlayersBlocks();
         a.setStatus("waiting");
+        a.setCountdown(0);
     }
 }

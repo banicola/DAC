@@ -113,6 +113,7 @@ public class ArenaManager {
                 if(a.getPlayers().size()==0){
                     if(a.getCountdown()!=0){
                         Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
+                        a.setCountdown(0);
                     }
                     a.resetArena();
                     return;
