@@ -96,7 +96,7 @@ public class ArenaManager {
         player.teleport(a.getLobbyLocation());
         player.setGameMode(GameMode.ADVENTURE);
         new SelectBlockMenu(Main.getPlayerMenuUtil(player)).open();
-        if(a.getPlayers().size()>=a.getMin_player())StartGame.startGame(a);
+        if((a.getPlayers().size()>=a.getMin_player())&&a.getCountdown()==0) StartGame.startGame(a);
     }
 
     public static void playerLeaveArena(Player player){
