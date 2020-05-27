@@ -8,9 +8,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import sr.dac.configs.ArenaManager;
-import sr.dac.configs.EditArena;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
+import sr.dac.menus.ArenaEditionMenu;
 
 import java.util.AbstractMap;
 
@@ -29,7 +29,7 @@ public class BlockPlace implements Listener {
                 } else {
                     AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
                     a.setPoolLocation(poolLocation);
-                    EditArena.openEditionGUI((Player) e.getPlayer(), a.getName());
+                    new ArenaEditionMenu(Main.getPlayerMenuUtil((Player) e.getPlayer()), a).open();
                 }
             }
             e.setCancelled(true);

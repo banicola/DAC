@@ -65,12 +65,12 @@ public final class Main extends JavaPlugin {
         getCommand("dac").setExecutor(new DACCommand());
         getCommand("dac").setTabCompleter(new DACTabCompletion());
 
-        getServer().getPluginManager().registerEvents(new ClickInventory(), this);
         getServer().getPluginManager().registerEvents(new DropItem(), this);
         getServer().getPluginManager().registerEvents(new BlockPlace(), this);
         getServer().getPluginManager().registerEvents(new DivingVelocity(), this);
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveServer(), this);
+        getServer().getPluginManager().registerEvents(new SignActions(), this);
 
         getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.onEnable")));
     }

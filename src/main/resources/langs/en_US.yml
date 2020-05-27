@@ -40,6 +40,7 @@ arena:
   spectateArena: "&aYou are now spectating arena %arena%."
   alreadySpectator: "&cYou are already spectating the game."
   alreadySpectatorOtherArena: "&cYou are already spectating an arena."
+  arenaClosed: "&cThis arena is closed, please try later."
 game:
   blockSelected: "&aYou took the block: &f%block%"
   countdown: "&aThe game start in %time% second(s)"

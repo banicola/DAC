@@ -40,6 +40,7 @@ arena:
   spectateArena: "&aVous regardez désormais l'arène %arena%."
   alreadySpectator: "&cVous regardez déjà la partie."
   alreadySpectatorOtherArena: "&cVous regardez déjà une autre partie."
+  arenaClosed: "&cCette arène est fermée, veuillez réessayer plus tard."
 game:
   countdown: "&aLa partie commence dans &f%time%&a seconde(s)"
   hasStarted: "&aLa partie commence ! Bonne chance !"

@@ -88,6 +88,7 @@ public class ArenaManager {
             if(playerInArena.get(player).equalsIgnoreCase(arena)) throw new KeyAlreadyExistsException("same");
             else throw new KeyAlreadyExistsException("other");
         }
+        if(!arenas.get(arena).isOpen()) throw new Exception("closed");
         if(arenas.get(arena).getStatus()=="playing") throw new Exception("playing");
         if(arenas.get(arena).getPlayers().size()==arenas.get(arena).getMax_player()) throw new Exception("full");
         playerInArena.put(player, arena);

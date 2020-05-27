@@ -10,10 +10,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import sr.dac.configs.ArenaManager;
-import sr.dac.configs.EditArena;
 import sr.dac.main.Arena;
 import sr.dac.main.Config;
 import sr.dac.main.Main;
+import sr.dac.menus.ArenaEditionMenu;
 import sr.dac.menus.SelectBlockMenu;
 import sr.dac.utils.ChangeLog;
 
@@ -45,6 +45,7 @@ public class DACCommand implements CommandExecutor {
                             if(e.getMessage().equalsIgnoreCase("other")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.alreadyInOtherArena")));
                         } catch (Exception e){
                             if(e.getMessage()!=null){
+                                if(e.getMessage().equalsIgnoreCase("closed")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaClosed")));
                                 if(e.getMessage().equalsIgnoreCase("playing")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaAlreadyPlaying")));
                                 if(e.getMessage().equalsIgnoreCase("full")) sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("arena.arenaFull")));
                             } else {
@@ -130,7 +131,7 @@ public class DACCommand implements CommandExecutor {
                     try {
                         if (ArenaManager.createArena(args[1])) {
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("createArena.success").replace("%arena%", args[1])));
-                            EditArena.openEditionGUI((Player) sender, args[1]);
+                            new ArenaEditionMenu(Main.getPlayerMenuUtil((Player) sender), ArenaManager.getArena(args[1])).open();
                         }
                     } catch (KeyAlreadyExistsException e) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("createArena.arenaAlreadyExists").replace("%arena%", args[1])));
@@ -160,9 +161,12 @@ public class DACCommand implements CommandExecutor {
                 if (args.length < 2) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("wrongCommands.wrongEditCmd")));
                 } else if (args.length == 2) {
-                    if (sender instanceof Player) EditArena.openEditionGUI((Player) sender, args[1]);
-                    else
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.playerOnly")));
+                    Arena arena = ArenaManager.getArena(args[1]);
+                    if(arena==null){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("arena.arenaUnknown")));
+                    }
+                    else if (sender instanceof Player) new ArenaEditionMenu(Main.getPlayerMenuUtil((Player) sender), arena).open();
+                    else sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.playerOnly")));
                 } else if (args.length == 3) {
                     Arena arena = ArenaManager.getArena(args[1]);
                     if (args[2].equalsIgnoreCase("setlobby")) {

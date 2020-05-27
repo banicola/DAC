@@ -4,10 +4,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import sr.dac.configs.ArenaManager;
+import sr.dac.main.Arena;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class DACTabCompletion implements TabCompleter {
     @Override
@@ -31,11 +30,15 @@ public class DACTabCompletion implements TabCompleter {
         }
         if(args.length == 2){
             if((args[0].equalsIgnoreCase("join")&& sender.hasPermission("dac.join")) || (args[0].equalsIgnoreCase("spectate")&& sender.hasPermission("dac.spectate")) || (args[0].equalsIgnoreCase("remove") && sender.hasPermission("dac.remove")) || (args[0].equalsIgnoreCase("edit") && sender.hasPermission("dac.edit"))){
-                List<String> cmds = new ArrayList<>(ArenaManager.getArenas());
+                Set<String> arenas = ArenaManager.getArenas();
+                Set<String> available = new HashSet();
+                for(String a : arenas){
+                    if(ArenaManager.getArena(a).isOpen()) available.add(a);
+                }
                 List<String> cmdsFiltred = new ArrayList<>();
-                if (args[1].equalsIgnoreCase("")) cmdsFiltred = cmds;
+                if (args[1].equalsIgnoreCase("")) cmdsFiltred = new ArrayList<>(available);
                 else {
-                    for (String s : cmds) {
+                    for (String s : available) {
                         if (s.startsWith(args[1], 0)) cmdsFiltred.add(s);
                     }
                 }
