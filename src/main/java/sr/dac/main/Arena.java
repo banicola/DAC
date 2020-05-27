@@ -140,7 +140,7 @@ public class Arena {
         }
         if(playersLives.get(players.get(diver))>=0){
             return diver;
-        }else{
+        } else {
             return nextDiver(diver+1);
         }
     }

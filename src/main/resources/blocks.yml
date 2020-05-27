@@ -35,7 +35,6 @@ lapis_ore: true
 lapis_block: true
 dispenser: true
 sandstone: true
-note_block: true
 sticky_piston: true
 piston: true
 white_wool: true
@@ -89,9 +88,7 @@ end_stone: true
 end_stone_bricks: true
 redstone_lamp: true
 emerald_ore: true
-emerald_block: true
 beacon: true
-anvil: true
 redstone_block: true
 nether_quartz_ore: true
 dropper: true

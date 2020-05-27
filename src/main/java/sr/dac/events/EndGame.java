@@ -6,6 +6,7 @@ import sr.dac.configs.ArenaManager;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,13 +27,18 @@ public class EndGame {
                     s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
                     ArenaManager.playerLeaveArena(s);
                 }
-                for(Iterator<Player> it = a.getPlayers().iterator(); it.hasNext();){
-                    Player p = it.next();
+                List<Player> players = a.getPlayers();
+                List<Player> listPlayers = new ArrayList<>();
+                for(Player p : players){
                     if(p!=winner){
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
-                        ArenaManager.playerLeaveArena(p);
+                        listPlayers.add(p);
                     }
                 }
+                for(Player p : listPlayers){
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
+                    ArenaManager.playerLeaveArena(p);
+                }
+
                 ArenaManager.playerLeaveArena(winner);
             }
         } catch (IndexOutOfBoundsException e){

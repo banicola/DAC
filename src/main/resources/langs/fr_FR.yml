@@ -54,7 +54,7 @@ game:
   nextPlayerAlert: "&bVous êtes le prochain joueur à sauter."
   blockSelected: "&aVous avez choisi le bloc: &f%block%"
   randomBlockSelected: "&aUn bloc aléatoire a été choisi: &f%block%"
-  spectatorDAC: "&a%player% &dvient de faire un Dé à coudre ! Vie(s) restante(s) %lives% &d!"
+  spectatorDAC: "&a%player% &dvient de faire un Dé à coudre ! Vie(s) restante(s) &f%lives% &d!"
 blockSelection:
   title: "&eChoisissez votre bloc !"
   exit: "&4Quitter"
