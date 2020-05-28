@@ -90,6 +90,8 @@ public class DACCommand implements CommandExecutor {
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.noPermission")));
                 }
+            } else {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.notIGBlockSelection")));
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("spectate")) {
             if (sender.hasPermission("dac.spectate")) {
