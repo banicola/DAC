@@ -32,8 +32,11 @@ public class DACTabCompletion implements TabCompleter {
             if((args[0].equalsIgnoreCase("join")&& sender.hasPermission("dac.join")) || (args[0].equalsIgnoreCase("spectate")&& sender.hasPermission("dac.spectate")) || (args[0].equalsIgnoreCase("remove") && sender.hasPermission("dac.remove")) || (args[0].equalsIgnoreCase("edit") && sender.hasPermission("dac.edit"))){
                 Set<String> arenas = ArenaManager.getArenas();
                 Set<String> available = new HashSet();
+
                 for(String a : arenas){
-                    if(ArenaManager.getArena(a).isOpen()) available.add(a);
+                    if(!args[0].equalsIgnoreCase("edit") || !args[0].equalsIgnoreCase("remove")){
+                        available.add(a);
+                    } else if(ArenaManager.getArena(a).isOpen()) available.add(a);
                 }
                 List<String> cmdsFiltred = new ArrayList<>();
                 if (args[1].equalsIgnoreCase("")) cmdsFiltred = new ArrayList<>(available);

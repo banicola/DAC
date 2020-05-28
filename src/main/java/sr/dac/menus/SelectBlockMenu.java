@@ -140,7 +140,13 @@ public class SelectBlockMenu extends Menu {
         for(String m : Config.blocksConfig.getKeys(false)){
             if(Material.getMaterial(m.toUpperCase())!=null){
                 if(Config.blocksConfig.getBoolean(m)){
-                    availableBlocks.add(new ItemStack(Material.getMaterial(m.toUpperCase())));
+                    if(Main.getPlugin().getConfig().getBoolean("perBlockPermission")){
+                        if(playerMenuUtil.getP().hasPermission("dac.blocks."+m.toUpperCase())){
+                            availableBlocks.add(new ItemStack(Material.getMaterial(m.toUpperCase())));
+                        }
+                    } else {
+                        availableBlocks.add(new ItemStack(Material.getMaterial(m.toUpperCase())));
+                    }
                 }
             }
         }

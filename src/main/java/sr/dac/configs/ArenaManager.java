@@ -22,7 +22,7 @@ public class ArenaManager {
 
     public static boolean createArena(String name) {
         if(arenas.containsKey(name)) throw new KeyAlreadyExistsException();
-        arenas.put(name, new Arena(name, null, null, new AbstractMap.SimpleEntry<>(null, null), -1, 0, 0, false, null));
+        arenas.put(name, new Arena(name, null, null, new AbstractMap.SimpleEntry<>(null, null), -1, 0, 0, false, null, new ArrayList<>()));
         try {
             save(name, arenas.get(name));
         } catch (IOException ioException) {
@@ -97,6 +97,9 @@ public class ArenaManager {
         player.teleport(a.getLobbyLocation());
         player.setGameMode(GameMode.ADVENTURE);
         new SelectBlockMenu(Main.getPlayerMenuUtil(player)).open();
+        for(Location sign : a.getSigns()){
+            a.updateSign(sign);
+        }
         if((a.getPlayers().size()>=a.getMin_player())&&a.getCountdown()==0) StartGame.startGame(a);
     }
 
@@ -124,7 +127,9 @@ public class ArenaManager {
                     StartGame.nextDiver(a);
                 }
             }
-
+            for(Location sign : a.getSigns()){
+                a.updateSign(sign);
+            }
         } else if(playerSpectator.containsKey(player)) {
             Arena a = getArena(playerSpectator.get(player));
             playerSpectator.remove(player);
@@ -155,7 +160,7 @@ public class ArenaManager {
             arenas.put(arena, new Arena(arena, arenasConfig.getLocation("arenas."+arena+".divingLocation"), arenasConfig.getLocation("arenas."+arena+".lobbyLocation"),
                     new AbstractMap.SimpleEntry<Location, Location>(arenasConfig.getLocation("arenas."+arena+".poolLocationA"), arenasConfig.getLocation("arenas."+arena+".poolLocationB")),
                     arenasConfig.getInt("arenas."+arena+".poolBottom"), arenasConfig.getInt("arenas."+arena+".min_player"),arenasConfig.getInt("arenas."+arena+".max_player"),
-                    arenasConfig.getBoolean("arenas."+arena+".open"),arenasConfig.getString("arenas."+arena+".status")));
+                    arenasConfig.getBoolean("arenas."+arena+".open"),arenasConfig.getString("arenas."+arena+".status"), (List<Location>) arenasConfig.getList("arenas."+arena+".signs")));
         }
     }
 
@@ -171,6 +176,7 @@ public class ArenaManager {
         arenasConfig.set("arenas."+name+".max_player",a.getMax_player());
         arenasConfig.set("arenas."+name+".open",a.isOpen());
         arenasConfig.set("arenas."+name+".status",a.getStatus());
+        arenasConfig.set("arenas."+name+".signs",a.getSigns());
         arenasConfig.save(arenas);
     }
 }

@@ -2,6 +2,7 @@ package sr.dac.listeners;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,6 +30,7 @@ public class BlockPlace implements Listener {
                 } else {
                     AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
                     a.setPoolLocation(poolLocation);
+                    e.getPlayer().getInventory().setItem(0, new ItemStack(Material.AIR));
                     new ArenaEditionMenu(Main.getPlayerMenuUtil((Player) e.getPlayer()), a).open();
                 }
             }

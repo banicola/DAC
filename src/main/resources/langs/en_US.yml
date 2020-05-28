@@ -16,7 +16,10 @@ global:
   worldeditEnable: "&aWorldedit detected, you can use it to setup arenas."
   vaultEnable: "&aVault detected, you can use it to create rewards."
   dbConnectionSuccess: "&aDatabase connection successful."
-  kickPlayer: "&cYou've been kicked from the arena\n(Reason: &f%reason%&c)"
+  kickPlayer: "&cYou've been kicked from the arena.\n(Reason: &f%reason%&c)"
+  signMissingArena: "&cDid you want to create an arena sign?\n&bWrite the arena name on the second line."
+  signCreated: "&aThe arena's sign has been created."
+  signRemoved: "&cThe arena's sign has been removed."
 menu:
   title: "&bDé à Coudre Menu"
   join: "&b/dac join <arena> &7- &fJoin a specific arena"
@@ -28,6 +31,14 @@ menu:
   edit: "&c/dac edit <arena> &7- &fEdit an arena"
   version: "&c/dac version &7- &fGet the plugin version"
   reload: "&c/dac reload &7- &fReload the plugin"
+sign:
+  title: "&f[&b%arena%&f]"
+  playersCount: "&a%count%&7/&a%max%"
+  needXPlayers: "&c%count% needed"
+  readyToStart: "&aReady"
+  statusWaiting: "&aJoin"
+  statusPlaying: "&cIn game"
+  statusClosed: "&4Closed"
 arena:
   arenaUnknown: "&cThis arena doesn't exists !"
   joinArena: "&aYou joined the arena &f%arena% &a!"
@@ -55,6 +66,8 @@ game:
   nextPlayerAlert: "&bYou are the next player to dive."
   randomBlockSelected: "&aA random block has been selected: &f%block%"
   spectatorDAC: "&d%player% just did a Dé à coudre ! Live(s) left &f%lives% &d!"
+  notIGBlockSelection: "&cJoin an arena to select a block."
+  noBlockSelection: "&cYou cannot select a block in this arena."
 blockSelection:
   title: "&eChoose you block !"
   exit: "&4Exit"

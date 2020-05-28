@@ -6,7 +6,6 @@ authors: [clipsy1]
 description: The true Dé à Coudre plugin ! Lets have fun !
 website: skyrepublic.fr
 softdepend:
-  - WorldEdit
   - Vault
 commands:
   dac:
@@ -37,3 +36,4 @@ permissions:
       dac.event: true
       dac.reload: true
       dac.version: true
+      dac.sign: true

@@ -1,9 +1,11 @@
 package sr.dac.main;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import sr.dac.configs.ArenaManager;
 
@@ -26,6 +28,8 @@ public class Arena {
     private int min_player;
     private int max_player;
 
+    private List<Location> signs = new ArrayList<>();
+
     private List<Player> players = new ArrayList<>();
     private List<Player> spectators = new ArrayList<>();
 
@@ -36,7 +40,7 @@ public class Arena {
     private HashMap<UUID, Material> playerMaterial = new HashMap<>();
     private HashMap<Player, Integer> playersLives = new HashMap<>();
 
-    public Arena(String n, Location divingLocation, Location lobbyLocation, AbstractMap.SimpleEntry<Location, Location> poolLocation, int poolBottom, int min_player, int max_player, boolean open, String status) {
+    public Arena(String n, Location divingLocation, Location lobbyLocation, AbstractMap.SimpleEntry<Location, Location> poolLocation, int poolBottom, int min_player, int max_player, boolean open, String status, List<Location> signs) {
         this.name = n;
         this.divingLocation = divingLocation;
         this.lobbyLocation = lobbyLocation;
@@ -46,6 +50,10 @@ public class Arena {
         this.max_player = max_player;
         this.open = open;
         this.status = status;
+        this.signs = signs;
+        for(Location sign : signs){
+            updateSign(sign);
+        }
     }
 
     public void join(Player p) {
@@ -56,6 +64,56 @@ public class Arena {
     public void leave(Player p) {
         playerMaterial.remove(p.getUniqueId());
         players.remove(p);
+    }
+
+    public void addSign(Location signLocation){
+        signs.add(signLocation);
+        try {
+            ArenaManager.save(name, this);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        updateSign(signLocation);
+    }
+
+    public void updateSign(Location signLocation){
+        Sign sign = (Sign) signLocation.getBlock().getState();
+        for (int i = 0; i < 4; i++) {
+            sign.setLine(i, "");
+        }
+        sign.setLine(0, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.title").replace("%arena%", name)));
+        if(!isOpen()){
+            sign.setLine(2, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.statusClosed")));
+        } else {
+            sign.setLine(1, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.playersCount").replace("%count%", ""+getPlayers().size()).replace("%max%", ""+getMax_player())));
+            if(getPlayers().size()<getMin_player()){
+                int needed = getMin_player()-getPlayers().size();
+                sign.setLine(2, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.needXPlayers").replace("%count%", ""+needed)));
+            } else {
+                sign.setLine(2, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.readyToStart")));
+            }
+            if(getStatus().equalsIgnoreCase("waiting")){
+                sign.setLine(3, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.statusWaiting")));
+            } else {
+                sign.setLine(3, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.statusPlaying")));
+            }
+        }
+        sign.update();
+    }
+
+    public void removeSign(Location signLocation){
+        if(signs.contains(signLocation)){
+            signs.remove(signs.indexOf(signLocation));
+            try {
+                ArenaManager.save(name, this);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+
+    public List<Location> getSigns(){
+        return signs;
     }
 
     public Integer getPlayerLives(Player p){
