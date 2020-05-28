@@ -67,9 +67,9 @@ public class Signs implements Listener {
                 Arena arena = ArenaManager.getArena(a);
                 if(arena!=null){
                     if(arena.getSigns().contains(e.getClickedBlock().getLocation())){
-                        if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+                        if(!e.getPlayer().hasPermission("dac.sign")||e.getAction().equals(Action.RIGHT_CLICK_BLOCK)||(e.getAction().equals(Action.LEFT_CLICK_BLOCK) && !e.getPlayer().isSneaking())){
                             e.getPlayer().performCommand("dac join "+arena.getName());
-                        } else if(e.getAction().equals(Action.LEFT_CLICK_BLOCK) && e.getPlayer().isSneaking() && e.getPlayer().hasPermission("dac.sign")){
+                        } else if(e.getPlayer().hasPermission("dac.sign") && e.getAction().equals(Action.LEFT_CLICK_BLOCK) && e.getPlayer().isSneaking()){
                         } else {
                             e.setCancelled(true);
                         }
