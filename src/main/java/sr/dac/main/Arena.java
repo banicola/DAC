@@ -1,6 +1,5 @@
 package sr.dac.main;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,7 +22,7 @@ public class Arena {
     private Location divingLocation;
     private Location lobbyLocation;
     private AbstractMap.SimpleEntry<Location, Location> poolLocation;
-    private int poolBottom=-1;
+    private int poolBottom;
 
     private int min_player;
     private int max_player;
@@ -40,7 +39,7 @@ public class Arena {
     private HashMap<UUID, Material> playerMaterial = new HashMap<>();
     private HashMap<Player, Integer> playersLives = new HashMap<>();
 
-    public Arena(String n, Location divingLocation, Location lobbyLocation, AbstractMap.SimpleEntry<Location, Location> poolLocation, int poolBottom, int min_player, int max_player, boolean open, String status, List<Location> signs) {
+    public Arena(String n, Location divingLocation, Location lobbyLocation, AbstractMap.SimpleEntry<Location, Location> poolLocation, int poolBottom, int min_player, int max_player, String status, List<Location> signs) {
         this.name = n;
         this.divingLocation = divingLocation;
         this.lobbyLocation = lobbyLocation;
@@ -48,11 +47,7 @@ public class Arena {
         this.poolBottom = poolBottom;
         this.min_player = min_player;
         this.max_player = max_player;
-        if(divingLocation!=null && lobbyLocation!=null && poolLocation.getKey()!=null && poolLocation.getValue()!=null && min_player>0 && min_player<=max_player){
-            this.open = true;
-        } else {
-            this.open = false;
-        }
+        this.open = divingLocation != null && lobbyLocation != null && poolLocation.getKey() != null && poolLocation.getValue() != null && min_player > 0 && min_player <= max_player;
         this.status = status;
         this.signs = signs;
         for(Location sign : signs){
@@ -110,7 +105,7 @@ public class Arena {
 
     public void removeSign(Location signLocation){
         if(signs.contains(signLocation)){
-            signs.remove(signs.indexOf(signLocation));
+            signs.remove(signLocation);
             try {
                 ArenaManager.save(name, this);
             } catch (IOException ioException) {
@@ -166,11 +161,11 @@ public class Arena {
     }
 
     public void resetArena(){
-        int topBlockX = (getPoolLocation().getKey().getBlockX() < getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX() : getPoolLocation().getKey().getBlockX());
-        int bottomBlockX = (getPoolLocation().getKey().getBlockX() > getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX() : getPoolLocation().getKey().getBlockX());
+        int topBlockX = (Math.max(getPoolLocation().getKey().getBlockX(), getPoolLocation().getValue().getBlockX()));
+        int bottomBlockX = (Math.min(getPoolLocation().getKey().getBlockX(), getPoolLocation().getValue().getBlockX()));
 
-        int topBlockZ = (getPoolLocation().getKey().getBlockZ() < getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ() : getPoolLocation().getKey().getBlockZ());
-        int bottomBlockZ = (getPoolLocation().getKey().getBlockZ() > getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ() : getPoolLocation().getKey().getBlockZ());
+        int topBlockZ = (Math.max(getPoolLocation().getKey().getBlockZ(), getPoolLocation().getValue().getBlockZ()));
+        int bottomBlockZ = (Math.min(getPoolLocation().getKey().getBlockZ(), getPoolLocation().getValue().getBlockZ()));
 
         for(int x = bottomBlockX+1; x <= topBlockX-1; x++)
         {
@@ -239,10 +234,7 @@ public class Arena {
         if(open){
             this.open = false;
             List<Player> players = getPlayers();
-            List<Player> listPlayers = new ArrayList<>();
-            for(Player p : players){
-                listPlayers.add(p);
-            }
+            List<Player> listPlayers = new ArrayList<>(players);
             for(Player p : listPlayers){
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", Main.f.getString("kickReason.arenaClosed"))));
                 ArenaManager.playerLeaveArena(p);
@@ -310,11 +302,11 @@ public class Arena {
     public void setPoolLocation(AbstractMap.SimpleEntry<Location,Location> poolLocation) {
         this.poolLocation = poolLocation;
         if(poolLocation.getKey()!=null&&poolLocation.getValue()!=null){
-            int topBlockX = (getPoolLocation().getKey().getBlockX() < getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX() : getPoolLocation().getKey().getBlockX());
-            int bottomBlockX = (getPoolLocation().getKey().getBlockX() > getPoolLocation().getValue().getBlockX() ? getPoolLocation().getValue().getBlockX() : getPoolLocation().getKey().getBlockX());
+            int topBlockX = (Math.max(getPoolLocation().getKey().getBlockX(), getPoolLocation().getValue().getBlockX()));
+            int bottomBlockX = (Math.min(getPoolLocation().getKey().getBlockX(), getPoolLocation().getValue().getBlockX()));
 
-            int topBlockZ = (getPoolLocation().getKey().getBlockZ() < getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ() : getPoolLocation().getKey().getBlockZ());
-            int bottomBlockZ = (getPoolLocation().getKey().getBlockZ() > getPoolLocation().getValue().getBlockZ() ? getPoolLocation().getValue().getBlockZ() : getPoolLocation().getKey().getBlockZ());
+            int topBlockZ = (Math.max(getPoolLocation().getKey().getBlockZ(), getPoolLocation().getValue().getBlockZ()));
+            int bottomBlockZ = (Math.min(getPoolLocation().getKey().getBlockZ(), getPoolLocation().getValue().getBlockZ()));
 
             boolean hasWater = false;
 

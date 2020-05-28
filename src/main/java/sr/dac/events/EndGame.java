@@ -9,11 +9,13 @@ import sr.dac.main.Main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class EndGame {
 
     public static void gameIsDone(Arena a){
         a.setCountdown(0);
+        a.setStatus("ending");
         try{
             Player winner = null;
             for(Player player : a.getPlayers()){
@@ -25,20 +27,21 @@ public class EndGame {
             if(winner!=null){
                 winner.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
                 for(Player s : a.getSpectators()){
-                    s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
-                    ArenaManager.playerLeaveArena(s);
+                    if(s!=winner){
+                        s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
+                        ArenaManager.playerLeaveArena(s);
+                    }
                 }
                 List<Player> players = a.getPlayers();
-                List<Player> listPlayers = new ArrayList<>();
-                for(Player p : players){
-                    listPlayers.add(p);
-                }
-                listPlayers.remove(listPlayers.indexOf(winner));
+                List<Player> listPlayers = new ArrayList<>(players);
+                listPlayers.remove(winner);
                 for(Player p : listPlayers){
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
                     ArenaManager.playerLeaveArena(p);
                 }
-                ArenaManager.playerLeaveArena(winner);
+                try{
+                    ArenaManager.playerLeaveArena(winner);
+                } catch(NoSuchElementException ignore){}
             }
         } catch (IndexOutOfBoundsException e){
             for(Player s : a.getSpectators()){

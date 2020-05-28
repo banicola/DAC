@@ -50,20 +50,14 @@ public class Config {
             Arena arena = ArenaManager.getArena(a);
 
             List<Player> players = arena.getPlayers();
-            List<Player> listPlayers = new ArrayList<>();
-            for(Player p : players){
-                listPlayers.add(p);
-            }
+            List<Player> listPlayers = new ArrayList<>(players);
             for(Player p: listPlayers){
                 ArenaManager.playerLeaveArena(p);
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
             }
 
             List<Player> spectators = arena.getSpectators();
-            List<Player> listSpectators= new ArrayList<>();
-            for(Player p : spectators){
-                listSpectators.add(p);
-            }
+            List<Player> listSpectators = new ArrayList<>(spectators);
             for(Player spectator : listSpectators){
                 ArenaManager.playerLeaveArena(spectator);
                 spectator.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));

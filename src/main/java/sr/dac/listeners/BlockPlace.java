@@ -22,7 +22,7 @@ public class BlockPlace implements Listener {
             if (a != null) {
                 ItemStack i = e.getItemInHand();
                 if (i.getAmount()==1) {
-                    AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(e.getBlockPlaced().getLocation(), a.getPoolLocation().getValue());
+                    AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry<>(e.getBlockPlaced().getLocation(), a.getPoolLocation().getValue());
                     a.setPoolLocation(poolLocation);
                     i.setAmount(2);
                     e.getPlayer().getInventory().setItem(0,i);
@@ -30,7 +30,7 @@ public class BlockPlace implements Listener {
                             .replace("%x%", ""+e.getBlockPlaced().getLocation().getBlockX()).replace("%z%", ""+e.getBlockPlaced().getLocation().getBlockZ())));
                 } else {
                     if(e.getBlockPlaced().getLocation().getBlockY()==a.getPoolLocation().getKey().getBlockY()){
-                        AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
+                        AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry<>(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
                         a.setPoolLocation(poolLocation);
                         e.getPlayer().getInventory().setItem(e.getPlayer().getInventory().getHeldItemSlot(), new ItemStack(Material.AIR));
                         e.getPlayer().sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.poolSelectionMade").replace("%num%", ""+2)

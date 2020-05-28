@@ -70,12 +70,7 @@ public class SelectBlockMenu extends Menu {
         Arena arena = ArenaManager.getArena(ArenaManager.getPlayerArena((Player) e.getPlayer()));
         if(arena!=null){
             if(arena.getPlayerMaterial((Player) e.getPlayer())==null){
-                Bukkit.getScheduler().runTaskLater(Main.getPlugin(), new Runnable() {
-                    @Override
-                    public void run() {
-                        open();
-                    }
-                }, 1L);
+                Bukkit.getScheduler().runTaskLater(Main.getPlugin(), this::open, 1L);
             }
         }
     }

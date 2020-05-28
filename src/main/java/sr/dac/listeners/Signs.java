@@ -1,7 +1,6 @@
 package sr.dac.listeners;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +12,6 @@ import sr.dac.configs.ArenaManager;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class Signs implements Listener {
@@ -70,6 +68,7 @@ public class Signs implements Listener {
                         if(!e.getPlayer().hasPermission("dac.sign")||e.getAction().equals(Action.RIGHT_CLICK_BLOCK)||(e.getAction().equals(Action.LEFT_CLICK_BLOCK) && !e.getPlayer().isSneaking())){
                             e.getPlayer().performCommand("dac join "+arena.getName());
                         } else if(e.getPlayer().hasPermission("dac.sign") && e.getAction().equals(Action.LEFT_CLICK_BLOCK) && e.getPlayer().isSneaking()){
+                            return;
                         } else {
                             e.setCancelled(true);
                         }

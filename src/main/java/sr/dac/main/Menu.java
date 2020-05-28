@@ -33,6 +33,7 @@ public abstract class Menu implements InventoryHolder {
         playerMenuUtil.getP().openInventory(inventory);
     }
 
+
     @Override
     public Inventory getInventory() {
         return inventory;

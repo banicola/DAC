@@ -50,7 +50,7 @@ public final class Main extends JavaPlugin {
         ArenaManager.load();
         //we = setupWorldEdit();
         econ = setupEconomy();
-        /**
+        /*
         try {
             if (we.isEnabled())
                 getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.worldeditEnable")));
@@ -59,7 +59,7 @@ public final class Main extends JavaPlugin {
         try {
             if (econ != null)
                 getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.vaultEnable")));
-        } catch (NoClassDefFoundError e) {
+        } catch (NoClassDefFoundError ignored) {
         }
 
         getCommand("dac").setExecutor(new DACCommand());
@@ -80,7 +80,7 @@ public final class Main extends JavaPlugin {
     public void onDisable() {
         try {
             connection.close();
-        } catch (NullPointerException | SQLException e) {
+        } catch (NullPointerException | SQLException ignored) {
         }
         ArenaManager.resetPlayers();
         getLogger().info(ChatColor.translateAlternateColorCodes('&', f.getString("global.onDisable")));
@@ -121,7 +121,7 @@ public final class Main extends JavaPlugin {
         return econ;
     }
 
-    /**
+    /*
     private static WorldEditPlugin setupWorldEdit() {
         return (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
     }**/

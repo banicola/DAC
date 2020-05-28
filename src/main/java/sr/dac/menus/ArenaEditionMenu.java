@@ -4,9 +4,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
@@ -74,21 +72,21 @@ public class ArenaEditionMenu extends Menu {
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiDivingSelectionTitle")))) {
                     TextComponent t1 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.setClickPos")));
                     t1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dac edit "+arena.getName()+" setdiving"));
-                    BaseComponent[] b = new BaseComponent[]{t1};;
+                    BaseComponent[] b = new BaseComponent[]{t1};
                     playerMenuUtil.getP().spigot().sendMessage(b);
                     e.getView().close();
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiLobbySelectionTitle")))) {
                     TextComponent t1 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.setClickPos")));
                     t1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dac edit "+arena.getName()+" setlobby"));
-                    BaseComponent[] b = new BaseComponent[]{t1};;
+                    BaseComponent[] b = new BaseComponent[]{t1};
                     playerMenuUtil.getP().spigot().sendMessage(b);
                     e.getView().close();
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMinPlayerTitle")))) {
                     e.getView().close();
-                    new PlayerLimitMenu(Main.getPlayerMenuUtil((Player) playerMenuUtil.getP()), arena, "min").open();
+                    new PlayerLimitMenu(Main.getPlayerMenuUtil(playerMenuUtil.getP()), arena, "min").open();
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMaxPlayerTitle")))) {
                     e.getView().close();
-                    new PlayerLimitMenu(Main.getPlayerMenuUtil((Player) playerMenuUtil.getP()), arena, "max").open();
+                    new PlayerLimitMenu(Main.getPlayerMenuUtil(playerMenuUtil.getP()), arena, "max").open();
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiOpenArenaTitle")))) {
                     List<ItemStack> allStatus = Arrays.asList(e.getInventory().getItem(11),e.getInventory().getItem(12), e.getInventory().getItem(13), e.getInventory().getItem(14), e.getInventory().getItem(15));
                     boolean isReady=true;
@@ -126,8 +124,8 @@ public class ArenaEditionMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        /**
-         * nameSelection
+        /*
+          nameSelection
          */
         ItemStack nameSelection = new ItemStack(Material.NAME_TAG);
         ItemMeta nameSelection_meta = nameSelection.getItemMeta();
@@ -141,8 +139,8 @@ public class ArenaEditionMenu extends Menu {
         nameSelection.setItemMeta(nameSelection_meta);
         inventory.setItem(1, nameSelection);
 
-        /**
-         * divingSelection
+        /*
+          divingSelection
          */
         ItemStack divingSelection = new ItemStack(Material.FEATHER);
         ItemMeta divingSelection_meta = divingSelection.getItemMeta();
@@ -173,8 +171,8 @@ public class ArenaEditionMenu extends Menu {
         inventory.setItem(2, divingSelection);
         inventory.setItem(11, divingSelectionStatus);
 
-        /**
-         * lobbySelection
+        /*
+          lobbySelection
          */
         ItemStack lobbySelection = new ItemStack(Material.SPRUCE_SLAB);
         ItemMeta lobbySelection_meta = lobbySelection.getItemMeta();
@@ -205,8 +203,8 @@ public class ArenaEditionMenu extends Menu {
         inventory.setItem(3, lobbySelection);
         inventory.setItem(12, lobbySelectionStatus);
 
-        /**
-         * poolSelection
+        /*
+          poolSelection
          */
         ItemStack poolSelection = new ItemStack(Material.WATER_BUCKET);
         ItemMeta poolSelection_meta = poolSelection.getItemMeta();
@@ -240,8 +238,8 @@ public class ArenaEditionMenu extends Menu {
         inventory.setItem(4, poolSelection);
         inventory.setItem(13, poolSelectionStatus);
 
-        /**
-         * minPlayerSelection
+        /*
+          minPlayerSelection
          */
         ItemStack minPlayerSelection = new ItemStack(Material.SNOWBALL);
         ItemMeta minPlayerSelection_meta = minPlayerSelection.getItemMeta();
@@ -272,8 +270,8 @@ public class ArenaEditionMenu extends Menu {
         inventory.setItem(5, minPlayerSelection);
         inventory.setItem(14, minPlayerStatus);
 
-        /**
-         * maxPlayerSelection
+        /*
+          maxPlayerSelection
          */
         ItemStack maxPlayerSelection = new ItemStack(Material.SLIME_BALL);
         ItemMeta maxPlayerSelection_meta = maxPlayerSelection.getItemMeta();
@@ -304,8 +302,8 @@ public class ArenaEditionMenu extends Menu {
         inventory.setItem(6, maxPlayerSelection);
         inventory.setItem(15, maxPlayerStatus);
 
-        /**
-         * openArenaSelection
+        /*
+          openArenaSelection
          */
         ItemMeta openArenaSelection_meta;
         ItemStack openArenaSelection;

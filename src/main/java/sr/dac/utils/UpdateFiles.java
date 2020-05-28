@@ -2,8 +2,6 @@ package sr.dac.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import sr.dac.main.Main;
 
@@ -43,13 +41,13 @@ public class UpdateFiles {
                 inputStream = Main.getPlugin().getResource(file);
             }
             outputStream = new FileOutputStream(resourceFile);
-            int read = 0;
+            int read;
             byte[] bytes = new byte[1024];
             try{
                 while ((read = inputStream.read(bytes)) != -1) {
                     outputStream.write(bytes, 0, read);
                 }
-            } catch (NullPointerException e){}
+            } catch (NullPointerException ignored){}
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         } finally {

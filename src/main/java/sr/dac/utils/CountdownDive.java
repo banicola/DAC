@@ -27,7 +27,7 @@ public class CountdownDive implements Runnable {
             try {
                 a.setPlayerLives(diver, -1);
                 diver.teleport(a.getLobbyLocation());
-            } catch (NullPointerException e){}
+            } catch (NullPointerException ignore){}
             StartGame.nextDiver(a);
         }
         timeToJump--;

@@ -18,13 +18,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class ArenaManager {
-    private static Map<String, Arena> arenas = new HashMap<String, Arena>();
-    private static Map<Player, String> playerInArena = new HashMap<Player, String>();
-    private static Map<Player, String> playerSpectator = new HashMap<Player, String>();
+    private static Map<String, Arena> arenas = new HashMap<>();
+    private static Map<Player, String> playerInArena = new HashMap<>();
+    private static Map<Player, String> playerSpectator = new HashMap<>();
 
     public static boolean createArena(String name) {
         if(arenas.containsKey(name)) throw new KeyAlreadyExistsException();
-        arenas.put(name, new Arena(name, null, null, new AbstractMap.SimpleEntry<>(null, null), -1, 0, 0, false, null, new ArrayList<>()));
+        arenas.put(name, new Arena(name, null, null, new AbstractMap.SimpleEntry<>(null, null), -1, 0, 0, null, new ArrayList<>()));
         try {
             save(name, arenas.get(name));
         } catch (IOException ioException) {
@@ -58,20 +58,14 @@ public class ArenaManager {
             Arena arena = ArenaManager.getArena(a);
 
             List<Player> players = arena.getPlayers();
-            List<Player> listPlayers = new ArrayList<>();
-            for(Player p : players){
-                listPlayers.add(p);
-            }
+            List<Player> listPlayers = new ArrayList<>(players);
             for(Player p: listPlayers){
                 ArenaManager.playerLeaveArena(p);
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", Main.f.getString("kickReason.reload"))));
             }
 
             List<Player> spectators = arena.getSpectators();
-            List<Player> listSpectators= new ArrayList<>();
-            for(Player p : spectators){
-                listSpectators.add(p);
-            }
+            List<Player> listSpectators = new ArrayList<>(spectators);
             for(Player spectator : listSpectators){
                 ArenaManager.playerLeaveArena(spectator);
                 spectator.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", Main.f.getString("kickReason.reload"))));
@@ -110,7 +104,7 @@ public class ArenaManager {
             else throw new KeyAlreadyExistsException("other");
         }
         if(!arenas.get(arena).isOpen()) throw new Exception("closed");
-        if(arenas.get(arena).getStatus()=="playing") throw new Exception("playing");
+        if(arenas.get(arena).getStatus().equals("playing")) throw new Exception("playing");
         if(arenas.get(arena).getPlayers().size()==arenas.get(arena).getMax_player()) throw new Exception("full");
         playerInArena.put(player, arena);
         Arena a = getArena(arena);
@@ -132,10 +126,10 @@ public class ArenaManager {
             player.teleport(a.getLobbyLocation());
             playerInArena.remove(player);
             a.leave(player);
-            if(a.getPlayers().size()<a.getMin_player() && a.getCountdown()!=0 && a.getStatus()!="playing"){
+            if(a.getPlayers().size()<a.getMin_player() && a.getCountdown()!=0 && !a.getStatus().equals("playing")){
                 Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
             }
-            if(a.getStatus()=="playing"){
+            if(a.getStatus().equals("playing")){
                 if(a.getPlayers().size()==0){
                     if(a.getCountdown()!=0){
                         Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
@@ -144,7 +138,7 @@ public class ArenaManager {
                     a.resetArena();
                     return;
                 }
-                if(a.getPlayers().size()==1){
+                if(a.getPlayers().size()==1&&!a.getStatus().equals("ending")){
                     EndGame.gameIsDone(a);
                     return;
                 }
@@ -180,9 +174,8 @@ public class ArenaManager {
         YamlConfiguration arenasConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(),"arenas.yml"));
         for(String arena : arenasConfig.getConfigurationSection("arenas").getKeys(false)){
             arenas.put(arena, new Arena(arena, arenasConfig.getLocation("arenas."+arena+".divingLocation"), arenasConfig.getLocation("arenas."+arena+".lobbyLocation"),
-                    new AbstractMap.SimpleEntry<Location, Location>(arenasConfig.getLocation("arenas."+arena+".poolLocationA"), arenasConfig.getLocation("arenas."+arena+".poolLocationB")),
-                    arenasConfig.getInt("arenas."+arena+".poolBottom"), arenasConfig.getInt("arenas."+arena+".min_player"),arenasConfig.getInt("arenas."+arena+".max_player"),
-                    arenasConfig.getBoolean("arenas."+arena+".open"),arenasConfig.getString("arenas."+arena+".status"), (List<Location>) arenasConfig.getList("arenas."+arena+".signs")));
+                    new AbstractMap.SimpleEntry<>(arenasConfig.getLocation("arenas." + arena + ".poolLocationA"), arenasConfig.getLocation("arenas." + arena + ".poolLocationB")),
+                    arenasConfig.getInt("arenas."+arena+".poolBottom"), arenasConfig.getInt("arenas."+arena+".min_player"),arenasConfig.getInt("arenas."+arena+".max_player"),arenasConfig.getString("arenas."+arena+".status"), (List<Location>) arenasConfig.getList("arenas."+arena+".signs")));
         }
     }
 

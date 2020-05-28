@@ -2,12 +2,10 @@ package sr.dac.menus;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import sr.dac.configs.ArenaManager;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
 import sr.dac.main.Menu;
@@ -26,8 +24,8 @@ public class PlayerLimitMenu extends Menu {
 
     @Override
     public String getMenuName() {
-        String title = "";
-        if(type=="min") title = Main.f.getString("editArena.guiMinPlayerTitle");
+        String title;
+        if(type.equals("min")) title = Main.f.getString("editArena.guiMinPlayerTitle");
         else title = Main.f.getString("editArena.guiMaxPlayerTitle");
         return ChatColor.translateAlternateColorCodes('&', title+" "+arena.getName());
     }
@@ -69,7 +67,7 @@ public class PlayerLimitMenu extends Menu {
                     arena.setMin_player(playerCount);
                     playerMenuUtil.getP().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.setMinPlayerValid").replace("%number%", ""+playerCount)));
                     e.getView().close();
-                    new ArenaEditionMenu(Main.getPlayerMenuUtil((Player) playerMenuUtil.getP()), arena).open();
+                    new ArenaEditionMenu(Main.getPlayerMenuUtil(playerMenuUtil.getP()), arena).open();
                 } else if(type.equalsIgnoreCase("max")){
                     if(playerCount<arena.getMin_player()){
                         playerMenuUtil.getP().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.setMaxPlayerTooLow")));
@@ -77,7 +75,7 @@ public class PlayerLimitMenu extends Menu {
                         arena.setMax_player(playerCount);
                         playerMenuUtil.getP().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.setMaxPlayerValid").replace("%number%", ""+playerCount)));
                         e.getView().close();
-                        new ArenaEditionMenu(Main.getPlayerMenuUtil((Player) playerMenuUtil.getP()), arena).open();
+                        new ArenaEditionMenu(Main.getPlayerMenuUtil(playerMenuUtil.getP()), arena).open();
                     }
                 }
             }
@@ -91,7 +89,7 @@ public class PlayerLimitMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        if(type=="min"){
+        if(type.equals("min")){
             ItemStack minPlayerSelection = new ItemStack(Material.SNOWBALL);
             ItemMeta minPlayerSelection_meta = minPlayerSelection.getItemMeta();
             minPlayerSelection_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMinPlayerTitle")));

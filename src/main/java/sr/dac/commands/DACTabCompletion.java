@@ -30,18 +30,17 @@ public class DACTabCompletion implements TabCompleter {
         if(args.length == 2){
             if((args[0].equalsIgnoreCase("join")&& sender.hasPermission("dac.join")) || (args[0].equalsIgnoreCase("spectate")&& sender.hasPermission("dac.spectate")) || (args[0].equalsIgnoreCase("remove") && sender.hasPermission("dac.remove")) || (args[0].equalsIgnoreCase("edit") && sender.hasPermission("dac.edit"))){
                 Set<String> arenas = ArenaManager.getArenas();
-                Set<String> available = new HashSet();
+                Set<String> available = new HashSet<>();
 
                 for(String a : arenas){
-                    if(!args[0].equalsIgnoreCase("edit") || !args[0].equalsIgnoreCase("remove")){
-                        available.add(a);
-                    } else if(ArenaManager.getArena(a).isOpen()) available.add(a);
+                    if(!(args[0].equalsIgnoreCase("edit") && !args[0].equalsIgnoreCase("remove"))) available.add(a);
+                    else if(ArenaManager.getArena(a).isOpen()) available.add(a);
                 }
                 List<String> cmdsFiltred = new ArrayList<>();
                 if (args[1].equalsIgnoreCase("")) cmdsFiltred = new ArrayList<>(available);
                 else {
                     for (String s : available) {
-                        if (s.startsWith(args[1], 0)) cmdsFiltred.add(s);
+                        if (s.startsWith(args[1])) cmdsFiltred.add(s);
                     }
                 }
                 return cmdsFiltred;
@@ -54,7 +53,7 @@ public class DACTabCompletion implements TabCompleter {
                 if (args[2].equalsIgnoreCase("")) cmdsFiltred = cmds;
                 else {
                     for (String s : cmds) {
-                        if (s.startsWith(args[2], 0)) cmdsFiltred.add(s);
+                        if (s.startsWith(args[2])) cmdsFiltred.add(s);
                     }
                 }
                 return cmdsFiltred;

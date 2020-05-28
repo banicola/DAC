@@ -28,18 +28,18 @@ public class DivingVelocity implements Listener {
             if(arena.getPlayers().size()<=arena.getDiver()){
                 return;
             }
-            if(arena.getStatus()=="playing" && arena.getPlayers().get(arena.getDiver())==p){
+            if(arena.getStatus().equals("playing") && arena.getPlayers().get(arena.getDiver())==p){
                 if(p.getLocation().getBlockY()<=arena.getPoolLocation().getKey().getBlockY()){
                     Location lowerLocation;
 
                     if(p.getLocation().getBlockY()==arena.getPoolLocation().getKey().getBlockY()) lowerLocation = p.getLocation().add(0,-1,0);
                     else lowerLocation = p.getLocation();
 
-                    int topBlockX = (arena.getPoolLocation().getKey().getBlockX() < arena.getPoolLocation().getValue().getBlockX() ? arena.getPoolLocation().getValue().getBlockX() : arena.getPoolLocation().getKey().getBlockX());
-                    int bottomBlockX = (arena.getPoolLocation().getKey().getBlockX() > arena.getPoolLocation().getValue().getBlockX() ? arena.getPoolLocation().getValue().getBlockX() : arena.getPoolLocation().getKey().getBlockX());
+                    int topBlockX = (Math.max(arena.getPoolLocation().getKey().getBlockX(), arena.getPoolLocation().getValue().getBlockX()));
+                    int bottomBlockX = (Math.min(arena.getPoolLocation().getKey().getBlockX(), arena.getPoolLocation().getValue().getBlockX()));
 
-                    int topBlockZ = (arena.getPoolLocation().getKey().getBlockZ() < arena.getPoolLocation().getValue().getBlockZ() ? arena.getPoolLocation().getValue().getBlockZ() : arena.getPoolLocation().getKey().getBlockZ());
-                    int bottomBlockZ = (arena.getPoolLocation().getKey().getBlockZ() > arena.getPoolLocation().getValue().getBlockZ() ? arena.getPoolLocation().getValue().getBlockZ() : arena.getPoolLocation().getKey().getBlockZ());
+                    int topBlockZ = (Math.max(arena.getPoolLocation().getKey().getBlockZ(), arena.getPoolLocation().getValue().getBlockZ()));
+                    int bottomBlockZ = (Math.min(arena.getPoolLocation().getKey().getBlockZ(), arena.getPoolLocation().getValue().getBlockZ()));
 
                     if((lowerLocation.getBlockX()>bottomBlockX && lowerLocation.getBlockX()<topBlockX)&&(lowerLocation.getBlockZ()>bottomBlockZ && lowerLocation.getBlockZ()<topBlockZ)){
                         Block blockUnder = Bukkit.getServer().getWorld(p.getWorld().getName()).getBlockAt(lowerLocation);

@@ -13,6 +13,6 @@ public class PlayerLeaveServer  implements Listener {
     public static void onPlayerLeaveServer(PlayerQuitEvent e){
         try{
             ArenaManager.playerLeaveArena(e.getPlayer());
-        } catch (NoSuchElementException exception){}
+        } catch (NoSuchElementException ignored){}
     }
 }

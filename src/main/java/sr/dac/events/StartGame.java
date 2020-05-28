@@ -45,7 +45,7 @@ public class StartGame {
                 playersLeft++;
             }
         }
-        if(playersLeft==1){
+        if(playersLeft==1&&!a.getStatus().equals("ending")){
             EndGame.gameIsDone(a);
         } else {
             int diver = a.nextDiver(a.getDiver()+1);
