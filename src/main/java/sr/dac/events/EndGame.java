@@ -31,15 +31,13 @@ public class EndGame {
                 List<Player> players = a.getPlayers();
                 List<Player> listPlayers = new ArrayList<>();
                 for(Player p : players){
-                    if(p!=winner){
-                        listPlayers.add(p);
-                    }
+                    listPlayers.add(p);
                 }
+                listPlayers.remove(listPlayers.indexOf(winner));
                 for(Player p : listPlayers){
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
                     ArenaManager.playerLeaveArena(p);
                 }
-
                 ArenaManager.playerLeaveArena(winner);
             }
         } catch (IndexOutOfBoundsException e){
