@@ -30,7 +30,7 @@ public class BlockPlace implements Listener {
                 } else {
                     AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
                     a.setPoolLocation(poolLocation);
-                    e.getPlayer().getInventory().setItem(0, new ItemStack(Material.AIR));
+                    e.getPlayer().getInventory().setItem(e.getPlayer().getInventory().getHeldItemSlot(), new ItemStack(Material.AIR));
                     new ArenaEditionMenu(Main.getPlayerMenuUtil((Player) e.getPlayer()), a).open();
                 }
             }
