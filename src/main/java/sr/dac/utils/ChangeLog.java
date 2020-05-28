@@ -2,9 +2,8 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private static String [] changelog = {
-            "&aRandom block selection",
-            "&aRandom button in BS Menu",
-            "&eSmall fixes"
+            "&aArena's signs",
+            "&eFix pool Y detection"
     };
 
     public static String[] changeLog(){

@@ -2,10 +2,10 @@ package sr.dac.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import sr.dac.configs.ArenaManager;
 import sr.dac.main.Arena;
 import sr.dac.main.Config;
 import sr.dac.main.Main;
@@ -26,6 +26,9 @@ public class StartGame {
         Bukkit.getScheduler().cancelTask(a.getCountdown());
         a.resetArena();
         a.setStatus("playing");
+        for(Location sign : a.getSigns()){
+            a.updateSign(sign);
+        }
         nextDiver(a);
     }
 

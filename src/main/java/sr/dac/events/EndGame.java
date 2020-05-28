@@ -8,12 +8,12 @@ import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class EndGame {
 
     public static void gameIsDone(Arena a){
+        a.setCountdown(0);
         try{
             Player winner = null;
             for(Player player : a.getPlayers()){
@@ -53,6 +53,5 @@ public class EndGame {
         for(Location sign : a.getSigns()){
             a.updateSign(sign);
         }
-        a.setCountdown(0);
     }
 }

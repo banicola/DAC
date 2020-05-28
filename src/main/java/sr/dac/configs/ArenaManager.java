@@ -6,6 +6,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import sr.dac.events.EndGame;
 import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
@@ -132,6 +133,7 @@ public class ArenaManager {
             if(player.isOp()) player.setGameMode(GameMode.CREATIVE);
             else player.setGameMode(GameMode.SURVIVAL);
             Arena a = getArena(playerInArena.get(player));
+            player.teleport(a.getLobbyLocation());
             playerInArena.remove(player);
             a.leave(player);
             if(a.getPlayers().size()<a.getMin_player() && a.getCountdown()!=0 && a.getStatus()!="playing"){
@@ -144,6 +146,10 @@ public class ArenaManager {
                         a.setCountdown(0);
                     }
                     a.resetArena();
+                    return;
+                }
+                if(a.getPlayers().size()==1){
+                    EndGame.gameIsDone(a);
                     return;
                 }
                 boolean isDiver = a.getDiver()==a.getPlayers().indexOf(player);

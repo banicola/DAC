@@ -11,11 +11,7 @@ public class OnFallDamage implements Listener {
     public void onFallDamage(EntityDamageEvent event){
         if(event.getEntity() instanceof Player){
             Player p = (Player) event.getEntity();
-
             if(ArenaManager.getPlayerArena(p)!=null && event.getCause() == EntityDamageEvent.DamageCause.FALL){
-                event.setCancelled(true);
-            }
-            if(ArenaManager.getPlayerArena(p)!=null && p.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FALL){
                 event.setCancelled(true);
             }
         }
