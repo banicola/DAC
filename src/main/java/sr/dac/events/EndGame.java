@@ -1,6 +1,7 @@
 package sr.dac.events;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import sr.dac.configs.ArenaManager;
 import sr.dac.main.Arena;
@@ -49,6 +50,9 @@ public class EndGame {
         a.resetArena();
         a.resetPlayersBlocks();
         a.setStatus("waiting");
+        for(Location sign : a.getSigns()){
+            a.updateSign(sign);
+        }
         a.setCountdown(0);
     }
 }

@@ -9,6 +9,8 @@ import sr.dac.utils.UpdateFiles;
 import sr.dac.utils.Version;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Config {
     public static File configF = new File(Main.getPlugin().getDataFolder(), "config.yml");
@@ -46,11 +48,25 @@ public class Config {
         blocksConfig = YamlConfiguration.loadConfiguration(new File(Main.getPlugin().getDataFolder(), "blocks.yml"));
         for(String a : ArenaManager.getArenas()){
             Arena arena = ArenaManager.getArena(a);
-            for(Player p: arena.getPlayers()){
+
+            List<Player> players = arena.getPlayers();
+            List<Player> listPlayers = new ArrayList<>();
+            for(Player p : players){
+                listPlayers.add(p);
+            }
+            for(Player p: listPlayers){
+                ArenaManager.playerLeaveArena(p);
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
             }
-            for(Player spect : arena.getSpectators()){
-                spect.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
+
+            List<Player> spectators = arena.getSpectators();
+            List<Player> listSpectators= new ArrayList<>();
+            for(Player p : spectators){
+                listSpectators.add(p);
+            }
+            for(Player spectator : listSpectators){
+                ArenaManager.playerLeaveArena(spectator);
+                spectator.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
             }
         }
         ArenaManager.load();

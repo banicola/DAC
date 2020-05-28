@@ -48,7 +48,11 @@ public class Arena {
         this.poolBottom = poolBottom;
         this.min_player = min_player;
         this.max_player = max_player;
-        this.open = open;
+        if(divingLocation!=null && lobbyLocation!=null && poolLocation.getKey()!=null && poolLocation.getValue()!=null && min_player>0 && min_player<=max_player){
+            this.open = true;
+        } else {
+            this.open = false;
+        }
         this.status = status;
         this.signs = signs;
         for(Location sign : signs){
@@ -86,11 +90,13 @@ public class Arena {
             sign.setLine(2, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.statusClosed")));
         } else {
             sign.setLine(1, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.playersCount").replace("%count%", ""+getPlayers().size()).replace("%max%", ""+getMax_player())));
-            if(getPlayers().size()<getMin_player()){
-                int needed = getMin_player()-getPlayers().size();
-                sign.setLine(2, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.needXPlayers").replace("%count%", ""+needed)));
-            } else {
-                sign.setLine(2, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.readyToStart")));
+            if(getStatus().equalsIgnoreCase("waiting")){
+                if(getPlayers().size()<getMin_player()){
+                    int needed = getMin_player()-getPlayers().size();
+                    sign.setLine(2, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.needXPlayers").replace("%count%", ""+needed)));
+                } else {
+                    sign.setLine(2, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.readyToStart")));
+                }
             }
             if(getStatus().equalsIgnoreCase("waiting")){
                 sign.setLine(3, ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.statusWaiting")));
@@ -240,6 +246,9 @@ public class Arena {
             ArenaManager.save(name, this);
         } catch (IOException ioException) {
             ioException.printStackTrace();
+        }
+        for(Location sign : getSigns()){
+            updateSign(sign);
         }
     }
 

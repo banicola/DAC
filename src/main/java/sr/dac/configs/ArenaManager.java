@@ -1,6 +1,7 @@
 package sr.dac.configs;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -52,6 +53,29 @@ public class ArenaManager {
         removeArena(name);
     }
     public static void resetPlayers(){
+        for(String a : ArenaManager.getArenas()){
+            Arena arena = ArenaManager.getArena(a);
+
+            List<Player> players = arena.getPlayers();
+            List<Player> listPlayers = new ArrayList<>();
+            for(Player p : players){
+                listPlayers.add(p);
+            }
+            for(Player p: listPlayers){
+                ArenaManager.playerLeaveArena(p);
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
+            }
+
+            List<Player> spectators = arena.getSpectators();
+            List<Player> listSpectators= new ArrayList<>();
+            for(Player p : spectators){
+                listSpectators.add(p);
+            }
+            for(Player spectator : listSpectators){
+                ArenaManager.playerLeaveArena(spectator);
+                spectator.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
+            }
+        }
         playerInArena = new HashMap<>();
         playerSpectator = new HashMap<>();
     }
