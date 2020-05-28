@@ -150,3 +150,7 @@ editArena:
 listArenas:
   title: "&bArènes disponibles:"
   empty: "&cAucune arène disponible !"
+kickReason:
+  reload: "Rechargement plugin"
+  arenaClosed: "Arène fermée"
+  eventMode: "Mode event activé"

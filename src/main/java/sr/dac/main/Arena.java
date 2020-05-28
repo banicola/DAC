@@ -28,7 +28,7 @@ public class Arena {
     private int min_player;
     private int max_player;
 
-    private List<Location> signs = new ArrayList<>();
+    private List<Location> signs;
 
     private List<Player> players = new ArrayList<>();
     private List<Player> spectators = new ArrayList<>();
@@ -238,6 +238,15 @@ public class Arena {
     public void setOpen(){
         if(open){
             this.open = false;
+            List<Player> players = getPlayers();
+            List<Player> listPlayers = new ArrayList<>();
+            for(Player p : players){
+                listPlayers.add(p);
+            }
+            for(Player p : listPlayers){
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", Main.f.getString("kickReason.arenaClosed"))));
+                ArenaManager.playerLeaveArena(p);
+            }
         } else {
             this.open = true;
         }

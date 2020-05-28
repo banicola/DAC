@@ -64,7 +64,7 @@ public class ArenaManager {
             }
             for(Player p: listPlayers){
                 ArenaManager.playerLeaveArena(p);
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", Main.f.getString("kickReason.reload"))));
             }
 
             List<Player> spectators = arena.getSpectators();
@@ -74,7 +74,7 @@ public class ArenaManager {
             }
             for(Player spectator : listSpectators){
                 ArenaManager.playerLeaveArena(spectator);
-                spectator.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", "Plugin reload")));
+                spectator.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("global.kickPlayer").replace("%reason%", Main.f.getString("kickReason.reload"))));
             }
         }
         playerInArena = new HashMap<>();
@@ -83,10 +83,6 @@ public class ArenaManager {
 
     public static String getPlayerArena(Player player){
         return playerInArena.get(player);
-    }
-
-    public static String getPlayerSpectateArena(Player player){
-        return playerSpectator.get(player);
     }
 
     public static void playerSpectateArena(Player player, String arena){
@@ -175,10 +171,6 @@ public class ArenaManager {
 
     public static Set<String> getArenas() {
         return arenas.keySet();
-    }
-
-    public static boolean exists(String name) {
-        return arenas.get(name) != null;
     }
 
     public static void load() {

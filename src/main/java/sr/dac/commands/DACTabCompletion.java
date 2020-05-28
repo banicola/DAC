@@ -4,7 +4,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import sr.dac.configs.ArenaManager;
-import sr.dac.main.Arena;
 
 import java.util.*;
 
@@ -12,7 +11,7 @@ public class DACTabCompletion implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
-            List<String> cmds = new ArrayList<>(Arrays.asList("join", "leave", "list", "spectate", "block"));
+            List<String> cmds = new ArrayList<>(Arrays.asList("join", "leave", "list", "spectate", "block", "help"));
             if (sender.hasPermission("dac.event")) cmds.add("event");
             if (sender.hasPermission("dac.create")) cmds.add("create");
             if (sender.hasPermission("dac.remove")) cmds.add("remove");
@@ -23,7 +22,7 @@ public class DACTabCompletion implements TabCompleter {
             if (args[0].equalsIgnoreCase("")) cmdsFiltred = cmds;
             else {
                 for (String s : cmds) {
-                    if (s.startsWith(args[0], 0)) cmdsFiltred.add(s);
+                    if (s.startsWith(args[0])) cmdsFiltred.add(s);
                 }
             }
             return cmdsFiltred;

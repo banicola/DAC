@@ -148,3 +148,7 @@ editArena:
 listArenas:
   title: "&bArenas available:"
   empty: "&cNo arena available !"
+kickReason:
+  reload: "Plugin reload"
+  arenaClosed: "Arena closed"
+  eventMode: "Event mode activated"
