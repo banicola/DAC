@@ -3,7 +3,6 @@ package sr.dac.listeners;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -27,11 +26,19 @@ public class BlockPlace implements Listener {
                     a.setPoolLocation(poolLocation);
                     i.setAmount(2);
                     e.getPlayer().getInventory().setItem(0,i);
+                    e.getPlayer().sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.poolSelectionMade").replace("%num%", ""+1)
+                            .replace("%x%", ""+e.getBlockPlaced().getLocation().getBlockX()).replace("%z%", ""+e.getBlockPlaced().getLocation().getBlockZ())));
                 } else {
-                    AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
-                    a.setPoolLocation(poolLocation);
-                    e.getPlayer().getInventory().setItem(e.getPlayer().getInventory().getHeldItemSlot(), new ItemStack(Material.AIR));
-                    new ArenaEditionMenu(Main.getPlayerMenuUtil((Player) e.getPlayer()), a).open();
+                    if(e.getBlockPlaced().getLocation().getBlockY()==a.getPoolLocation().getKey().getBlockY()){
+                        AbstractMap.SimpleEntry<Location, Location> poolLocation = new AbstractMap.SimpleEntry(a.getPoolLocation().getKey(), e.getBlockPlaced().getLocation());
+                        a.setPoolLocation(poolLocation);
+                        e.getPlayer().getInventory().setItem(e.getPlayer().getInventory().getHeldItemSlot(), new ItemStack(Material.AIR));
+                        e.getPlayer().sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.poolSelectionMade").replace("%num%", ""+2)
+                                .replace("%x%", ""+e.getBlockPlaced().getLocation().getBlockX()).replace("%z%", ""+e.getBlockPlaced().getLocation().getBlockZ())));
+                        new ArenaEditionMenu(Main.getPlayerMenuUtil(e.getPlayer()), a).open();
+                    } else {
+                        e.getPlayer().sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.poolSelectionYError")));
+                    }
                 }
             }
             e.setCancelled(true);

@@ -144,6 +144,9 @@ editArena:
   newNameSet: "&aL'arène a été renommée %name%"
   sameName: "%cCette arène porte déjà ce nom."
   arenaAlreadyExists: "&cCe nom est déjà utilisé par une autre arène."
+  poolSelectionMade: "&aCoin %num% du bassin mit en X:%x% Z:%z%"
+  poolSelectionYError: "&cLes 2 coins doivent être au même niveau Y. Le plugin détectera automatiquement la profondeur du bassin."
+  arenaOpenError: "&cVous devez fermer l'arène pour modifier ceci."
 listArenas:
   title: "&bArènes disponibles:"
   empty: "&cAucune arène disponible !"

@@ -142,6 +142,9 @@ editArena:
   newNameSet: "&aThe arena's name is now %name%"
   sameName: "%cIt is already the name of that area."
   arenaAlreadyExists: "&cThe name is already used by an other arena."
+  poolSelectionMade: "&aPool's corner %num% set in X:%x% Z:%z%"
+  poolSelectionYError: "&cThe 2 corners have to be on the same Y axis. The plugin will find the pool depth itself."
+  arenaOpenError: "&cYou have to close the arena to do this."
 listArenas:
   title: "&bArenas available:"
   empty: "&cNo arena available !"

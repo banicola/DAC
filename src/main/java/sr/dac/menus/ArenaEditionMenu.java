@@ -4,6 +4,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -15,6 +16,7 @@ import sr.dac.main.Main;
 import sr.dac.main.Menu;
 import sr.dac.utils.PlayerMenuUtil;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,35 +40,7 @@ public class ArenaEditionMenu extends Menu {
 
     @Override
     public void interactMenu(InventoryClickEvent e) {
-        if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiPoolSelectionTitle")))) {
-            ItemStack selector = new ItemStack(Material.GLASS);
-            ItemMeta selector_meta = selector.getItemMeta();
-            selector_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.selectionTool")));
-            ArrayList<String> selector_lore = new ArrayList<>();
-            selector_lore.add(arena.getName());
-            selector_meta.setLore(selector_lore);
-            selector.setItemMeta(selector_meta);
-            e.getWhoClicked().getInventory().setItem(0, selector);
-            e.getView().close();
-        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiDivingSelectionTitle")))) {
-            TextComponent t1 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.setClickPos")));
-            t1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dac edit "+arena.getName()+" setdiving"));
-            BaseComponent[] b = new BaseComponent[]{t1};;
-            playerMenuUtil.getP().spigot().sendMessage(b);
-            e.getView().close();
-        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiLobbySelectionTitle")))) {
-            TextComponent t1 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.setClickPos")));
-            t1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dac edit "+arena.getName()+" setlobby"));
-            BaseComponent[] b = new BaseComponent[]{t1};;
-            playerMenuUtil.getP().spigot().sendMessage(b);
-            e.getView().close();
-        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMinPlayerTitle")))) {
-            e.getView().close();
-            new PlayerLimitMenu(Main.getPlayerMenuUtil((Player) playerMenuUtil.getP()), arena, "min").open();
-        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMaxPlayerTitle")))) {
-            e.getView().close();
-            new PlayerLimitMenu(Main.getPlayerMenuUtil((Player) playerMenuUtil.getP()), arena, "max").open();
-        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiOpenArenaTitle")))) {
+        if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiOpenArenaTitle")))) {
             List<ItemStack> allStatus = Arrays.asList(e.getInventory().getItem(11),e.getInventory().getItem(12), e.getInventory().getItem(13), e.getInventory().getItem(14), e.getInventory().getItem(15));
             boolean isReady=true;
             for(ItemStack i : allStatus){
@@ -84,11 +58,64 @@ public class ArenaEditionMenu extends Menu {
                 }
                 e.getInventory().setItem(7, block);
             }
-        } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiNameEdit")))){
-            TextComponent cmd = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.nameCmdRedirect")));
-            cmd.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dac edit "+arena.getName()+" setname "));
-            playerMenuUtil.getP().spigot().sendMessage(cmd);
-            e.getView().close();
+        } else {
+            if(!arena.isOpen()){
+                if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiPoolSelectionTitle")))) {
+                    ItemStack selector = new ItemStack(Material.GLASS);
+                    ItemMeta selector_meta = selector.getItemMeta();
+                    selector_meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.selectionTool")));
+                    ArrayList<String> selector_lore = new ArrayList<>();
+                    selector_lore.add(arena.getName());
+                    selector_meta.setLore(selector_lore);
+                    selector.setItemMeta(selector_meta);
+                    e.getWhoClicked().getInventory().setItem(0, selector);
+                    e.getView().close();
+                    arena.setPoolLocation(new AbstractMap.SimpleEntry<>(null, null));
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiDivingSelectionTitle")))) {
+                    TextComponent t1 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.setClickPos")));
+                    t1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dac edit "+arena.getName()+" setdiving"));
+                    BaseComponent[] b = new BaseComponent[]{t1};;
+                    playerMenuUtil.getP().spigot().sendMessage(b);
+                    e.getView().close();
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiLobbySelectionTitle")))) {
+                    TextComponent t1 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.setClickPos")));
+                    t1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dac edit "+arena.getName()+" setlobby"));
+                    BaseComponent[] b = new BaseComponent[]{t1};;
+                    playerMenuUtil.getP().spigot().sendMessage(b);
+                    e.getView().close();
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMinPlayerTitle")))) {
+                    e.getView().close();
+                    new PlayerLimitMenu(Main.getPlayerMenuUtil((Player) playerMenuUtil.getP()), arena, "min").open();
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiMaxPlayerTitle")))) {
+                    e.getView().close();
+                    new PlayerLimitMenu(Main.getPlayerMenuUtil((Player) playerMenuUtil.getP()), arena, "max").open();
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiOpenArenaTitle")))) {
+                    List<ItemStack> allStatus = Arrays.asList(e.getInventory().getItem(11),e.getInventory().getItem(12), e.getInventory().getItem(13), e.getInventory().getItem(14), e.getInventory().getItem(15));
+                    boolean isReady=true;
+                    for(ItemStack i : allStatus){
+                        if(!i.getType().equals(Material.LIME_CONCRETE)) isReady= false;
+                    }
+                    if(isReady){
+                        arena.setOpen();
+                        ItemStack block = e.getCurrentItem();
+                        if(arena.isOpen()){
+                            block.setType(Material.LIME_CONCRETE);
+                            playerMenuUtil.getP().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.isOpen").replace("%arena%",arena.getName())));
+                        } else {
+                            block.setType(Material.RED_CONCRETE);
+                            playerMenuUtil.getP().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " +Main.f.getString("editArena.isClosed").replace("%arena%",arena.getName())));
+                        }
+                        e.getInventory().setItem(7, block);
+                    }
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiNameEdit")))){
+                    TextComponent cmd = new TextComponent(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.nameCmdRedirect")));
+                    cmd.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/dac edit "+arena.getName()+" setname "));
+                    playerMenuUtil.getP().spigot().sendMessage(cmd);
+                    e.getView().close();
+                }
+            } else {
+                playerMenuUtil.getP().sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("editArena.arenaOpenError")));
+            }
         }
     }
 
