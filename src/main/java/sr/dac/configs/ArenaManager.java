@@ -80,6 +80,10 @@ public class ArenaManager {
         return playerInArena.get(player);
     }
 
+    public static String getSpectatorArena(Player player){
+        return playerSpectator.get(player);
+    }
+
     public static void playerSpectateArena(Player player, String arena){
         if(!arenas.containsKey(arena)) throw new NoSuchElementException();
         if(playerInArena.containsKey(player)){

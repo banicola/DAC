@@ -9,7 +9,6 @@ import sr.dac.main.Arena;
 import sr.dac.main.Main;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ScoreboardDAC {
@@ -19,7 +18,10 @@ public class ScoreboardDAC {
         Scoreboard scoreboard = manager.getNewScoreboard();
         Arena arena = ArenaManager.getArena(ArenaManager.getPlayerArena(p));
 
-        if(arena==null)return;
+        if(arena==null) {
+            arena = ArenaManager.getArena(ArenaManager.getSpectatorArena(p));
+            if(arena==null) return;
+        }
 
         Objective objective = scoreboard.registerNewObjective("dacWaiting", "dummy", ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.title").replace("%arena%", arena.getName())));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
