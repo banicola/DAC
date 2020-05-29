@@ -26,11 +26,12 @@ public class EndGame {
             }
             if(winner!=null){
                 winner.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
-                for(Player s : a.getSpectators()){
-                    if(s!=winner){
-                        s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
-                        ArenaManager.playerLeaveArena(s);
-                    }
+                List<Player> spectators = a.getSpectators();
+                List<Player> listSpectators = new ArrayList<>(spectators);
+                listSpectators.remove(winner);
+                for(Player s : listSpectators){
+                    s.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.playerWon").replace("%player%", winner.getName()).replace("%lives%",""+a.getPlayerLives(winner))));
+                    ArenaManager.playerLeaveArena(s);
                 }
                 List<Player> players = a.getPlayers();
                 List<Player> listPlayers = new ArrayList<>(players);

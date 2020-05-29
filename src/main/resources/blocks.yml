@@ -35,8 +35,6 @@ lapis_ore: true
 lapis_block: true
 dispenser: true
 sandstone: true
-sticky_piston: true
-piston: true
 white_wool: true
 orange_wool: true
 magenta_wool: true

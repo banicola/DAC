@@ -44,7 +44,7 @@ playingScoreboard:
   nextTitle: "&bNext: "
   nextDiver: "&d%player%"
   livesTitle: "&bLives: "
-  players: "&a%player% : &f%lives%"
+  players: "&a%player% &7: &f%lives%"
   timeLeft: "&bTime: &f%time%"
 sign:
   title: "&f[&b%arena%&f]"

@@ -15,16 +15,19 @@ public class CountdownStart implements Runnable {
     int i;
     Arena a;
     List<Player> players;
+    List<Player> spectators;
 
     public CountdownStart(int start, Arena a){
         this.i=start;
         this.a=a;
         this.players= a.getPlayers();
+        this.spectators = a.getSpectators();
     }
 
     @Override
     public void run() {
         players.forEach(player -> ScoreboardDAC.setScoreboardWaitingDAC(player, i));
+        spectators.forEach(player -> ScoreboardDAC.setScoreboardWaitingDAC(player, i));
         if(i== Main.getPlugin().getConfig().getInt("countdownBeforeStart")){
             players.forEach(player -> player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.countdown").replace("%time%", ""+i))));
         } else if(i==Main.getPlugin().getConfig().getInt("countdownBeforeStart")/2){
@@ -43,6 +46,7 @@ public class CountdownStart implements Runnable {
                 ScoreboardDAC.setScoreboardPlayingDAC(player, 0);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.hasStarted")));
             });
+            spectators.forEach(player -> ScoreboardDAC.setScoreboardPlayingDAC(player, 0));
             StartGame.inGame(a);
         }
         i--;

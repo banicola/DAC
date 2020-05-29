@@ -49,6 +49,7 @@ public class ScoreboardDAC {
                 score4 = objective.getScore(ChatColor.translateAlternateColorCodes('&',Main.f.getString("sign.readyToStart")));
             }
         }
+        assert score4 != null;
         score4.setScore(6);
 
         if(arena.getCountdown()!=0){
@@ -78,9 +79,8 @@ public class ScoreboardDAC {
         score1.setScore(8);
 
         List<Player> playersList = arena.getPlayers();
-        List<Player> players = new ArrayList<>();
-        players.addAll(playersList);
-        Collections.sort(players, (p1, p2) -> arena.getPlayerLives(p2) - arena.getPlayerLives(p1));
+        List<Player> players = new ArrayList<>(playersList);
+        players.sort((p1, p2) -> arena.getPlayerLives(p2) - arena.getPlayerLives(p1));
 
         if(players.size()<=5){
             players.subList(0, players.size()-1);
@@ -92,10 +92,13 @@ public class ScoreboardDAC {
             objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("playingScoreboard.players").replace("%player%", player.getName()).replace("%lives%", ""+arena.getPlayerLives(player)))).setScore(pos);
             pos--;
         }
-        if(arena.getPlayers().get(arena.getDiver())==p){
-            Score time = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("playingScoreboard.timeLeft").replace("%time%", ""+timeLeft)));
-            time.setScore(2);
-        }
+        try{
+            if(arena.getPlayers().get(arena.getDiver())==p){
+                Score time = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("playingScoreboard.timeLeft").replace("%time%", ""+timeLeft)));
+                time.setScore(2);
+            }
+        } catch (IndexOutOfBoundsException ignored){}
+
 
         p.setScoreboard(scoreboard);
     }

@@ -95,6 +95,8 @@ public class ArenaManager {
             a.setSpectators(player);
             playerSpectator.put(player,arena);
             player.teleport(a.getLobbyLocation());
+            if(a.getStatus().equalsIgnoreCase("waiting")) ScoreboardDAC.setScoreboardWaitingDAC(player, 0);
+            else ScoreboardDAC.setScoreboardPlayingDAC(player, 0);
         }
     }
 
@@ -112,6 +114,7 @@ public class ArenaManager {
         a.join(player);
         player.teleport(a.getLobbyLocation());
         player.setGameMode(GameMode.ADVENTURE);
+        player.setFlying(false);
         for(Player p : a.getPlayers()){
             ScoreboardDAC.setScoreboardWaitingDAC(p, 0);
         }
@@ -159,6 +162,7 @@ public class ArenaManager {
             Arena a = getArena(playerSpectator.get(player));
             playerSpectator.remove(player);
             a.leaveSpectator(player);
+            ScoreboardDAC.removeScoreboardDAC(player);
         } else {
             throw new NoSuchElementException();
         }

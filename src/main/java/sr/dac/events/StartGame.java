@@ -37,6 +37,9 @@ public class StartGame {
         for(Player player : a.getPlayers()){
             ScoreboardDAC.setScoreboardPlayingDAC(player,0);
         }
+        for(Player player : a.getSpectators()){
+            ScoreboardDAC.setScoreboardPlayingDAC(player,0);
+        }
         Player diver = a.getPlayers().get(diverNum);
         a.setCountdown(Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new CountdownDive(diver, a), 0L, 20L));
         diver.teleport(a.getDivingLocation());
