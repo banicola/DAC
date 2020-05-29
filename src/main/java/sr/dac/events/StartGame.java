@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import sr.dac.main.Arena;
 import sr.dac.main.Config;
 import sr.dac.main.Main;
+import sr.dac.menus.ScoreboardDAC;
 import sr.dac.utils.CountdownDive;
 import sr.dac.utils.CountdownStart;
 
@@ -33,6 +34,9 @@ public class StartGame {
     }
 
     private static void letsJump(Arena a, int diverNum){
+        for(Player player : a.getPlayers()){
+            ScoreboardDAC.setScoreboardPlayingDAC(player,0);
+        }
         Player diver = a.getPlayers().get(diverNum);
         a.setCountdown(Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new CountdownDive(diver, a), 0L, 20L));
         diver.teleport(a.getDivingLocation());

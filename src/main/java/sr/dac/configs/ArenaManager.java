@@ -10,6 +10,7 @@ import sr.dac.events.EndGame;
 import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
+import sr.dac.menus.ScoreboardDAC;
 import sr.dac.menus.SelectBlockMenu;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
@@ -111,6 +112,9 @@ public class ArenaManager {
         a.join(player);
         player.teleport(a.getLobbyLocation());
         player.setGameMode(GameMode.ADVENTURE);
+        for(Player p : a.getPlayers()){
+            ScoreboardDAC.setScoreboardWaitingDAC(p, 0);
+        }
         new SelectBlockMenu(Main.getPlayerMenuUtil(player)).open();
         for(Location sign : a.getSigns()){
             a.updateSign(sign);
@@ -126,6 +130,7 @@ public class ArenaManager {
             player.teleport(a.getLobbyLocation());
             playerInArena.remove(player);
             a.leave(player);
+            ScoreboardDAC.removeScoreboardDAC(player);
             if(a.getPlayers().size()<a.getMin_player() && a.getCountdown()!=0 && !a.getStatus().equals("playing")){
                 Bukkit.getServer().getScheduler().cancelTask(a.getCountdown());
             }

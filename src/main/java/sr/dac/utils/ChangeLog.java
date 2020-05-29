@@ -2,8 +2,8 @@ package sr.dac.utils;
 
 public class ChangeLog {
     private final static String [] changelog = {
-            "&aArena's signs",
-            "&eFix pool Y detection"
+            "&aScoreboards",
+            "&eFix bugs"
     };
 
     public static String[] changeLog(){

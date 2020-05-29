@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
+import sr.dac.menus.ScoreboardDAC;
 
 public class CountdownDive implements Runnable {
     Arena a;
@@ -18,6 +19,7 @@ public class CountdownDive implements Runnable {
 
     @Override
     public void run() {
+        ScoreboardDAC.setScoreboardPlayingDAC(diver,timeToJump);
         if(timeToJump== Main.getPlugin().getConfig().getInt("timeForJump")){
             diver.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.jumpCountdownStart").replace("%time%", ""+timeToJump)));
         } else if(timeToJump==5 || (timeToJump<=3&&timeToJump>0)){

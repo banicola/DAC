@@ -1,5 +1,6 @@
 package sr.dac.menus;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -47,20 +48,24 @@ public class PlayerLimitMenu extends Menu {
                         return;
                     }
                 }
-                ArrayList<String> minPlayer_lore = new ArrayList<>();
-                minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+(playerCount-1)));
-                playerCountItem_meta.setLore(minPlayer_lore);
-                playerCountItem.setItemMeta(playerCountItem_meta);
-                if(playerCount-1<=0) playerCountItem.setAmount(1);
-                else playerCountItem.setAmount(playerCount-1);
-                e.getInventory().setItem(4, playerCountItem);
+                Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+                    ArrayList<String> minPlayer_lore = new ArrayList<>();
+                    minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+(playerCount-1)));
+                    playerCountItem_meta.setLore(minPlayer_lore);
+                    playerCountItem.setItemMeta(playerCountItem_meta);
+                    if(playerCount-1<=0) playerCountItem.setAmount(1);
+                    else playerCountItem.setAmount(playerCount-1);
+                    e.getInventory().setItem(4, playerCountItem);
+                },3);
             } else if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiAdd")))) {
-                ArrayList<String> minPlayer_lore = new ArrayList<>();
-                minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+(playerCount+1)));
-                playerCountItem_meta.setLore(minPlayer_lore);
-                playerCountItem.setItemMeta(playerCountItem_meta);
-                playerCountItem.setAmount(playerCount+1);
-                e.getInventory().setItem(4, playerCountItem);
+                Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+                    ArrayList<String> minPlayer_lore = new ArrayList<>();
+                    minPlayer_lore.add(ChatColor.translateAlternateColorCodes('&',""+(playerCount+1)));
+                    playerCountItem_meta.setLore(minPlayer_lore);
+                    playerCountItem.setItemMeta(playerCountItem_meta);
+                    playerCountItem.setAmount(playerCount+1);
+                    e.getInventory().setItem(4, playerCountItem);
+                },3);
             } else if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Main.f.getString("editArena.guiValidation")))) {
                 if(type.equalsIgnoreCase("min")){
                     if(playerCount>arena.getMax_player()) arena.setMax_player(playerCount);

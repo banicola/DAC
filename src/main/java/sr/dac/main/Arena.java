@@ -11,6 +11,8 @@ import sr.dac.configs.ArenaManager;
 import java.io.IOException;
 import java.util.*;
 
+import static sr.dac.menus.ScoreboardDAC.setScoreboardWaitingDAC;
+
 public class Arena {
 
     private String name;
@@ -142,6 +144,7 @@ public class Arena {
 
     public void setPlayerMaterial(Player p, Material m){
         playerMaterial.put(p.getUniqueId(), m);
+        setScoreboardWaitingDAC(p, 0);
     }
 
     public Material getPlayerMaterial(Player p){

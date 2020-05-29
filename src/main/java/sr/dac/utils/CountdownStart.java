@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
 import sr.dac.main.Main;
+import sr.dac.menus.ScoreboardDAC;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class CountdownStart implements Runnable {
 
     @Override
     public void run() {
+        players.forEach(player -> ScoreboardDAC.setScoreboardWaitingDAC(player, i));
         if(i== Main.getPlugin().getConfig().getInt("countdownBeforeStart")){
             players.forEach(player -> player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.countdown").replace("%time%", ""+i))));
         } else if(i==Main.getPlugin().getConfig().getInt("countdownBeforeStart")/2){
@@ -38,6 +40,7 @@ public class CountdownStart implements Runnable {
             players.forEach(player -> {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 10, 1);
                 if(a.getPlayerMaterial(player)==null) StartGame.selectRandomBlock(player, a);
+                ScoreboardDAC.setScoreboardPlayingDAC(player, 0);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.hasStarted")));
             });
             StartGame.inGame(a);
