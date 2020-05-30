@@ -29,17 +29,20 @@ public class ScoreboardDAC {
         Score score = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.count").replace("%count%",""+arena.getPlayers().size())));
         score.setScore(10);
 
-        Score score1 = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.blockTitle")));
-        score1.setScore(9);
+        if(arena.getPlayers().contains(p)){
+            Score score1 = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.blockTitle")));
+            score1.setScore(9);
 
-        Score score2;
+            Score score2;
 
-        if(arena.getPlayerMaterial(p)!=null){
-            score2 = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.block").replace("%block%",arena.getPlayerMaterial(p).name())));
-        } else {
-            score2 = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.noBlock")));
+            if(arena.getPlayerMaterial(p)!=null){
+                score2 = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.block").replace("%block%",arena.getPlayerMaterial(p).name())));
+            } else {
+                score2 = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.noBlock")));
+            }
+            score2.setScore(8);
         }
-        score2.setScore(8);
+
         Score score3 = objective.getScore(ChatColor.translateAlternateColorCodes('&', Main.f.getString("startScoreboard.statusTitle")));
         score3.setScore(7);
         Score score4 = null;
@@ -67,7 +70,11 @@ public class ScoreboardDAC {
         Scoreboard scoreboard = manager.getNewScoreboard();
         Arena arena = ArenaManager.getArena(ArenaManager.getPlayerArena(p));
 
-        if(arena==null)return;
+        if(arena==null) {
+            arena = ArenaManager.getArena(ArenaManager.getSpectatorArena(p));
+            if(arena==null) return;
+        }
+
 
         Objective objective = scoreboard.registerNewObjective("dacPlaying", "dummy", ChatColor.translateAlternateColorCodes('&', Main.f.getString("playingScoreboard.title").replace("%arena%", arena.getName())));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -82,7 +89,8 @@ public class ScoreboardDAC {
 
         List<Player> playersList = arena.getPlayers();
         List<Player> players = new ArrayList<>(playersList);
-        players.sort((p1, p2) -> arena.getPlayerLives(p2) - arena.getPlayerLives(p1));
+        Arena finalArena = arena;
+        players.sort((p1, p2) -> finalArena.getPlayerLives(p2) - finalArena.getPlayerLives(p1));
 
         if(players.size()<=5){
             players.subList(0, players.size()-1);

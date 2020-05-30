@@ -78,7 +78,13 @@ public class Arena {
     }
 
     public void updateSign(Location signLocation){
-        Sign sign = (Sign) signLocation.getBlock().getState();
+        Sign sign;
+        try{
+            sign = (Sign) signLocation.getBlock().getState();
+        } catch (NullPointerException exception) {
+            removeSign(signLocation);
+            return;
+        }
         if(!sign.isPlaced()) return;
         for (int i = 0; i < 4; i++) {
             sign.setLine(i, "");

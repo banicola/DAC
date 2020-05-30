@@ -1,9 +1,6 @@
 package sr.dac.listeners;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
@@ -12,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.meta.FireworkMeta;
 import sr.dac.configs.ArenaManager;
 import sr.dac.events.StartGame;
 import sr.dac.main.Arena;
@@ -53,7 +51,13 @@ public class DivingVelocity implements Listener {
                             if(!north.getType().equals(Material.WATER)&&!east.getType().equals(Material.WATER)&&!south.getType().equals(Material.WATER)&&!west.getType().equals(Material.WATER)){
                                 arena.setPlayerLives(p, 1);
                                 playerBlock = Material.EMERALD_BLOCK;
+
                                 Firework fw = (Firework) blockUnder.getWorld().spawnEntity(blockUnder.getLocation().add(0,1,0), EntityType.FIREWORK);
+                                FireworkMeta data = fw.getFireworkMeta();
+                                data.addEffects(FireworkEffect.builder().withColor(Color.AQUA).withColor(Color.GREEN).with(FireworkEffect.Type.BALL_LARGE).withFlicker().build());
+                                data.setPower(1);
+                                fw.setFireworkMeta(data);
+
                                 for(Player others : arena.getPlayers()){
                                     if(others!=p) others.sendMessage(ChatColor.translateAlternateColorCodes('&', Main.f.getString("name") + " " + Main.f.getString("game.spectatorDAC").replace("%player%", p.getName()).replace("%lives%",""+arena.getPlayerLives(p))));
                                 }
