@@ -5,8 +5,10 @@ api-version: 1.13
 authors: [clipsy1]
 description: The true Dé à Coudre plugin ! Lets have fun !
 website: skyrepublic.fr
+load: POSTWORLD
 softdepend:
   - Vault
+  - Multiverse-Core
 commands:
   dac:
     description: main plugin command
