@@ -1,0 +1,13 @@
+item1:
+  type: item
+  item:
+    material: DIAMOND
+    name: ''
+    lore: []
+    quantity: 1
+    enchants:
+      infinity: 1
+command1:
+  type: command
+  commands:
+    - give %PLAYER% COBBLESTONE 64

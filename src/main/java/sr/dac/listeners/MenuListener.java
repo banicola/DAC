@@ -13,10 +13,14 @@ public class MenuListener implements Listener {
 
     @EventHandler
     public void onMenuClick(InventoryClickEvent e) {
-
-        if(e.getClickedInventory()==null) return;
-
-        InventoryHolder holder = e.getClickedInventory().getHolder();
+        InventoryHolder holder;
+        if(Main.getPlugin().getServer().getBukkitVersion().startsWith("1.16")){
+            if(e.getInventory()==null) return;
+            holder = e.getInventory().getHolder();
+        } else {
+            if(e.getClickedInventory()==null) return;
+            holder = e.getClickedInventory().getHolder();
+        }
 
         if(holder instanceof Menu){
             e.setCancelled(true);

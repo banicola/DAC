@@ -114,7 +114,11 @@ public final class Main extends JavaPlugin {
 
     private Economy setupEconomy() {
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        return rsp.getProvider();
+        if(rsp != null){
+            return rsp.getProvider();
+        } else {
+            return null;
+        }
     }
 
     public static Economy getEconomy() {

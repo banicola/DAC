@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 import sr.dac.configs.ArenaManager;
 
 import java.io.IOException;
@@ -18,6 +19,8 @@ public class Arena {
     private String name;
 
     private String status;
+
+    private boolean event;
 
     private boolean open;
 
@@ -43,6 +46,7 @@ public class Arena {
 
     public Arena(String n, Location divingLocation, Location lobbyLocation, AbstractMap.SimpleEntry<Location, Location> poolLocation, int poolBottom, int min_player, int max_player, String status, List<Location> signs) {
         this.name = n;
+        this.event = false;
         this.divingLocation = divingLocation;
         this.lobbyLocation = lobbyLocation;
         this.poolLocation = poolLocation;
@@ -65,6 +69,14 @@ public class Arena {
     public void leave(Player p) {
         playerMaterial.remove(p.getUniqueId());
         players.remove(p);
+    }
+
+    public boolean inEvent(){
+        return event;
+    }
+
+    public void setEvent(){
+        event = !event;
     }
 
     public void addSign(Location signLocation){

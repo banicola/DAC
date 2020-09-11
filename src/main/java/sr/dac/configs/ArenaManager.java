@@ -23,6 +23,8 @@ public class ArenaManager {
     private static Map<Player, String> playerInArena = new HashMap<>();
     private static Map<Player, String> playerSpectator = new HashMap<>();
 
+    private static Map<Player, String> playersInEvent = new HashMap<>();
+
     public static boolean createArena(String name) {
         if(arenas.containsKey(name)) throw new KeyAlreadyExistsException();
         arenas.put(name, new Arena(name, null, null, new AbstractMap.SimpleEntry<>(null, null), -1, 0, 0, null, new ArrayList<>()));
@@ -169,6 +171,23 @@ public class ArenaManager {
             ScoreboardDAC.removeScoreboardDAC(player);
         } else {
             throw new NoSuchElementException();
+        }
+    }
+
+    public static void joinEvent(Player player, String arena){
+        if(!playersInEvent.containsKey(player)) {
+            playersInEvent.put(player, arena);
+        } else {
+            player.sendMessage("Vous avez rejoins l'event Dé à Coudre !");
+        }
+    }
+
+    public static void leaveEvent(Player player, String arena){
+        if(playersInEvent.containsKey(player)) {
+            playersInEvent.remove(player);
+            player.sendMessage("Vous avez quitté l'event Dé à Coudre");
+        } else {
+            player.sendMessage("Vous n'avez pas rejoins d'event Dé à Coudre !");
         }
     }
 
